@@ -18,7 +18,7 @@ This document explains how the project implements HPL from:
 - panel broadcast
 - 面板广播
 - trailing matrix update
-- 
+- 尾随矩阵更新
 - upper-triangular solve
 - 上三角求解
 - result verification

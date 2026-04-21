@@ -1,0 +1,22 @@
+
+.codex-companion {
+  border: 1px solid #b8c4d6;
+  background: #f7fbff;
+  padding: 14px 18px;
+  margin: 14px 0 18px 0;
+  line-height: 1.55;
+}
+
+.codex-companion h2 {
+  margin-top: 0;
+  color: #16324f;
+}
+
+.codex-companion code {
+  background: #eef4fb;
+  padding: 1px 4px;
+}
+
+.codex-companion a {
+  word-break: break-all;
+}
