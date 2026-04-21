@@ -9,10 +9,10 @@
 <BODY BGCOLOR="WHITE" TEXT = "#000000" LINK = "#0000ff" VLINK = "#000099"
       ALINK = "#ffff00">
 
-<H1>Name</H1>
+<H1>Name / 名称</H1>
 <B>HPL_spreadN</B> Spread row panel U and forward current column panel.
 
-<H1>Synopsis</H1>
+<H1>Synopsis / 概要</H1>
 <CODE>#include "hpl.h"</CODE><BR><BR>
 <CODE>void</CODE>
 <CODE>HPL_spreadN(</CODE>
@@ -40,7 +40,7 @@
 <CODE>IPMAPM1</CODE>
 <CODE>);</CODE>
 
-<H1>Description</H1>
+<H1>Description / 描述</H1>
 <B>HPL_spreadN</B>
 spreads the local array containing local pieces of U, so
 that on exit to this function,  a piece of  U  is contained in every
@@ -50,51 +50,51 @@ for the presence of the column panel PBCST. In case of success, this
 panel will be forwarded.  If  PBCST  is NULL on input,  this probing
 mechanism will be disabled.
 
-<H1>Arguments</H1>
+<H1>Arguments / 参数</H1>
 <PRE>
-PBCST   (local input/output)          HPL_T_panel *
+PBCST   (local input/output / 本地输入/输出)          HPL_T_panel *
         On entry,  PBCST  points to the data structure containing the
         panel (to be broadcast) information.
 </PRE>
 <PRE>
-IFLAG   (local input/output)          int *
+IFLAG   (local input/output / 本地输入/输出)          int *
         On entry, IFLAG  indicates  whether or not  the broadcast has
         already been completed.  If not,  probing will occur, and the
         outcome will be contained in IFLAG on exit.
 </PRE>
 <PRE>
-PANEL   (local input/output)          HPL_T_panel *
+PANEL   (local input/output / 本地输入/输出)          HPL_T_panel *
         On entry,  PANEL  points to the data structure containing the
         panel (to be spread) information.
 </PRE>
 <PRE>
-SIDE    (global input)                const enum HPL_SIDE
+SIDE    (global input / 全局输入)                const enum HPL_SIDE
         On entry, SIDE specifies whether the local piece of U located
         in process IPMAP[SRCDIST] should be spread to the right or to
         the left. This feature is used by the equilibration process.
 </PRE>
 <PRE>
-N       (global input)                const int
+N       (global input / 全局输入)                const int
         On entry,  N  specifies  the  local number of columns of U. N
         must be at least zero.
 </PRE>
 <PRE>
-U       (local input/output)          double *
+U       (local input/output / 本地输入/输出)          double *
         On entry,  U  is an array of dimension (LDU,*) containing the
         local pieces of U.
 </PRE>
 <PRE>
-LDU     (local input)                 const int
+LDU     (local input / 本地输入)                 const int
         On entry, LDU specifies the local leading dimension of U. LDU
         should be at least MAX(1,IPLEN[nprow]).
 </PRE>
 <PRE>
-SRCDIST (local input)                 const int
+SRCDIST (local input / 本地输入)                 const int
         On entry,  SRCDIST  specifies the source process that spreads
         its piece of U.
 </PRE>
 <PRE>
-IPLEN   (global input)                const int *
+IPLEN   (global input / 全局输入)                const int *
         On entry, IPLEN is an array of dimension NPROW+1.  This array
         is such that IPLEN[i+1] - IPLEN[i] is the number of rows of U
         in each process before process IPMAP[i], with the  convention
@@ -103,21 +103,22 @@ IPLEN   (global input)                const int *
         should be moved to process IPMAP[i].
 </PRE>
 <PRE>
-IPMAP   (global input)                const int *
+IPMAP   (global input / 全局输入)                const int *
         On entry, IPMAP is an array of dimension  NPROW.  This  array
         contains  the  logarithmic mapping of the processes. In other
         words, IPMAP[myrow]  is the absolute coordinate of the sorted
         process.
 </PRE>
 <PRE>
-IPMAPM1 (global input)                const int *
+IPMAPM1 (global input / 全局输入)                const int *
         On entry,  IPMAPM1 is an array of dimension NPROW. This array
         contains  the inverse of the logarithmic mapping contained in
         IPMAP: For i in [0.. NPROW) IPMAPM1[IPMAP[i]] = i.
 </PRE>
 
-<H1>See Also</H1>
+<H1>See Also / 另见</H1>
 <A HREF="HPL_pdlaswp01N.html">HPL_pdlaswp01N</A>.
 
+<HR NOSHADE><P><EM>See the original English page for complete documentation. / 完整文档请参见原始英文页面。</EM></P>
 </BODY>
 </HTML>

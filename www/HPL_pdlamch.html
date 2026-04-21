@@ -9,10 +9,10 @@
 <BODY BGCOLOR="WHITE" TEXT = "#000000" LINK = "#0000ff" VLINK = "#000099"
       ALINK = "#ffff00">
 
-<H1>Name</H1>
+<H1>Name / 名称</H1>
 <B>HPL_pdlamch</B> determines machine-specific arithmetic constants.
 
-<H1>Synopsis</H1>
+<H1>Synopsis / 概要</H1>
 <CODE>#include "hpl.h"</CODE><BR><BR>
 <CODE>double</CODE>
 <CODE>HPL_pdlamch(</CODE>
@@ -22,7 +22,7 @@
 <CODE>CMACH</CODE>
 <CODE>);</CODE>
 
-<H1>Description</H1>
+<H1>Description / 描述</H1>
 <B>HPL_pdlamch</B>
 determines  machine-specific  arithmetic  constants  such  as
 the relative machine precision (eps),  the safe minimum(sfmin) such that
@@ -33,13 +33,13 @@ exponent before  (gradual)  underflow (emin),  the  underflow  threshold
 (rmin)- base**(emin-1), the largest exponent before overflow (emax), the
 overflow threshold (rmax)  - (base**emax)*(1-eps).
 
-<H1>Arguments</H1>
+<H1>Arguments / 参数</H1>
 <PRE>
 COMM    (global/local input)          MPI_Comm
         The MPI communicator identifying the process collection.
 </PRE>
 <PRE>
-CMACH   (global input)                const HPL_T_MACH
+CMACH   (global input / 全局输入)                const HPL_T_MACH
         Specifies the value to be returned by HPL_pdlamch            
            = HPL_MACH_EPS,   HPL_pdlamch := eps (default)            
            = HPL_MACH_SFMIN, HPL_pdlamch := sfmin                    
@@ -66,5 +66,6 @@ CMACH   (global input)                const HPL_T_MACH
            rmax  = overflow threshold.
 </PRE>
 
+<HR NOSHADE><P><EM>See the original English page for complete documentation. / 完整文档请参见原始英文页面。</EM></P>
 </BODY>
 </HTML>

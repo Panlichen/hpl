@@ -9,10 +9,10 @@
 <BODY BGCOLOR="WHITE" TEXT = "#000000" LINK = "#0000ff" VLINK = "#000099"
       ALINK = "#ffff00">
 
-<H1>Name</H1>
+<H1>Name / 名称</H1>
 <B>HPL_dlocswpN</B> locally swaps rows within panel.
 
-<H1>Synopsis</H1>
+<H1>Synopsis / 概要</H1>
 <CODE>#include "hpl.h"</CODE><BR><BR>
 <CODE>void</CODE>
 <CODE>HPL_dlocswpN(</CODE>
@@ -26,30 +26,30 @@
 <CODE>WORK</CODE>
 <CODE>);</CODE>
 
-<H1>Description</H1>
+<H1>Description / 描述</H1>
 <B>HPL_dlocswpN</B>
 performs  the local swapping operations  within a panel.
 The lower triangular  N0-by-N0  upper block of the panel is stored in
 no-transpose form (i.e. just like the input matrix itself).
 
-<H1>Arguments</H1>
+<H1>Arguments / 参数</H1>
 <PRE>
-PANEL   (local input/output)          HPL_T_panel *
+PANEL   (local input/output / 本地输入/输出)          HPL_T_panel *
         On entry,  PANEL  points to the data structure containing the
-        panel information.
+        panel information.<BR>进入时，PANEL 指向包含面板信息的数据结构。
 </PRE>
 <PRE>
-II      (local input)                 const int
+II      (local input / 本地输入)                 const int
         On entry, II  specifies the row offset where the column to be
         operated on starts with respect to the panel.
 </PRE>
 <PRE>
-JJ      (local input)                 const int
+JJ      (local input / 本地输入)                 const int
         On entry, JJ  specifies the column offset where the column to
         be operated on starts with respect to the panel.
 </PRE>
 <PRE>
-WORK    (local workspace)             double *
+WORK    (local workspace / 本地工作空间)             double *
         On entry, WORK  is a workarray of size at least 2 * (4+2*N0).
         WORK[0] contains  the  local  maximum  absolute value scalar,
         WORK[1] contains  the corresponding local row index,  WORK[2]
@@ -60,7 +60,7 @@ WORK    (local workspace)             double *
         is used as workspace.
 </PRE>
 
-<H1>See Also</H1>
+<H1>See Also / 另见</H1>
 <A HREF="HPL_dlocmax.html">HPL_dlocmax</A>,
 <A HREF="HPL_dlocswpT.html">HPL_dlocswpT</A>,
 <A HREF="HPL_pdmxswp.html">HPL_pdmxswp</A>,
@@ -78,5 +78,6 @@ WORK    (local workspace)             double *
 <A HREF="HPL_pdrpanrlT.html">HPL_pdrpanrlT</A>,
 <A HREF="HPL_pdfact.html">HPL_pdfact</A>.
 
+<HR NOSHADE><P><EM>See the original English page for complete documentation. / 完整文档请参见原始英文页面。</EM></P>
 </BODY>
 </HTML>

@@ -9,10 +9,10 @@
 <BODY BGCOLOR="WHITE" TEXT = "#000000" LINK = "#0000ff" VLINK = "#000099"
       ALINK = "#ffff00">
 
-<H1>Name</H1>
+<H1>Name / 名称</H1>
 <B>HPL_pdlaswp01T</B> Broadcast a column panel L and swap the row panel U.
 
-<H1>Synopsis</H1>
+<H1>Synopsis / 概要</H1>
 <CODE>#include "hpl.h"</CODE><BR><BR>
 <CODE>void</CODE>
 <CODE>HPL_pdlaswp01T(</CODE>
@@ -26,7 +26,7 @@
 <CODE>NN</CODE>
 <CODE>);</CODE>
 
-<H1>Description</H1>
+<H1>Description / 描述</H1>
 <B>HPL_pdlaswp01T</B>
 applies the  NB  row interchanges to  NN columns of the
 trailing submatrix and broadcast a column panel.
@@ -46,31 +46,31 @@ a constant in (2,3] that depends on the achieved bandwidth  during  a
 simultaneous  message exchange  between two processes.  An  empirical
 optimistic value of K is typically 2.4.
 
-<H1>Arguments</H1>
+<H1>Arguments / 参数</H1>
 <PRE>
-PBCST   (local input/output)          HPL_T_panel *
+PBCST   (local input/output / 本地输入/输出)          HPL_T_panel *
         On entry,  PBCST  points to the data structure containing the
         panel (to be broadcast) information.
 </PRE>
 <PRE>
-IFLAG   (local input/output)          int *
+IFLAG   (local input/output / 本地输入/输出)          int *
         On entry, IFLAG  indicates  whether or not  the broadcast has
         already been completed.  If not,  probing will occur, and the
         outcome will be contained in IFLAG on exit.
 </PRE>
 <PRE>
-PANEL   (local input/output)          HPL_T_panel *
+PANEL   (local input/output / 本地输入/输出)          HPL_T_panel *
         On entry,  PANEL  points to the data structure containing the
-        panel information.
+        panel information.<BR>进入时，PANEL 指向包含面板信息的数据结构。
 </PRE>
 <PRE>
-NN      (local input)                 const int
+NN      (local input / 本地输入)                 const int
         On entry, NN specifies  the  local  number  of columns of the
         trailing  submatrix  to  be swapped and broadcast starting at
         the current position. NN must be at least zero.
 </PRE>
 
-<H1>See Also</H1>
+<H1>See Also / 另见</H1>
 <A HREF="HPL_pdgesv.html">HPL_pdgesv</A>,
 <A HREF="HPL_pdgesvK2.html">HPL_pdgesvK2</A>,
 <A HREF="HPL_pdupdateNT.html">HPL_pdupdateNT</A>,
@@ -85,5 +85,6 @@ NN      (local input)                 const int
 <A HREF="HPL_dlaswp01T.html">HPL_dlaswp01T</A>,
 <A HREF="HPL_dlaswp06T.html">HPL_dlaswp06T</A>.
 
+<HR NOSHADE><P><EM>See the original English page for complete documentation. / 完整文档请参见原始英文页面。</EM></P>
 </BODY>
 </HTML>

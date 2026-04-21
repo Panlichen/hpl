@@ -9,10 +9,10 @@
 <BODY BGCOLOR="WHITE" TEXT = "#000000" LINK = "#0000ff" VLINK = "#000099"
       ALINK = "#ffff00">
 
-<H1>Name</H1>
+<H1>Name / 名称</H1>
 <B>HPL_dswap</B> y <-> x.
 
-<H1>Synopsis</H1>
+<H1>Synopsis / 概要</H1>
 <CODE>#include "hpl.h"</CODE><BR><BR>
 <CODE>void</CODE>
 <CODE>HPL_dswap(</CODE>
@@ -28,37 +28,37 @@
 <CODE>INCY</CODE>
 <CODE>);</CODE>
 
-<H1>Description</H1>
+<H1>Description / 描述</H1>
 <B>HPL_dswap</B>
 swaps the vectors x and y.
 
-<H1>Arguments</H1>
+<H1>Arguments / 参数</H1>
 <PRE>
-N       (local input)                 const int
+N       (local input / 本地输入)                 const int
         On entry, N specifies the length of the vectors  x  and  y. N
         must be at least zero.
 </PRE>
 <PRE>
-X       (local input/output)          double *
+X       (local input/output / 本地输入/输出)          double *
         On entry,  X  is an incremented array of dimension  at  least
         ( 1 + ( n - 1 ) * abs( INCX ) )  that  contains the vector x.
         On exit, the entries of the incremented array  X  are updated
         with the entries of the incremented array Y.
 </PRE>
 <PRE>
-INCX    (local input)                 const int
+INCX    (local input / 本地输入)                 const int
         On entry, INCX specifies the increment for the elements of X.
         INCX must not be zero.
 </PRE>
 <PRE>
-Y       (local input/output)          double *
+Y       (local input/output / 本地输入/输出)          double *
         On entry,  Y  is an incremented array of dimension  at  least
         ( 1 + ( n - 1 ) * abs( INCY ) )  that  contains the vector y.
         On exit, the entries of the incremented array  Y  are updated
         with the entries of the incremented array X.
 </PRE>
 <PRE>
-INCY    (local input)                 const int
+INCY    (local input / 本地输入)                 const int
         On entry, INCY specifies the increment for the elements of Y.
         INCY must not be zero.
 </PRE>
@@ -78,10 +78,11 @@ int main(int argc, char *argv[])
 }
 </PRE>
 
-<H1>See Also</H1>
+<H1>See Also / 另见</H1>
 <A HREF="HPL_daxpy.html">HPL_daxpy</A>,
 <A HREF="HPL_dcopy.html">HPL_dcopy</A>,
 <A HREF="HPL_dscal.html">HPL_dscal</A>.
 
+<HR NOSHADE><P><EM>See the original English page for complete documentation. / 完整文档请参见原始英文页面。</EM></P>
 </BODY>
 </HTML>

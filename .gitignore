@@ -21,3 +21,4 @@ testing/matgen/.deps/
 testing/pmatgen/.deps/
 testing/ptest/.deps/
 testing/ptimer/.deps/
+.cache/

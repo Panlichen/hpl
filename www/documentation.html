@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <META CHARSET="utf-8">
-<TITLE>HPL Documentation</TITLE>
+<TITLE>HPL Documentation / HPL 文档</TITLE>
 <LINK REL="stylesheet" HREF="hpl_local_docs.css">
 <SCRIPT SRC="hpl_local_docs.js" CHARSET="utf-8" DEFER></SCRIPT>
 </HEAD>
@@ -13,294 +13,50 @@ TEXT        = "#000000"
 VLINK       = "#000099"
 ALINK       = "#947153"
 LINK        = "#0000ff">
-
-<H2>HPL Documentation</H2>
-
-The  HPL software distribution comes  with a set of text files explaining
-how to install,  run and tune the software. These files reside in the top
-level  directory  and their names are in upper case.  To  a large extent,
-this page reproduces them. In addition,  man- and HTML-pages are provided
-for every routine in the package. To access the man pages,  one  must add
-hpl/man  to its  MANPATH  environment variable.  The  HTML  pages  can be 
-accessed on this site,  or by pointing your browser to your local hpl/www
-directory. Finally,  the source code has been heavily documented. Despite
-all the other documentation efforts, the  source  code remains  the  most
-trustworthy  and truthful piece of information about what goes on in HPL.
-<BR><BR>
-
-<H3>HPL Functions HTML Pages</H3>
-
-<STRONG>Computational Kernels Wrappers</STRONG> When calling the Fortran
-77 BLAS interface, these C functions allow to confine the C  to  Fortran
-77 interface  issues  to  a small  subset of routines.
-
-<TABLE HSPACE=0 VSPACE=0 WIDTH=100% BORDER=0 CELLSPACING=1 CELLPADDING=0><TR>
-<TD><UL>
-<LI><A HREF = "HPL_idamax.html">         HPL_idamax</A>
-<LI><A HREF = "HPL_dscal.html">          HPL_dscal</A>
-<LI><A HREF = "HPL_dswap.html">          HPL_dswap</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_dcopy.html">          HPL_dcopy</A>
-<LI><A HREF = "HPL_daxpy.html">          HPL_daxpy</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_dgemv.html">          HPL_dgemv</A>
-<LI><A HREF = "HPL_dger.html">           HPL_dger</A>
-<LI><A HREF = "HPL_dtrsv.html">          HPL_dtrsv</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_dgemm.html">          HPL_dgemm</A>
-<LI><A HREF = "HPL_dtrsm.html">          HPL_dtrsm</A>
-</UL></TD>
-</TR></TABLE>
+<H2>HPL Documentation / HPL 文档</H2>
+The  HPL software distribution comes  with a set of text files explaining how to install,  run and tune the software. These files reside in the top level  directory  and their names are in upper case.  To  a large extent, this page reproduces them. In addition,  man- and HTML-pages are provided for every routine in the package. To access the man pages,  one  must add hpl/man  to its  MANPATH  environment variable.  The  HTML  pages  can be  accessed on this site,  or by pointing your browser to your local hpl/www directory. Finally,  the source code has been heavily documented. Despite all the other documentation efforts, the  source  code remains  the  most trustworthy  and truthful piece of information about what goes on in HPL.<BR><BR>
+HPL 软件发行版附带一组文本文件，解释如何安装、运行和调优软件。这些文件位于顶层目录，其名称为大写。在很大程度上，本页面复制了它们。此外，为软件包中的每个例程提供了 man 页面和 HTML 页面。要访问 man 页面，必须将 hpl/man 添加到 MANPATH 环境变量中。HTML 页面可以在此站点上访问，或者通过将浏览器指向本地的 hpl/www 目录来访问。最后，源代码已经被大量文档化。尽管有所有其他的文档工作，源代码仍然是关于 HPL 中发生了什么的最可靠和最真实的信息。<BR><BR>
+<H3>HPL Functions HTML Pages / HPL 函数 HTML 页面</H3>
+<STRONG>Computational Kernels Wrappers / 计算内核包装器</STRONG> When calling the Fortran 77 BLAS interface, these C functions allow to confine the C  to  Fortran 77 interface  issues  to  a small  subset of routines. / 调用 Fortran 77 BLAS 接口时，这些 C 函数允许将 C 到 Fortran 77 接口问题限制在一小部分例程中。<BR><BR>
+<P><EM>See the original English page for the full function list. / 完整函数列表请参见原始英文页面。</EM></P>
 <HR NOSHADE>
-
-<STRONG>Local Auxiliaries</STRONG> Basic functionality, local swap functions.
-
-<TABLE HSPACE=0 VSPACE=0 WIDTH=100% BORDER=0 CELLSPACING=1 CELLPADDING=0><TR>
-<TD><UL>
-<LI><A HREF = "HPL_fprintf.html">        HPL_fprintf</A>
-<LI><A HREF = "HPL_warn.html">           HPL_warn</A>
-<LI><A HREF = "HPL_abort.html">          HPL_abort</A>
-<LI><A HREF = "HPL_dlaprnt.html">        HPL_dlaprnt</A>
-<LI><A HREF = "HPL_dlamch.html">         HPL_dlamch</A>
-<LI><A HREF = "HPL_dlacpy.html">         HPL_dlacpy</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_dlange.html">         HPL_dlange</A>
-<LI><A HREF = "HPL_dlatcpy.html">        HPL_dlatcpy</A>
-<LI><A HREF = "HPL_dlaswp00N.html">      HPL_dlaswp00N</A>
-<LI><A HREF = "HPL_dlaswp01N.html">      HPL_dlaswp01N</A>
-<LI><A HREF = "HPL_dlaswp02N.html">      HPL_dlaswp02N</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_dlaswp03N.html">      HPL_dlaswp03N</A>
-<LI><A HREF = "HPL_dlaswp04N.html">      HPL_dlaswp04N</A>
-<LI><A HREF = "HPL_dlaswp05N.html">      HPL_dlaswp05N</A>
-<LI><A HREF = "HPL_dlaswp06N.html">      HPL_dlaswp06N</A>
-<LI><A HREF = "HPL_dlaswp10N.html">      HPL_dlaswp10N</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_dlaswp01T.html">      HPL_dlaswp01T</A>
-<LI><A HREF = "HPL_dlaswp03T.html">      HPL_dlaswp03T</A>
-<LI><A HREF = "HPL_dlaswp04T.html">      HPL_dlaswp04T</A>
-<LI><A HREF = "HPL_dlaswp05T.html">      HPL_dlaswp05T</A>
-<LI><A HREF = "HPL_dlaswp06T.html">      HPL_dlaswp06T</A>
-</UL></TD>
-</TR></TABLE>
+<STRONG>Local Auxiliaries / 本地辅助函数</STRONG> Basic functionality, local swap functions. / 基本功能，本地交换函数。<BR><BR>
 <HR NOSHADE>
-
-<STRONG>Parallel Auxiliaries</STRONG> Index computations, parallel basic
-functionality.
-
-<TABLE HSPACE=0 VSPACE=0 WIDTH=100% BORDER=0 CELLSPACING=1 CELLPADDING=0><TR>
-<TD><UL>
-<LI><A HREF = "HPL_indxg2l.html">        HPL_indxg2l</A>
-<LI><A HREF = "HPL_indxg2lp.html">       HPL_indxg2lp</A>
-<LI><A HREF = "HPL_indxg2p.html">        HPL_indxg2p</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_indxl2g.html">        HPL_indxl2g</A>
-<LI><A HREF = "HPL_infog2l.html">        HPL_infog2l</A>
-<LI><A HREF = "HPL_numroc.html">         HPL_numroc</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_numrocI.html">        HPL_numrocI</A>
-<LI><A HREF = "HPL_pwarn.html">          HPL_pwarn</A>
-<LI><A HREF = "HPL_pabort.html">         HPL_pabort</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_pdlaprnt.html">       HPL_pdlaprnt</A>
-<LI><A HREF = "HPL_pdlamch.html">        HPL_pdlamch</A>
-<LI><A HREF = "HPL_pdlange.html">        HPL_pdlange</A>
-</UL></TD>
-</TR></TABLE>
+<STRONG>Parallel Auxiliaries / 并行辅助函数</STRONG> Index computations, parallel basic functionality. / 索引计算，并行基本功能。<BR><BR>
 <HR NOSHADE>
-
-<STRONG>Grid Management</STRONG>  Most of these routines have a direct
-MPI equivalent.  On new systems,  when the entire MPI functionality is
-not yet readily available, these functions are particularly convenient
-since they rely on a mininal  subset of the MPI standard.
-
-<TABLE HSPACE=0 VSPACE=0 WIDTH=100% BORDER=0 CELLSPACING=1 CELLPADDING=0><TR>
-<TD><UL>
-<LI><A HREF = "HPL_grid_exit.html">      HPL_grid_exit</A>
-<LI><A HREF = "HPL_grid_info.html">      HPL_grid_info</A>
-<LI><A HREF = "HPL_grid_init.html">      HPL_grid_init</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_all_reduce.html">     HPL_all_reduce</A>
-<LI><A HREF = "HPL_barrier.html">        HPL_barrier</A>
-<LI><A HREF = "HPL_broadcast.html">      HPL_broadcast</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_reduce.html">         HPL_reduce</A>
-<LI><A HREF = "HPL_max.html">            HPL_max</A>
-<LI><A HREF = "HPL_min.html">            HPL_min</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_pnum.html">           HPL_pnum</A>
-<LI><A HREF = "HPL_sum.html">            HPL_sum</A>
-</UL></TD></TR></TABLE>
+<STRONG>Grid Management / 网格管理</STRONG> Most of these routines have a direct MPI equivalent.  On new systems,  when the entire MPI functionality is not yet readily available, these functions are particularly convenient since they rely on a mininal  subset of the MPI standard. / 这些例程大多数都有直接的 MPI 等价物。在新系统上，当整个 MPI 功能尚不随时可用时，这些函数特别方便，因为它们依赖于 MPI 标准的最小子集。<BR><BR>
 <HR NOSHADE>
-
-<STRONG>Panel Management</STRONG>
-
-<TABLE HSPACE=0 VSPACE=0 WIDTH=100% BORDER=0 CELLSPACING=1 CELLPADDING=0><TR>
-<TD><UL>
-<LI><A HREF = "HPL_pdpanel_disp.html">   HPL_pdpanel_disp</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_pdpanel_free.html">   HPL_pdpanel_free</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_pdpanel_init.html">   HPL_pdpanel_init</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_pdpanel_new.html">    HPL_pdpanel_new</A>
-</UL></TD></TR></TABLE>
+<STRONG>Panel Management / 面板管理</STRONG><BR><BR>
 <HR NOSHADE>
-
-<STRONG>Panel Factorization</STRONG> Recursive (matrix-multiply based) and
-(matrix-vector based) panel factorization.
-
-<TABLE HSPACE=0 VSPACE=0 WIDTH=100% BORDER=0 CELLSPACING=1 CELLPADDING=0><TR>
-<TD><UL>
-<LI><A HREF = "HPL_dlocmax.html">        HPL_dlocmax</A>
-<LI><A HREF = "HPL_dlocswpN.html">       HPL_dlocswpN</A>
-<LI><A HREF = "HPL_dlocswpT.html">       HPL_dlocswpT</A>
-<LI><A HREF = "HPL_pdmxswp.html">        HPL_pdmxswp</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_pdpancrN.html">       HPL_pdpancrN</A>
-<LI><A HREF = "HPL_pdpancrT.html">       HPL_pdpancrT</A>
-<LI><A HREF = "HPL_pdrpancrN.html">      HPL_pdrpancrN</A>
-<LI><A HREF = "HPL_pdrpancrT.html">      HPL_pdrpancrT</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_pdpanllN.html">       HPL_pdpanllN</A>
-<LI><A HREF = "HPL_pdpanllT.html">       HPL_pdpanllT</A>
-<LI><A HREF = "HPL_pdrpanllN.html">      HPL_pdrpanllN</A>
-<LI><A HREF = "HPL_pdrpanllT.html">      HPL_pdrpanllT</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_pdpanrlN.html">       HPL_pdpanrlN</A>
-<LI><A HREF = "HPL_pdpanrlT.html">       HPL_pdpanrlT</A>
-<LI><A HREF = "HPL_pdrpanrlN.html">      HPL_pdrpanrlN</A>
-<LI><A HREF = "HPL_pdrpanrlT.html">      HPL_pdrpanrlT</A>
-<LI><A HREF = "HPL_pdfact.html">         HPL_pdfact</A>
-</UL></TD></TR></TABLE>
+<STRONG>Panel Factorization / 面板分解</STRONG> Recursive (matrix-multiply based) and (matrix-vector based) panel factorization. / 递归（基于矩阵乘法）和（基于矩阵-向量）的面板分解。<BR><BR>
 <HR NOSHADE>
-
-<STRONG>Panel Broadcast</STRONG>
-
-<TABLE HSPACE=0 VSPACE=0 WIDTH=100% BORDER=0 CELLSPACING=1 CELLPADDING=0><TR>
-<TD><UL>
-<LI><A HREF = "HPL_bcast.html">          HPL_bcast</A>
-<LI><A HREF = "HPL_binit.html">          HPL_binit</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_bwait.html">          HPL_bwait</A>
-<LI><A HREF = "HPL_copyL.html">          HPL_copyL</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_packL.html">          HPL_packL</A>
-<LI><A HREF = "HPL_recv.html">           HPL_recv</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_sdrv.html">           HPL_sdrv</A>
-<LI><A HREF = "HPL_send.html">           HPL_send</A>
-</UL></TD></TR></TABLE>
+<STRONG>Panel Broadcast / 面板广播</STRONG><BR><BR>
 <HR NOSHADE>
-
-<STRONG>Update</STRONG>
-
-<TABLE HSPACE=0 VSPACE=0 WIDTH=100% BORDER=0 CELLSPACING=1 CELLPADDING=0><TR>
-<TD><UL>
-<LI><A HREF = "HPL_perm.html">           HPL_perm</A>
-<LI><A HREF = "HPL_pipid.html">          HPL_pipid</A>
-<LI><A HREF = "HPL_plindx0.html">        HPL_plindx0</A>
-<LI><A HREF = "HPL_plindx1.html">        HPL_plindx1</A>
-<LI><A HREF = "HPL_plindx10.html">       HPL_plindx10</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_equil.html">          HPL_equil</A>
-<LI><A HREF = "HPL_pdlaswp00N.html">     HPL_pdlaswp00N</A>
-<LI><A HREF = "HPL_pdlaswp01N.html">     HPL_pdlaswp01N</A>
-<LI><A HREF = "HPL_pdlaswp00T.html">     HPL_pdlaswp00T</A>
-<LI><A HREF = "HPL_pdlaswp01T.html">     HPL_pdlaswp01T</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_logsort.html">        HPL_logsort</A>
-<LI><A HREF = "HPL_rollN.html">          HPL_rollN</A>
-<LI><A HREF = "HPL_rollT.html">          HPL_rollT</A>
-<LI><A HREF = "HPL_spreadN.html">        HPL_spreadN</A>
-<LI><A HREF = "HPL_spreadT.html">        HPL_spreadT</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_pdupdateNN.html">     HPL_pdupdateNN</A>
-<LI><A HREF = "HPL_pdupdateNT.html">     HPL_pdupdateNT</A>
-<LI><A HREF = "HPL_pdupdateTN.html">     HPL_pdupdateTN</A>
-<LI><A HREF = "HPL_pdupdateTT.html">     HPL_pdupdateTT</A>
-</UL></TD></TR></TABLE>
+<STRONG>Update / 更新</STRONG><BR><BR>
 <HR NOSHADE>
-
-<STRONG>Main Factorization / Look-ahead</STRONG>
-
-<TABLE HSPACE=0 VSPACE=0 WIDTH=100% BORDER=0 CELLSPACING=1 CELLPADDING=0><TR>
-<TD><UL>
-<LI><A HREF = "HPL_pdgesv.html">         HPL_pdgesv</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_pdgesv0.html">        HPL_pdgesv0</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_pdgesvK1.html">       HPL_pdgesvK1</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_pdgesvK2.html">       HPL_pdgesvK2</A>
-</UL></TD></TR></TABLE>
+<STRONG>Main Factorization / Look-ahead / 主分解 / 前瞻</STRONG><BR><BR>
 <HR NOSHADE>
-
-<STRONG>Backward Substitution</STRONG>
-
-<TABLE HSPACE=0 VSPACE=0 WIDTH=100% BORDER=0 CELLSPACING=1 CELLPADDING=0><TR>
-<TD><UL>
-<LI><A HREF = "HPL_pdtrsv.html">         HPL_pdtrsv</A>
-</UL></TD></TR></TABLE>
+<STRONG>Backward Substitution / 回代</STRONG><BR><BR>
 <HR NOSHADE>
-
-<STRONG>Matrix generation</STRONG> A C version of the ScaLAPACK random
-matrix generator with less functionality though.
-<TABLE HSPACE=0 VSPACE=0 WIDTH=100% BORDER=0 CELLSPACING=1 CELLPADDING=0><TR>
-<TD><UL>
-<LI><A HREF = "HPL_setran.html">         HPL_setran</A>
-<LI><A HREF = "HPL_rand.html">           HPL_rand</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_jumpit.html">         HPL_jumpit</A>
-<LI><A HREF = "HPL_xjumpm.html">         HPL_xjumpm</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_ladd.html">           HPL_ladd</A>
-<LI><A HREF = "HPL_lmul.html">           HPL_lmul</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_dmatgen.html">        HPL_dmatgen</A>
-<LI><A HREF = "HPL_pdmatgen.html">       HPL_pdmatgen</A>
-</UL></TD></TR></TABLE>
+<STRONG>Matrix generation / 矩阵生成</STRONG> A C version of the ScaLAPACK random matrix generator with less functionality though. / ScaLAPACK 随机矩阵生成器的 C 版本，但功能较少。<BR><BR>
 <HR NOSHADE>
-
-<STRONG>Timers</STRONG> Sequential and parallel timing utilities.
-<TABLE HSPACE=0 VSPACE=0 WIDTH=100% BORDER=0 CELLSPACING=1 CELLPADDING=0><TR>
-<TD><UL>
-<LI><A HREF = "HPL_timer.html">          HPL_timer</A>
-<LI><A HREF = "HPL_ptimer.html">         HPL_ptimer</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_timer_cputime.html">  HPL_timer_cputime</A>
-<LI><A HREF = "HPL_timer_walltime.html"> HPL_timer_walltime</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_ptimer_cputime.html"> HPL_ptimer_cputime</A>
-<LI><A HREF = "HPL_ptimer_walltime.html">HPL_ptimer_walltime</A>
-</UL></TD></TR></TABLE>
+<STRONG>Timers / 计时器</STRONG> Sequential and parallel timing utilities. / 串行和并行计时工具。<BR><BR>
 <HR NOSHADE>
-
-<STRONG>Main Testing / Timing Driver</STRONG>
-
-<TABLE HSPACE=0 VSPACE=0 WIDTH=100% BORDER=0 CELLSPACING=1 CELLPADDING=0><TR>
-<TD><UL>
-<LI><A HREF = "HPL_pddriver.html">       HPL_pddriver</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_pdinfo.html">         HPL_pdinfo</A>
-</UL></TD><TD><UL>
-<LI><A HREF = "HPL_pdtest.html">         HPL_pdtest</A>
-</UL></TD></TR></TABLE>
-
+<STRONG>Main Testing / Timing Driver / 主测试 / 计时驱动程序</STRONG><BR><BR>
 <HR NOSHADE>
 <CENTER>
-<A HREF = "index.html">            [Home]</A>
-<A HREF = "copyright.html">        [Copyright and Licensing Terms]</A>
-<A HREF = "algorithm.html">        [Algorithm]</A>
-<A HREF = "scalability.html">      [Scalability]</A>
-<A HREF = "results.html">          [Performance Results]</A>
-<A HREF = "documentation.html">    [Documentation]</A>
-<A HREF = "software.html">         [Software]</A>
-<A HREF = "faqs.html">             [FAQs]</A>
-<A HREF = "tuning.html">           [Tuning]</A>
-<A HREF = "errata.html">           [Errata-Bugs]</A>
-<A HREF = "references.html">       [References]</A>
-<A HREF = "links.html">            [Related Links]</A><BR>
+<A HREF = "index.html">            [Home / 首页]</A>
+<A HREF = "copyright.html">        [Copyright and Licensing Terms / 版权和许可条款]</A>
+<A HREF = "algorithm.html">        [Algorithm / 算法]</A>
+<A HREF = "scalability.html">      [Scalability / 可扩展性]</A>
+<A HREF = "results.html">          [Performance Results / 性能结果]</A>
+<A HREF = "documentation.html">    [Documentation / 文档]</A>
+<A HREF = "software.html">         [Software / 软件]</A>
+<A HREF = "faqs.html">             [FAQs / 常见问题]</A>
+<A HREF = "tuning.html">           [Tuning / 调优]</A>
+<A HREF = "errata.html">           [Errata-Bugs / 勘误-错误]</A>
+<A HREF = "references.html">       [References / 参考文献]</A>
+<A HREF = "links.html">            [Related Links / 相关链接]</A><BR>
 </CENTER>
 <HR NOSHADE>
 </BODY>

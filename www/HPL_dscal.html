@@ -9,10 +9,10 @@
 <BODY BGCOLOR="WHITE" TEXT = "#000000" LINK = "#0000ff" VLINK = "#000099"
       ALINK = "#ffff00">
 
-<H1>Name</H1>
+<H1>Name / 名称</H1>
 <B>HPL_dscal</B> x = alpha * x.
 
-<H1>Synopsis</H1>
+<H1>Synopsis / 概要</H1>
 <CODE>#include "hpl.h"</CODE><BR><BR>
 <CODE>void</CODE>
 <CODE>HPL_dscal(</CODE>
@@ -26,31 +26,31 @@
 <CODE>INCX</CODE>
 <CODE>);</CODE>
 
-<H1>Description</H1>
+<H1>Description / 描述</H1>
 <B>HPL_dscal</B>
 scales the vector x by alpha.
 
-<H1>Arguments</H1>
+<H1>Arguments / 参数</H1>
 <PRE>
-N       (local input)                 const int
+N       (local input / 本地输入)                 const int
         On entry, N specifies the length of the vector x. N  must  be
         at least zero.
 </PRE>
 <PRE>
-ALPHA   (local input)                 const double
+ALPHA   (local input / 本地输入)                 const double
         On entry, ALPHA specifies the scalar alpha.   When  ALPHA  is
         supplied as zero, then the entries of the incremented array X
         need not be set on input.
 </PRE>
 <PRE>
-X       (local input/output)          double *
+X       (local input/output / 本地输入/输出)          double *
         On entry,  X  is an incremented array of dimension  at  least
         ( 1 + ( n - 1 ) * abs( INCX ) )  that  contains the vector x.
         On exit, the entries of the incremented array  X  are  scaled
         by the scalar alpha.
 </PRE>
 <PRE>
-INCX    (local input)                 const int
+INCX    (local input / 本地输入)                 const int
         On entry, INCX specifies the increment for the elements of X.
         INCX must not be zero.
 </PRE>
@@ -68,10 +68,11 @@ int main(int argc, char *argv[])
 }
 </PRE>
 
-<H1>See Also</H1>
+<H1>See Also / 另见</H1>
 <A HREF="HPL_daxpy.html">HPL_daxpy</A>,
 <A HREF="HPL_dcopy.html">HPL_dcopy</A>,
 <A HREF="HPL_dswap.html">HPL_dswap</A>.
 
+<HR NOSHADE><P><EM>See the original English page for complete documentation. / 完整文档请参见原始英文页面。</EM></P>
 </BODY>
 </HTML>

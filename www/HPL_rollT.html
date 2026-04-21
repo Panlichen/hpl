@@ -9,10 +9,10 @@
 <BODY BGCOLOR="WHITE" TEXT = "#000000" LINK = "#0000ff" VLINK = "#000099"
       ALINK = "#ffff00">
 
-<H1>Name</H1>
+<H1>Name / 名称</H1>
 <B>HPL_rollT</B> Roll U and forward the column panel.
 
-<H1>Synopsis</H1>
+<H1>Synopsis / 概要</H1>
 <CODE>#include "hpl.h"</CODE><BR><BR>
 <CODE>void</CODE>
 <CODE>HPL_rollT(</CODE>
@@ -36,67 +36,68 @@
 <CODE>IPMAPM1</CODE>
 <CODE>);</CODE>
 
-<H1>Description</H1>
+<H1>Description / 描述</H1>
 <B>HPL_rollT</B>
 rolls the local arrays containing the local pieces of U, so
 that on exit to this function  U  is replicated in every process row.
 In addition, this function probe for the presence of the column panel
 and forwards it when available.
 
-<H1>Arguments</H1>
+<H1>Arguments / 参数</H1>
 <PRE>
-PBCST   (local input/output)          HPL_T_panel *
+PBCST   (local input/output / 本地输入/输出)          HPL_T_panel *
         On entry,  PBCST  points to the data structure containing the
         panel (to be broadcast) information.
 </PRE>
 <PRE>
-IFLAG   (local input/output)          int *
+IFLAG   (local input/output / 本地输入/输出)          int *
         On entry, IFLAG  indicates  whether or not  the broadcast has
         already been completed.  If not,  probing will occur, and the
         outcome will be contained in IFLAG on exit.
 </PRE>
 <PRE>
-PANEL   (local input/output)          HPL_T_panel *
+PANEL   (local input/output / 本地输入/输出)          HPL_T_panel *
         On entry,  PANEL  points to the data structure containing the
         panel (to be rolled) information.
 </PRE>
 <PRE>
-N       (local input)                 const int
+N       (local input / 本地输入)                 const int
         On entry, N specifies the local number of rows of  U.  N must
         be at least zero.
 </PRE>
 <PRE>
-U       (local input/output)          double *
+U       (local input/output / 本地输入/输出)          double *
         On entry,  U  is an array of dimension (LDU,*) containing the
         local pieces of U in each process row.
 </PRE>
 <PRE>
-LDU     (local input)                 const int
+LDU     (local input / 本地输入)                 const int
         On entry, LDU specifies the local leading dimension of U. LDU
         should be at least  MAX(1,N).
 </PRE>
 <PRE>
-IPLEN   (global input)                const int *
+IPLEN   (global input / 全局输入)                const int *
         On entry, IPLEN is an array of dimension NPROW+1.  This array
         is such that IPLEN[i+1] - IPLEN[i] is the number of rows of U
         in each process row.
 </PRE>
 <PRE>
-IPMAP   (global input)                const int *
+IPMAP   (global input / 全局输入)                const int *
         On entry, IMAP  is an array of dimension  NPROW.  This  array
         contains  the  logarithmic mapping of the processes. In other
         words,  IMAP[myrow]  is the absolute coordinate of the sorted
         process.
 </PRE>
 <PRE>
-IPMAPM1 (global input)                const int *
+IPMAPM1 (global input / 全局输入)                const int *
         On entry,  IMAPM1  is an array of dimension NPROW. This array
         contains  the inverse of the logarithmic mapping contained in
         IMAP: For i in [0.. NPROW) IMAPM1[IMAP[i]] = i.
 </PRE>
 
-<H1>See Also</H1>
+<H1>See Also / 另见</H1>
 <A HREF="HPL_pdlaswp01T.html">HPL_pdlaswp01T</A>.
 
+<HR NOSHADE><P><EM>See the original English page for complete documentation. / 完整文档请参见原始英文页面。</EM></P>
 </BODY>
 </HTML>

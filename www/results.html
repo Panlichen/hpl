@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <META CHARSET="utf-8">
-<TITLE>HPL Results</TITLE>
+<TITLE>HPL Results / HPL 结果</TITLE>
 <LINK REL="stylesheet" HREF="hpl_local_docs.css">
 <SCRIPT SRC="hpl_local_docs.js" CHARSET="utf-8" DEFER></SCRIPT>
 </HEAD>
@@ -13,35 +13,23 @@ TEXT        = "#000000"
 VLINK       = "#000099"
 ALINK       = "#947153"
 LINK        = "#0000ff">
-
 <TABLE HSPACE=0 VSPACE=0 WIDTH=100% BORDER=0 CELLSPACING=1 CELLPADDING=0>
 <TR><TD ALIGN=LEFT VALIGN=LEFT>
 <IMG SRC    = "aprunner.gif" BORDER=0 HEIGHT=160 WIDTH=220>
 </TD>
 <TD ALIGN=LEFT VALIGN=LEFT>
-<H2>HPL Performance Results</H2>
-
-<STRONG>
-The performance achieved by this software package  on a few machine
-configurations is shown below.  These results are only provided for
-illustrative  purposes.  By the time you read this,  those  systems
-have changed,  they may not even exist anymore  and  one can surely
-not exactly reproduce  the state  in which these machines were when
-those measurements have been obtained.  To obtain  accurate figures
-on your system, it is absolutely necessary to
-<A HREF = "software.html">download the software</A> and run it there.
-</STRONG>
-</TD>
-</TR></TABLE>
+<H2>HPL Performance Results / HPL 性能结果</H2>
+<STRONG>The performance achieved by this software package  on a few machine configurations is shown below.  These results are only provided for illustrative  purposes.  By the time you read this,  those  systems have changed,  they may not even exist anymore  and  one can surely not exactly reproduce  the state  in which these machines were when those measurements have been obtained.  To obtain  accurate figures on your system, it is absolutely necessary to <A HREF = "software.html">download the software</A> and run it there.</STRONG><BR><BR>
+<STRONG>下面显示了此软件包在几种机器配置上达到的性能。这些结果仅供说明目的。当您阅读本文时，这些系统已经发生了变化，它们可能甚至不再存在，您肯定无法精确再现获得这些测量时这些机器的状态。要在您的系统上获得准确的数据，绝对有必要<A HREF = "software.html">下载软件</A>并在那里运行。</STRONG>
+</TD></TR></TABLE>
 <HR NOSHADE>
-
 <TABLE HSPACE=0 VSPACE=0 WIDTH=100% BORDER=0 CELLSPACING=1 CELLPADDING=0><TR>
 <TD><UL>
-<LI><A HREF = "results.html#AMD_K7000">Athlon 4-nodes cluster</A>
+<LI><A HREF = "results.html#AMD_K7000">Athlon 4-nodes cluster / Athlon 4节点集群</A>
 </UL></TD><TD><UL>
-<LI><A HREF = "results.html#I550p3000">Intel PIII 8-duals cluster</A>
+<LI><A HREF = "results.html#I550p3000">Intel PIII 8-duals cluster / Intel PIII 8双核集群</A>
 </UL></TD><TD><UL>
-<LI><A HREF = "results.html#compaq000">Compaq 64 nodes AlphaServer SC</A>
+<LI><A HREF = "results.html#compaq000">Compaq 64 nodes AlphaServer SC / Compaq 64节点 AlphaServer SC</A>
 </UL></TD>
 </TR></TABLE>
 <HR NOSHADE>
@@ -88,7 +76,7 @@ Switched - 2 NICs per node (channel bonding)</A></H3>
 <TD ALIGN=CENTER> 1.70</TD>
 <TD ALIGN=CENTER> 1.80</TD>
 </TR>
-Performance (Gflops) w.r.t Problem size on 4 nodes.
+Performance (Gflops) w.r.t Problem size on 4 nodes. / 4节点上相对于问题规模的性能 (Gflops)。
 </TABLE><P>
 </CENTER>
 
@@ -135,7 +123,7 @@ Performance (Gflops) w.r.t Problem size on 4 nodes.
 <TD ALIGN=CENTER> 5.00</TD>
 <TD ALIGN=CENTER> 5.16</TD>
 </TR>
-Performance (Gflops) w.r.t Problem size on 8- and 16-processors grids.
+Performance (Gflops) w.r.t Problem size on 8- and 16-processors grids. / 8和16处理器网格上相对于问题规模的性能 (Gflops)。
 </TABLE><P>
 </CENTER>
 
@@ -160,6 +148,7 @@ In the table below, each row corresponds to a given number of cpus (or
 processors) and nodes.  The first row for example is denoted by 1 / 1,
 i.e.,  1 cpu / 1 node.  Rmax is given in Gflops, and the value of Nmax
 in fact corresponds to  351 Mb per cpu for all machine configurations.<BR><BR>
+在下表中，每行对应于给定的 CPU（或处理器）数量和节点数量。例如，第一行表示为 1 / 1，即 1 个 CPU / 1 个节点。Rmax 以 Gflops 为单位给出，Nmax 的值实际上对应于所有机器配置中每个 CPU 351 MB。<BR><BR>
 
 <CENTER>
 <TABLE BORDER>
@@ -220,26 +209,27 @@ for large matrix operands on one cpu, it would have been difficult for a
 sequential  Linpack  benchmark  implementation to achieve much more than
 1.136 Gflops on this same cpu. For constant load (as in the table 351 Mb
 per cpu for Nmax),  HPL  scales almost linearly as it should.
-
+<BR><BR>
+对于表中显示的 Rmax，每个 CPU 的并行效率是使用 HPL 在 1 个 CPU 上达到的性能计算的。这是公平的，因为 CXML 矩阵乘法例程在一个 CPU 上对大型矩阵操作数最多只能达到 1.24 Gflops，顺序 Linpack 基准测试实现在同一 CPU 上很难达到超过 1.136 Gflops。对于恒定负载（如表中 Nmax 对应每个 CPU 351 MB），HPL 几乎线性扩展，正如它应该的那样。
 <BR><BR>
 The authors acknowledge the use  of the Oak Ridge National Laboratory
 Compaq computer, funded by the Department of Energy's Office
 of Science and Energy Efficiency programs.<BR><BR>
-
+作者感谢使用橡树岭国家实验室的 Compaq 计算机，该计算机由能源部科学和能效项目资助。<BR><BR>
 <HR NOSHADE>
 <CENTER>
-<A HREF = "index.html">            [Home]</A>
-<A HREF = "copyright.html">        [Copyright and Licensing Terms]</A>
-<A HREF = "algorithm.html">        [Algorithm]</A>
-<A HREF = "scalability.html">      [Scalability]</A>
-<A HREF = "results.html">          [Performance Results]</A>
-<A HREF = "documentation.html">    [Documentation]</A>
-<A HREF = "software.html">         [Software]</A>
-<A HREF = "faqs.html">             [FAQs]</A>
-<A HREF = "tuning.html">           [Tuning]</A>
-<A HREF = "errata.html">           [Errata-Bugs]</A>
-<A HREF = "references.html">       [References]</A>
-<A HREF = "links.html">            [Related Links]</A><BR>
+<A HREF = "index.html">            [Home / 首页]</A>
+<A HREF = "copyright.html">        [Copyright and Licensing Terms / 版权和许可条款]</A>
+<A HREF = "algorithm.html">        [Algorithm / 算法]</A>
+<A HREF = "scalability.html">      [Scalability / 可扩展性]</A>
+<A HREF = "results.html">          [Performance Results / 性能结果]</A>
+<A HREF = "documentation.html">    [Documentation / 文档]</A>
+<A HREF = "software.html">         [Software / 软件]</A>
+<A HREF = "faqs.html">             [FAQs / 常见问题]</A>
+<A HREF = "tuning.html">           [Tuning / 调优]</A>
+<A HREF = "errata.html">           [Errata-Bugs / 勘误-错误]</A>
+<A HREF = "references.html">       [References / 参考文献]</A>
+<A HREF = "links.html">            [Related Links / 相关链接]</A><BR>
 </CENTER>
 <HR NOSHADE>
 </BODY>

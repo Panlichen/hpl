@@ -9,10 +9,10 @@
 <BODY BGCOLOR="WHITE" TEXT = "#000000" LINK = "#0000ff" VLINK = "#000099"
       ALINK = "#ffff00">
 
-<H1>Name</H1>
+<H1>Name / 名称</H1>
 <B>HPL_pdtrsv</B> Solve triu( A ) x = b.
 
-<H1>Synopsis</H1>
+<H1>Synopsis / 概要</H1>
 <CODE>#include "hpl.h"</CODE><BR><BR>
 <CODE>void</CODE>
 <CODE>HPL_pdtrsv(</CODE>
@@ -22,7 +22,7 @@
 <CODE>AMAT</CODE>
 <CODE>);</CODE>
 
-<H1>Description</H1>
+<H1>Description / 描述</H1>
 <B>HPL_pdtrsv</B>
 solves an upper triangular system of linear equations.
  
@@ -48,20 +48,21 @@ There are  N / NB  diagonal blocks. One must exchange  2  messages of
 length NB to compute the next  NB  entries of the vector solution, as
 well as performing a total of N^2 floating point operations.
 
-<H1>Arguments</H1>
+<H1>Arguments / 参数</H1>
 <PRE>
-GRID    (local input)                 HPL_T_grid *
+GRID    (local input / 本地输入)                 HPL_T_grid *
         On entry,  GRID  points  to the data structure containing the
-        process grid information.
+        process grid information.<BR>进入时，GRID 指向包含进程网格信息的数据结构。
 </PRE>
 <PRE>
-AMAT    (local input/output)          HPL_T_pmat *
+AMAT    (local input/output / 本地输入/输出)          HPL_T_pmat *
         On entry,  AMAT  points  to the data structure containing the
         local array information.
 </PRE>
 
-<H1>See Also</H1>
+<H1>See Also / 另见</H1>
 <A HREF="HPL_pdgesv.html">HPL_pdgesv</A>.
 
+<HR NOSHADE><P><EM>See the original English page for complete documentation. / 完整文档请参见原始英文页面。</EM></P>
 </BODY>
 </HTML>

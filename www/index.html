@@ -22,7 +22,8 @@ LINK        = "#0000ff">
 <TR>
 <TD ALIGN=CENTER>
 <H3>HPL - A Portable Implementation of the High-Performance Linpack
-Benchmark for Distributed-Memory Computers</H3>
+Benchmark for Distributed-Memory Computers<BR>
+HPL - 高性能Linpack基准测试的分布式内存计算机可移植实现</H3>
 </TD>
 <TD ALIGN=LEFT VALIGN=LEFT>
 <A HREF     = "http://icl.cs.utk.edu">
@@ -56,15 +57,17 @@ dense  linear  system  in  double  precision   (64  bits)  arithmetic
 on  distributed-memory  computers.    It  can  thus  be  regarded  as
 a portable as well as  freely available  implementation  of the  High
 Performance Computing Linpack Benchmark.<BR><BR>
+<STRONG>HPL</STRONG> 是一个软件包，用于在分布式内存计算机上以双精度（64位）算术求解（随机）稠密线性方程组。因此，它可以被视为高性能计算Linpack基准测试的一个可移植且免费可用的实现。<BR><BR>
 
 The <STRONG>algorithm</STRONG> used  by HPL  can be summarized by the
 following keywords:  Two-dimensional  block-cyclic data  distribution
-- Right-looking variant  of  the  LU  factorization  with row partial
+- Right-looking variant  of  the  LU  factorization with row partial
 pivoting  featuring  multiple  look-ahead depths  -  Recursive  panel
 factorization  with  pivot  search  and  column  broadcast combined -
 Various  virtual  panel  broadcast topologies  -  bandwidth  reducing
 swap-broadcast  algorithm -  backward  substitution  with  look-ahead
 of depth 1.<BR><BR>
+HPL 使用的<strong>算法</strong>可以通过以下关键词概括：二维块循环数据分布 - 采用行部分主元法、具有多前瞻深度的 LU 分解的右视变体 - 结合主元搜索和列广播的递归面板分解 - 多种虚拟面板广播拓扑 - 带宽减少的交换广播算法 - 深度为 1 的前瞻回代。<BR><BR>
 
 The  HPL package  provides  a testing and timing program  to quantify
 the  <STRONG>accuracy</STRONG> of  the obtained solution  as  well as
@@ -75,6 +78,7 @@ interconnection  network,   the  algorithm  described  here  and  its
 attached implementation  are <STRONG>scalable</STRONG>  in  the sense
 that their parallel efficiency is maintained  constant  with  respect
 to the per processor memory usage.<BR><BR>
+HPL 软件包提供了一个测试和计时程序，用于量化所获得解的<strong>精度</strong>以及计算它所花费的时间。此软件在您的系统上可达到的最佳<strong>性能</strong>取决于多种因素。尽管如此，在对互连网络做一些限制性假设的情况下，这里描述的算法及其附带的实现是<strong>可扩展的</strong>，即它们的并行效率相对于每个处理器的内存使用量保持恒定。<BR><BR>
 
 The HPL software package <STRONG>requires</STRONG>  the  availibility
 on your system of an implementation of the  Message Passing Interface
@@ -87,33 +91,38 @@ Machine-specific as well as generic implementations of
 <A HREF = "links.html#blas_libs">BLAS</A> and
 <A HREF = "links.html#vsip_libs">VSIPL</A> are available  for a large
 variety of systems.<BR><BR>
+HPL 软件包<strong>要求</strong>您的系统上提供消息传递接口 <STRONG>MPI</STRONG>（1.1 兼容）的实现。还需要 <STRONG>BLAS</STRONG>（基本线性代数子程序）<STRONG>或</STRONG> <STRONG>VSIPL</STRONG>（向量信号图像处理库）的实现。<A HREF = "links.html#mpi_libs">MPI</A>、<A HREF = "links.html#blas_libs">BLAS</A> 和 <A HREF = "links.html#vsip_libs">VSIPL</A> 的机器特定实现和通用实现可用于多种系统。<BR><BR>
 
 <STRONG>Acknowledgements</STRONG>: This work was  supported  in  part
 by  a  grant  from  the  Department  of  Energy's   Lawrence
 Livermore National Laboratory  and  Los  Alamos  National  Laboratory
 as   part  of  the   ASCI  Projects   contract  numbers  B503962  and
 12187-001-00 4R.
+<BR><BR>
+<strong>致谢</strong>：本工作部分由能源部劳伦斯利弗莫尔国家实验室和洛斯阿拉莫斯国家实验室的资助支持，作为 ASCI 项目的一部分，合同号为 B503962 和 12187-001-00 4R。
 
 <HR NOSHADE>
 <CENTER>
-<A HREF = "index.html">            [Home]</A>
-<A HREF = "copyright.html">        [Copyright and Licensing Terms]</A>
-<A HREF = "algorithm.html">        [Algorithm]</A>
-<A HREF = "scalability.html">      [Scalability]</A>
-<A HREF = "results.html">          [Performance Results]</A>
-<A HREF = "documentation.html">    [Documentation]</A>
-<A HREF = "software.html">         [Software]</A>
-<A HREF = "faqs.html">             [FAQs]</A>
-<A HREF = "tuning.html">           [Tuning]</A>
-<A HREF = "errata.html">           [Errata-Bugs]</A>
-<A HREF = "references.html">       [References]</A>
-<A HREF = "links.html">            [Related Links]</A><BR>
+<A HREF = "index.html">            [Home / 首页]</A>
+<A HREF = "copyright.html">        [Copyright and Licensing Terms / 版权和许可条款]</A>
+<A HREF = "algorithm.html">        [Algorithm / 算法]</A>
+<A HREF = "scalability.html">      [Scalability / 可扩展性]</A>
+<A HREF = "results.html">          [Performance Results / 性能结果]</A>
+<A HREF = "documentation.html">    [Documentation / 文档]</A>
+<A HREF = "software.html">         [Software / 软件]</A>
+<A HREF = "faqs.html">             [FAQs / 常见问题]</A>
+<A HREF = "tuning.html">           [Tuning / 调优]</A>
+<A HREF = "errata.html">           [Errata-Bugs / 勘误-错误]</A>
+<A HREF = "references.html">       [References / 参考文献]</A>
+<A HREF = "links.html">            [Related Links / 相关链接]</A><BR>
 </CENTER>
 <HR NOSHADE>
 
 <ADDRESS>
 Innovative Computing Laboratory<BR>
 last revised December 2, 2018<BR>
+创新计算实验室<BR>
+最后修订：2018年12月2日<BR>
 </ADDRESS>
 
 <PRE>

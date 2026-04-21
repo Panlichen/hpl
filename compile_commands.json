@@ -1,0 +1,652 @@
+[
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/grid/HPL_sum.c -o src/grid/HPL_sum.c.o",
+    "file": "/home/plch/hpl/src/grid/HPL_sum.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/grid/HPL_broadcast.c -o src/grid/HPL_broadcast.c.o",
+    "file": "/home/plch/hpl/src/grid/HPL_broadcast.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/grid/HPL_min.c -o src/grid/HPL_min.c.o",
+    "file": "/home/plch/hpl/src/grid/HPL_min.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/grid/HPL_all_reduce.c -o src/grid/HPL_all_reduce.c.o",
+    "file": "/home/plch/hpl/src/grid/HPL_all_reduce.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/grid/HPL_reduce.c -o src/grid/HPL_reduce.c.o",
+    "file": "/home/plch/hpl/src/grid/HPL_reduce.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/grid/HPL_grid_exit.c -o src/grid/HPL_grid_exit.c.o",
+    "file": "/home/plch/hpl/src/grid/HPL_grid_exit.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/grid/HPL_max.c -o src/grid/HPL_max.c.o",
+    "file": "/home/plch/hpl/src/grid/HPL_max.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/grid/HPL_barrier.c -o src/grid/HPL_barrier.c.o",
+    "file": "/home/plch/hpl/src/grid/HPL_barrier.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/grid/HPL_grid_info.c -o src/grid/HPL_grid_info.c.o",
+    "file": "/home/plch/hpl/src/grid/HPL_grid_info.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/grid/HPL_pnum.c -o src/grid/HPL_pnum.c.o",
+    "file": "/home/plch/hpl/src/grid/HPL_pnum.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/grid/HPL_grid_init.c -o src/grid/HPL_grid_init.c.o",
+    "file": "/home/plch/hpl/src/grid/HPL_grid_init.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/blas/HPL_dtrsm.c -o src/blas/HPL_dtrsm.c.o",
+    "file": "/home/plch/hpl/src/blas/HPL_dtrsm.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/blas/HPL_dtrsv.c -o src/blas/HPL_dtrsv.c.o",
+    "file": "/home/plch/hpl/src/blas/HPL_dtrsv.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/blas/HPL_idamax.c -o src/blas/HPL_idamax.c.o",
+    "file": "/home/plch/hpl/src/blas/HPL_idamax.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/blas/HPL_dgemv.c -o src/blas/HPL_dgemv.c.o",
+    "file": "/home/plch/hpl/src/blas/HPL_dgemv.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/blas/HPL_dswap.c -o src/blas/HPL_dswap.c.o",
+    "file": "/home/plch/hpl/src/blas/HPL_dswap.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/blas/HPL_dger.c -o src/blas/HPL_dger.c.o",
+    "file": "/home/plch/hpl/src/blas/HPL_dger.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/blas/HPL_dgemm.c -o src/blas/HPL_dgemm.c.o",
+    "file": "/home/plch/hpl/src/blas/HPL_dgemm.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/blas/HPL_dcopy.c -o src/blas/HPL_dcopy.c.o",
+    "file": "/home/plch/hpl/src/blas/HPL_dcopy.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/blas/HPL_daxpy.c -o src/blas/HPL_daxpy.c.o",
+    "file": "/home/plch/hpl/src/blas/HPL_daxpy.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/blas/HPL_dscal.c -o src/blas/HPL_dscal.c.o",
+    "file": "/home/plch/hpl/src/blas/HPL_dscal.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_rollT.c -o src/pgesv/HPL_rollT.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_rollT.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_plindx10.c -o src/pgesv/HPL_plindx10.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_plindx10.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_plindx0.c -o src/pgesv/HPL_plindx0.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_plindx0.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_spreadN.c -o src/pgesv/HPL_spreadN.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_spreadN.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_spreadT.c -o src/pgesv/HPL_spreadT.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_spreadT.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_rollN.c -o src/pgesv/HPL_rollN.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_rollN.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_pdupdateNN.c -o src/pgesv/HPL_pdupdateNN.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_pdupdateNN.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_pipid.c -o src/pgesv/HPL_pipid.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_pipid.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_pdgesvK2.c -o src/pgesv/HPL_pdgesvK2.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_pdgesvK2.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_pdgesv.c -o src/pgesv/HPL_pdgesv.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_pdgesv.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_pdlaswp01N.c -o src/pgesv/HPL_pdlaswp01N.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_pdlaswp01N.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_pdlaswp01T.c -o src/pgesv/HPL_pdlaswp01T.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_pdlaswp01T.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_pdlaswp00T.c -o src/pgesv/HPL_pdlaswp00T.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_pdlaswp00T.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_equil.c -o src/pgesv/HPL_equil.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_equil.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_pdupdateNT.c -o src/pgesv/HPL_pdupdateNT.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_pdupdateNT.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_pdgesv0.c -o src/pgesv/HPL_pdgesv0.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_pdgesv0.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_logsort.c -o src/pgesv/HPL_logsort.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_logsort.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_pdgesvK1.c -o src/pgesv/HPL_pdgesvK1.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_pdgesvK1.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_pdupdateTT.c -o src/pgesv/HPL_pdupdateTT.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_pdupdateTT.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_plindx1.c -o src/pgesv/HPL_plindx1.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_plindx1.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_pdtrsv.c -o src/pgesv/HPL_pdtrsv.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_pdtrsv.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_pdlaswp00N.c -o src/pgesv/HPL_pdlaswp00N.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_pdlaswp00N.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_perm.c -o src/pgesv/HPL_perm.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_perm.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pgesv/HPL_pdupdateTN.c -o src/pgesv/HPL_pdupdateTN.c.o",
+    "file": "/home/plch/hpl/src/pgesv/HPL_pdupdateTN.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pfact/HPL_pdrpancrN.c -o src/pfact/HPL_pdrpancrN.c.o",
+    "file": "/home/plch/hpl/src/pfact/HPL_pdrpancrN.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pfact/HPL_pdpanllN.c -o src/pfact/HPL_pdpanllN.c.o",
+    "file": "/home/plch/hpl/src/pfact/HPL_pdpanllN.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pfact/HPL_pdrpanrlT.c -o src/pfact/HPL_pdrpanrlT.c.o",
+    "file": "/home/plch/hpl/src/pfact/HPL_pdrpanrlT.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pfact/HPL_pdrpanllN.c -o src/pfact/HPL_pdrpanllN.c.o",
+    "file": "/home/plch/hpl/src/pfact/HPL_pdrpanllN.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pfact/HPL_pdpancrN.c -o src/pfact/HPL_pdpancrN.c.o",
+    "file": "/home/plch/hpl/src/pfact/HPL_pdpancrN.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pfact/HPL_pdrpancrT.c -o src/pfact/HPL_pdrpancrT.c.o",
+    "file": "/home/plch/hpl/src/pfact/HPL_pdrpancrT.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pfact/HPL_pdpanllT.c -o src/pfact/HPL_pdpanllT.c.o",
+    "file": "/home/plch/hpl/src/pfact/HPL_pdpanllT.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pfact/HPL_dlocswpT.c -o src/pfact/HPL_dlocswpT.c.o",
+    "file": "/home/plch/hpl/src/pfact/HPL_dlocswpT.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pfact/HPL_pdrpanrlN.c -o src/pfact/HPL_pdrpanrlN.c.o",
+    "file": "/home/plch/hpl/src/pfact/HPL_pdrpanrlN.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pfact/HPL_pdpanrlT.c -o src/pfact/HPL_pdpanrlT.c.o",
+    "file": "/home/plch/hpl/src/pfact/HPL_pdpanrlT.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pfact/HPL_dlocswpN.c -o src/pfact/HPL_dlocswpN.c.o",
+    "file": "/home/plch/hpl/src/pfact/HPL_dlocswpN.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pfact/HPL_pdfact.c -o src/pfact/HPL_pdfact.c.o",
+    "file": "/home/plch/hpl/src/pfact/HPL_pdfact.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pfact/HPL_pdmxswp.c -o src/pfact/HPL_pdmxswp.c.o",
+    "file": "/home/plch/hpl/src/pfact/HPL_pdmxswp.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pfact/HPL_pdrpanllT.c -o src/pfact/HPL_pdrpanllT.c.o",
+    "file": "/home/plch/hpl/src/pfact/HPL_pdrpanllT.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pfact/HPL_pdpancrT.c -o src/pfact/HPL_pdpancrT.c.o",
+    "file": "/home/plch/hpl/src/pfact/HPL_pdpancrT.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pfact/HPL_dlocmax.c -o src/pfact/HPL_dlocmax.c.o",
+    "file": "/home/plch/hpl/src/pfact/HPL_dlocmax.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pfact/HPL_pdpanrlN.c -o src/pfact/HPL_pdpanrlN.c.o",
+    "file": "/home/plch/hpl/src/pfact/HPL_pdpanrlN.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/comm/HPL_1rinM.c -o src/comm/HPL_1rinM.c.o",
+    "file": "/home/plch/hpl/src/comm/HPL_1rinM.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/comm/HPL_recv.c -o src/comm/HPL_recv.c.o",
+    "file": "/home/plch/hpl/src/comm/HPL_recv.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/comm/HPL_binit.c -o src/comm/HPL_binit.c.o",
+    "file": "/home/plch/hpl/src/comm/HPL_binit.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/comm/HPL_2ring.c -o src/comm/HPL_2ring.c.o",
+    "file": "/home/plch/hpl/src/comm/HPL_2ring.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/comm/HPL_sdrv.c -o src/comm/HPL_sdrv.c.o",
+    "file": "/home/plch/hpl/src/comm/HPL_sdrv.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/comm/HPL_bwait.c -o src/comm/HPL_bwait.c.o",
+    "file": "/home/plch/hpl/src/comm/HPL_bwait.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/comm/HPL_bcast.c -o src/comm/HPL_bcast.c.o",
+    "file": "/home/plch/hpl/src/comm/HPL_bcast.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/comm/HPL_2rinM.c -o src/comm/HPL_2rinM.c.o",
+    "file": "/home/plch/hpl/src/comm/HPL_2rinM.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/comm/HPL_copyL.c -o src/comm/HPL_copyL.c.o",
+    "file": "/home/plch/hpl/src/comm/HPL_copyL.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/comm/HPL_blonM.c -o src/comm/HPL_blonM.c.o",
+    "file": "/home/plch/hpl/src/comm/HPL_blonM.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/comm/HPL_1ring.c -o src/comm/HPL_1ring.c.o",
+    "file": "/home/plch/hpl/src/comm/HPL_1ring.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/comm/HPL_packL.c -o src/comm/HPL_packL.c.o",
+    "file": "/home/plch/hpl/src/comm/HPL_packL.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/comm/HPL_send.c -o src/comm/HPL_send.c.o",
+    "file": "/home/plch/hpl/src/comm/HPL_send.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/comm/HPL_blong.c -o src/comm/HPL_blong.c.o",
+    "file": "/home/plch/hpl/src/comm/HPL_blong.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/auxil/HPL_abort.c -o src/auxil/HPL_abort.c.o",
+    "file": "/home/plch/hpl/src/auxil/HPL_abort.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/auxil/HPL_dlange.c -o src/auxil/HPL_dlange.c.o",
+    "file": "/home/plch/hpl/src/auxil/HPL_dlange.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/auxil/HPL_dlacpy.c -o src/auxil/HPL_dlacpy.c.o",
+    "file": "/home/plch/hpl/src/auxil/HPL_dlacpy.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/auxil/HPL_warn.c -o src/auxil/HPL_warn.c.o",
+    "file": "/home/plch/hpl/src/auxil/HPL_warn.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/auxil/HPL_fprintf.c -o src/auxil/HPL_fprintf.c.o",
+    "file": "/home/plch/hpl/src/auxil/HPL_fprintf.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/auxil/HPL_dlatcpy.c -o src/auxil/HPL_dlatcpy.c.o",
+    "file": "/home/plch/hpl/src/auxil/HPL_dlatcpy.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/auxil/HPL_dlaprnt.c -o src/auxil/HPL_dlaprnt.c.o",
+    "file": "/home/plch/hpl/src/auxil/HPL_dlaprnt.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/auxil/HPL_dlamch.c -o src/auxil/HPL_dlamch.c.o",
+    "file": "/home/plch/hpl/src/auxil/HPL_dlamch.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/panel/HPL_pdpanel_disp.c -o src/panel/HPL_pdpanel_disp.c.o",
+    "file": "/home/plch/hpl/src/panel/HPL_pdpanel_disp.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/panel/HPL_pdpanel_init.c -o src/panel/HPL_pdpanel_init.c.o",
+    "file": "/home/plch/hpl/src/panel/HPL_pdpanel_init.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/panel/HPL_pdpanel_free.c -o src/panel/HPL_pdpanel_free.c.o",
+    "file": "/home/plch/hpl/src/panel/HPL_pdpanel_free.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/panel/HPL_pdpanel_new.c -o src/panel/HPL_pdpanel_new.c.o",
+    "file": "/home/plch/hpl/src/panel/HPL_pdpanel_new.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_pdlaprnt.c -o src/pauxil/HPL_pdlaprnt.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_pdlaprnt.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_dlaswp03T.c -o src/pauxil/HPL_dlaswp03T.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_dlaswp03T.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_dlaswp02N.c -o src/pauxil/HPL_dlaswp02N.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_dlaswp02N.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_dlaswp03N.c -o src/pauxil/HPL_dlaswp03N.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_dlaswp03N.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_dlaswp01N.c -o src/pauxil/HPL_dlaswp01N.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_dlaswp01N.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_dlaswp05T.c -o src/pauxil/HPL_dlaswp05T.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_dlaswp05T.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_dlaswp04T.c -o src/pauxil/HPL_dlaswp04T.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_dlaswp04T.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_pdlamch.c -o src/pauxil/HPL_pdlamch.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_pdlamch.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_indxg2lp.c -o src/pauxil/HPL_indxg2lp.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_indxg2lp.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_indxg2l.c -o src/pauxil/HPL_indxg2l.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_indxg2l.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_dlaswp05N.c -o src/pauxil/HPL_dlaswp05N.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_dlaswp05N.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_indxl2g.c -o src/pauxil/HPL_indxl2g.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_indxl2g.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_dlaswp01T.c -o src/pauxil/HPL_dlaswp01T.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_dlaswp01T.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_numrocI.c -o src/pauxil/HPL_numrocI.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_numrocI.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_dlaswp10N.c -o src/pauxil/HPL_dlaswp10N.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_dlaswp10N.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_pdlange.c -o src/pauxil/HPL_pdlange.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_pdlange.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_indxg2p.c -o src/pauxil/HPL_indxg2p.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_indxg2p.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_pabort.c -o src/pauxil/HPL_pabort.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_pabort.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_numroc.c -o src/pauxil/HPL_numroc.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_numroc.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_pwarn.c -o src/pauxil/HPL_pwarn.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_pwarn.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_dlaswp04N.c -o src/pauxil/HPL_dlaswp04N.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_dlaswp04N.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_dlaswp06N.c -o src/pauxil/HPL_dlaswp06N.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_dlaswp06N.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_dlaswp00N.c -o src/pauxil/HPL_dlaswp00N.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_dlaswp00N.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_dlaswp06T.c -o src/pauxil/HPL_dlaswp06T.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_dlaswp06T.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c src/pauxil/HPL_infog2l.c -o src/pauxil/HPL_infog2l.c.o",
+    "file": "/home/plch/hpl/src/pauxil/HPL_infog2l.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c testing/ptimer/HPL_ptimer.c -o testing/ptimer/HPL_ptimer.c.o",
+    "file": "/home/plch/hpl/testing/ptimer/HPL_ptimer.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c testing/ptimer/HPL_ptimer_cputime.c -o testing/ptimer/HPL_ptimer_cputime.c.o",
+    "file": "/home/plch/hpl/testing/ptimer/HPL_ptimer_cputime.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c testing/ptimer/HPL_ptimer_walltime.c -o testing/ptimer/HPL_ptimer_walltime.c.o",
+    "file": "/home/plch/hpl/testing/ptimer/HPL_ptimer_walltime.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c testing/ptest/HPL_pdtest.c -o testing/ptest/HPL_pdtest.c.o",
+    "file": "/home/plch/hpl/testing/ptest/HPL_pdtest.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c testing/ptest/HPL_pdinfo.c -o testing/ptest/HPL_pdinfo.c.o",
+    "file": "/home/plch/hpl/testing/ptest/HPL_pdinfo.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c testing/ptest/HPL_pddriver.c -o testing/ptest/HPL_pddriver.c.o",
+    "file": "/home/plch/hpl/testing/ptest/HPL_pddriver.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c testing/matgen/HPL_lmul.c -o testing/matgen/HPL_lmul.c.o",
+    "file": "/home/plch/hpl/testing/matgen/HPL_lmul.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c testing/matgen/HPL_setran.c -o testing/matgen/HPL_setran.c.o",
+    "file": "/home/plch/hpl/testing/matgen/HPL_setran.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c testing/matgen/HPL_rand.c -o testing/matgen/HPL_rand.c.o",
+    "file": "/home/plch/hpl/testing/matgen/HPL_rand.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c testing/matgen/HPL_xjumpm.c -o testing/matgen/HPL_xjumpm.c.o",
+    "file": "/home/plch/hpl/testing/matgen/HPL_xjumpm.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c testing/matgen/HPL_dmatgen.c -o testing/matgen/HPL_dmatgen.c.o",
+    "file": "/home/plch/hpl/testing/matgen/HPL_dmatgen.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c testing/matgen/HPL_jumpit.c -o testing/matgen/HPL_jumpit.c.o",
+    "file": "/home/plch/hpl/testing/matgen/HPL_jumpit.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c testing/matgen/HPL_ladd.c -o testing/matgen/HPL_ladd.c.o",
+    "file": "/home/plch/hpl/testing/matgen/HPL_ladd.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c testing/pmatgen/HPL_pdmatgen.c -o testing/pmatgen/HPL_pdmatgen.c.o",
+    "file": "/home/plch/hpl/testing/pmatgen/HPL_pdmatgen.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c testing/timer/HPL_timer_cputime.c -o testing/timer/HPL_timer_cputime.c.o",
+    "file": "/home/plch/hpl/testing/timer/HPL_timer_cputime.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c testing/timer/HPL_timer_walltime.c -o testing/timer/HPL_timer_walltime.c.o",
+    "file": "/home/plch/hpl/testing/timer/HPL_timer_walltime.c"
+  },
+  {
+    "directory": "/home/plch/hpl",
+    "command": "cc -I/home/plch/hpl/include -I/home/plch/hpl/include/UNKNOWN -c testing/timer/HPL_timer.c -o testing/timer/HPL_timer.c.o",
+    "file": "/home/plch/hpl/testing/timer/HPL_timer.c"
+  }
+]
