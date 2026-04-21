@@ -97,6 +97,10 @@ int HPL_bcast
    {                     *IFLAG = HPL_SUCCESS; return( HPL_SUCCESS ); }
 /*
  * Retrieve the selected virtual broadcast topology
+ *
+ * This is a dispatcher, not the broadcast algorithm itself.  Every
+ * backend below is implemented with explicit point-to-point MPI and may
+ * expose polling semantics through IFLAG.
  */
    top = PANEL->algo->btopo;
 

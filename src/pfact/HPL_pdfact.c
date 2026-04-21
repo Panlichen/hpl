@@ -113,6 +113,11 @@ void HPL_pdfact
  */
    jb = PANEL->jb; PANEL->n -= jb; PANEL->ja += jb;
 
+/*
+ * Only the process column owning the current panel performs the actual
+ * panel factorization.  Other process columns learn the results through
+ * the subsequent row-wise panel broadcast.
+ */
    if( ( PANEL->grid->mycol != PANEL->pcol ) || ( jb <= 0 ) ) return;
 #ifdef HPL_DETAILED_TIMING
    HPL_ptimer( HPL_TIMING_RPFACT );
@@ -125,6 +130,11 @@ void HPL_pdfact
    { HPL_pabort( __LINE__, "HPL_pdfact", "Memory allocation failed" ); }
 /*
  * Factor the panel - Update the panel pointers
+ *
+ * rffun is the recursive panel kernel selected in the driver.  Deep in
+ * that call tree HPL repeatedly performs local pivot search, exchanges
+ * pivot candidates / rows within one process column, and updates the
+ * local panel block with BLAS.
  */
    PANEL->algo->rffun( PANEL, PANEL->mp, jb, 0, (double *)HPL_PTR( vptr,
                        ((size_t)(align) * sizeof(double) ) ) );

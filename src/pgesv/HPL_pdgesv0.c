@@ -122,6 +122,14 @@ void HPL_pdgesv0
                     &panel[0] );
 /*
  * Loop over the columns of A
+ *
+ * Each iteration handles one panel of width jb:
+ * 1. rebuild the panel descriptor over the current offset j;
+ * 2. factor the panel in its owning process column;
+ * 3. broadcast the packed panel along the owning process row;
+ * 4. update the trailing matrix everywhere.
+ *
+ * With depth == 0 the four phases are intentionally serialized.
  */
    for( j = 0; j < N; j += nb )
    {
@@ -142,6 +150,10 @@ void HPL_pdgesv0
       HPL_pdpanel_init( GRID, ALGO, n, n+1, jb, A, j, j, tag, panel[0] );
 /*
  * Factor and broadcast current panel - update
+ *
+ * HPL_binit/HPL_bcast/HPL_bwait are not MPI_Bcast wrappers.  They drive
+ * a virtual row-broadcast topology selected at runtime (1-ring, 2-ring,
+ * long, long-modified, ...), implemented on top of point-to-point MPI.
  */
       HPL_pdfact(               panel[0] );
       (void) HPL_binit(         panel[0] );
@@ -149,6 +161,12 @@ void HPL_pdgesv0
       { (void) HPL_bcast(       panel[0], &test ); }
       while( test != HPL_SUCCESS );
       (void) HPL_bwait(         panel[0] );
+/*
+ * The update kernel consumes the pivot information generated during the
+ * panel factorization, the row-wise broadcast payload, and the local
+ * trailing blocks.  Depending on storage choices it dispatches to one of
+ * HPL_pdupdate{NN,NT,TN,TT}.
+ */
       HPL_pdupdate( NULL, NULL, panel[0], -1 );
 /*
  * Update message id for next factorization

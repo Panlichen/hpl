@@ -98,6 +98,12 @@ void HPL_pdgesv
 
    A->info = 0;
 
+/*
+ * depth == 0 means the factorization follows the simple right-looking
+ * schedule: factor current panel, broadcast it, update trailing matrix.
+ * Otherwise HPL uses the look-ahead kernel to overlap factorization,
+ * row-broadcast, and updates from older panels already in flight.
+ */
    if( ( ALGO->depth == 0 ) || ( GRID->npcol == 1 ) )
    {
       HPL_pdgesv0(  GRID, ALGO, A );
@@ -108,6 +114,11 @@ void HPL_pdgesv
    }
 /*
  * Solve upper triangular system
+ *
+ * The LU phase leaves the distributed upper-triangular factor in place.
+ * HPL_pdtrsv then performs a latency-oriented back solve where solution
+ * blocks move through row / column communicators with custom point-to-
+ * point schedules and lightweight broadcasts.
  */
    if( A->info == 0 ) HPL_pdtrsv( GRID, A );
 /*

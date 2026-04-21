@@ -149,6 +149,14 @@ void HPL_pdmxswp
  * of the buffers of size 4 + 2*N0 to be combined. Wmx points to the row
  * owning the local (before combine) and global (after combine) absolute
  * value max. A0 points to the copy of the current row of the matrix.
+ *
+ * The first 4 entries of WORK form the reduction metadata:
+ * - max absolute value,
+ * - local row index,
+ * - global row index,
+ * - owner process row.
+ * The remainder carries the candidate pivot row plus the current row
+ * that may need to be swapped out of the diagonal position.
  */
    cnt0  = ( cnt_ = n0 + 4 ) + n0; A0 = ( Wmx = WORK + 4 ) + n0;
    Wwork = WORK + cnt0;
@@ -176,6 +184,12 @@ void HPL_pdmxswp
  * proc[i]  for all i in [ip2..nprow).  In addition,  proc[0]  (icurrow)
  * sends to proc[ip2] the current row of A  for later broadcast in procs
  * [ip2..nprow).
+ *
+ * Communication type: point-to-point only, all inside GRID->col_comm.
+ * Logical operation: "reduce max + move pivot row".  HPL fuses the two
+ * so that pivot selection and pivot-row propagation share the same
+ * exchange schedule instead of paying for a separate reduction followed
+ * by a separate broadcast.
  */
    if( ( Np2 != 0 ) &&
        ( ( partner = (int)((unsigned int)(mydist) ^ ip2 ) ) < nprow ) )
@@ -216,6 +230,9 @@ void HPL_pdmxswp
  * pair exchanging 2 rows is such that  myrow >> k+1 is 0.  Among  those
  * processes the ones  that are sending one more row than  what they are
  * receiving are such that myrow >> k is equal to 0.
+ *
+ * HPL_sdrv provides a send/receive pair for one tree edge.  After each
+ * exchange the local process keeps only the better pivot candidate.
  */
       k = 0; ipow = 1;
  
@@ -283,6 +300,10 @@ void HPL_pdmxswp
  * If nprow is not a power of 2,  for all i in [ip2..nprow), proc[i-ip2]
  * sends the pivot row to proc[i]  along  with the first four entries of
  * the WORK array.
+ *
+ * This final fan-out completes the "broadcast" side of the fused
+ * swap/broadcast so that every process row in the current process column
+ * holds identical pivot metadata and the selected pivot row contents.
  */
    if( ( Np2 != 0 ) &&
        ( ( partner = (int)((unsigned int)(mydist) ^ ip2 ) ) < nprow ) )

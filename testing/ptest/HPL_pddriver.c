@@ -154,6 +154,11 @@ int main( ARGC, ARGV )
 /*
  * Loop over different process grids - Define process grid. Go to bottom
  * of process grid loop if this case does not use my process.
+ *
+ * This nested sweep is the experiment driver for HPL.  It enumerates
+ * all algorithmic choices from HPL.dat, creates the requested process
+ * grid, binds function pointers for factorization / recursive panel
+ * factorization / update, and finally invokes HPL_pdtest().
  */
    for( ipq = 0; ipq < npqs; ipq++ )
    {
@@ -182,6 +187,12 @@ int main( ARGC, ARGV )
              {          /* Loop over various # of panels in recursion */
 /*
  * Set up the algorithm parameters
+ *
+ * The actual implementation is selected by function pointers:
+ * - pffun / rffun choose the panel factorization kernels;
+ * - upfun chooses the trailing update kernel and therefore the row-swap
+ *   and U-panel communication path;
+ * - btopo chooses the row-wise panel broadcast topology.
  */
               algo.btopo = topval[itop]; algo.depth = ndhval[indh];
               algo.nbmin = nbmval[inbm]; algo.nbdiv = ndvval[indv];

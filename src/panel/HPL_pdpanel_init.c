@@ -200,6 +200,14 @@ void HPL_pdpanel_init
  * later panel broadcast.  We  also  choose  to put this amount of space 
  * right  after  L2 (when it exist) so that one can receive a contiguous
  * buffer.
+ *
+ * This layout is central to communication efficiency:
+ * - L2 carries the rectangular subdiagonal block needed by updates;
+ * - L1 carries the jb x jb diagonal block;
+ * - DPIV carries replicated pivot indices;
+ * - DINFO carries the replicated info scalar.
+ * The row-broadcast code can therefore ship panel state as one logical
+ * payload, often via an MPI derived datatype.
  */
    dalign = ALGO->align * sizeof( double );
 
@@ -250,6 +258,10 @@ void HPL_pdpanel_init
 /*
  * Initialize the pointers of the panel structure - Re-use A in the cur-
  * rent process column when HPL_COPY_L is not defined.
+ *
+ * Reusing A avoids an extra local copy on the panel-owning process
+ * column.  Non-owning process columns still require explicit receive
+ * buffers because they materialize the panel from communication.
  */
 #ifdef HPL_COPY_L
       PANEL->L2    = (double *)HPL_PTR( PANEL->WORK, dalign );

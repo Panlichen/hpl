@@ -116,6 +116,12 @@ int HPL_broadcast
    while( kk > 1 ) { kk >>= 1; ip2 <<= 1; mask <<= 1; mask++; }
    mydist = MModSub( rank, ROOT, size );
 
+/*
+ * Collective semantics: broadcast-from-root.
+ * Concrete implementation: a tree of explicit MPI_Send / MPI_Recv calls
+ * driven by XOR partners.  HPL uses this wrapper when it wants a small
+ * collective under library-controlled message ids.
+ */
    do
    {
       mask ^= ip2;

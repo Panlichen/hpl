@@ -123,6 +123,12 @@ void HPL_pdgesvK2
    { HPL_pabort( __LINE__, "HPL_pdgesvK2", "Memory allocation failed" ); }
 /*
  * Create and initialize the first depth panels
+ *
+ * The panel array behaves like a software pipeline:
+ * - panel[0] is the oldest panel still participating in updates;
+ * - panel[depth] is the descriptor that will be recycled next.
+ * HPL keeps depth+1 descriptors so that the pipeline can advance without
+ * reallocating workspaces or moving matrix data.
  */
    nq = HPL_numroc( N+1, nb, nb, mycol, 0, npcol ); nn = N; jstart = 0;
 
@@ -144,6 +150,10 @@ void HPL_pdgesvK2
    tag = MNxtMgid( tag, MSGID_BEGIN_FACT, MSGID_END_FACT );
 /*
  * Initialize the lookahead - Factor jstart columns: panel[0..depth-1]
+ *
+ * These early panels fill the pipeline.  Each one is fully factored and
+ * broadcast, then only a partial update is applied to the panels in
+ * front of it.  The remaining work is deferred to improve overlap.
  */
    for( k = 0, j = 0; k < depth; k++ )
    {
@@ -168,6 +178,12 @@ void HPL_pdgesvK2
    }
 /*
  * Main loop over the remaining columns of A
+ *
+ * The key overlap is:
+ * - current owner column finishes deferred updates from older panels;
+ * - then factors the new panel;
+ * - simultaneously the oldest panel may still be updating the far
+ *   trailing matrix while the new one is being broadcast.
  */
    for( j = jstart; j < N; j += nb )
    {
@@ -205,6 +221,9 @@ void HPL_pdgesvK2
  * xtmp = x[0]; for( k=0; k < depth; k++ ) x[k] = x[k+1]; x[d] = xtmp;
  *
  * Go to next process row and column - update the message ids for broadcast
+ *
+ * Only descriptors rotate here.  The distributed matrix blocks remain
+ * in place throughout the entire factorization.
  */
       p = panel[0]; for( k = 0; k < depth; k++ ) panel[k] = panel[k+1];
       panel[depth] = p;

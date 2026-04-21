@@ -192,6 +192,10 @@ void HPL_pdtest
 #endif
 /*
  * Solve linear system
+ *
+ * HPL_barrier synchronizes the grid before timing so that the measured
+ * interval covers the same distributed solve on every rank.  The barrier
+ * itself is implemented inside HPL using the library broadcast wrapper.
  */
    HPL_ptimer_boot(); (void) HPL_barrier( GRID->all_comm );
    time( &current_time_start );
@@ -350,6 +354,12 @@ void HPL_pdtest
  * find the max (in the col). Then (3) broadcast along the rows so that every
  * process has BnormI. Note that since we use a uniform distribution in [-0.5,0.5]
  * for the entries of B, it is very likely that BnormI (<=,~) 0.5.
+ *
+ * This is a compact example of HPL's layered communication:
+ * - HPL_all_reduce(..., HPL_max, GRID->col_comm) computes a column-wise
+ *   collective max in the process column that owns b;
+ * - HPL_broadcast(..., GRID->row_comm) then replicates the scalar across
+ *   the process row so that every rank can evaluate the residual.
  */
    Bptr = Mptr( mat.A, 0, nq, mat.ld );
    if( mycol == HPL_indxg2p( N, NB, NB, 0, npcol ) ){
@@ -383,6 +393,10 @@ void HPL_pdtest
    else { for( ii = 0; ii < mat.mp; ii++ ) Bptr[ii] = HPL_rzero; }
 /*
  * Reduce the distributed residual in process column 0
+ *
+ * Each process row contributes its local piece of b - A x, then a
+ * row-wise HPL_reduce(..., HPL_sum, root=0) accumulates the distributed
+ * vector in process column 0 before the final norm is computed.
  */
    if( mat.mp > 0 )
       (void) HPL_reduce( Bptr, mat.mp, HPL_DOUBLE, HPL_sum, 0,

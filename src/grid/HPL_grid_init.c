@@ -166,6 +166,12 @@ int HPL_grid_init
 /*
  * All communicator, leave if I am not part of this grid. Creation of the
  * row- and column communicators.
+ *
+ * HPL communication is layered by communicator:
+ * - all_comm is used for test-level collectives and timing aggregation;
+ * - row_comm is used for row-wise panel broadcasts and row reductions;
+ * - col_comm is used for pivot search, row swaps, U spreading/rolling,
+ *   and the triangular solve pipeline.
  */
    ierr = MPI_Comm_split( COMM, ( rank < nprocs ? 0 : MPI_UNDEFINED ),
                           rank, &(GRID->all_comm) );

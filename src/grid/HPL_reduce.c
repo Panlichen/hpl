@@ -132,6 +132,15 @@ int HPL_reduce
    if( !( buffer ) )
    { HPL_pabort( __LINE__, "HPL_reduce", "Memory allocation failed" ); }
 
+/*
+ * HPL implements its own tree reduction instead of calling MPI_Reduce.
+ * The same XOR-partner schedule is reused across the library, and the
+ * combine operator is a local callback such as HPL_max / HPL_min /
+ * HPL_sum.
+ *
+ * Communication type: explicit point-to-point.
+ * Collective semantics: reduce-to-root.
+ */
    if( ( mydist = MModSub( rank, ROOT, size ) ) == 0 )
    {
       do

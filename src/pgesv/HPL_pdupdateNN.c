@@ -135,10 +135,18 @@ void HPL_pdupdateNN
    }
 /*
  * Enable/disable the column panel probing mechanism
+ *
+ * The update path periodically polls the row-broadcast progress of the
+ * next panel.  This is the overlap mechanism behind look-ahead: while
+ * the current update is running, the next panel may already advance.
  */
    (void) HPL_bcast( PBCST, &test );
 /*
  * 1 x Q case
+ *
+ * With a single process row there is no inter-row swap/broadcast of U.
+ * The update degenerates to local row permutations + TRSM + GEMM while
+ * still optionally forwarding the next panel broadcast.
  */
    if( PANEL->grid->nprow == 1 )
    {
@@ -260,6 +268,11 @@ void HPL_pdupdateNN
    {
 /*
  * Selection of the swapping algorithm - swap:broadcast U.
+ *
+ * For nprow > 1, this is the communication-heavy part of the update.
+ * HPL first redistributes the needed row block U while applying pivots.
+ * Only once U is available where needed does the trailing GEMM become a
+ * purely local BLAS operation.
  */
       if( fswap == HPL_NO_SWP )
       { fswap = PANEL->algo->fswap; tswap = PANEL->algo->fsthr; }
@@ -271,6 +284,10 @@ void HPL_pdupdateNN
       { HPL_pdlaswp00N( PBCST, &test, PANEL, n ); }
 /*
  * Compute redundantly row block of U and update trailing submatrix
+ *
+ * Redundant U computation is deliberate: it trades some extra flops for
+ * less synchronization.  After the row-swap / U-distribution phase, the
+ * expensive trailing update can proceed with local TRSM + GEMM only.
  */
       nq0 = 0; curr = ( PANEL->grid->myrow == PANEL->prow ? 1 : 0 );
       Aptr = PANEL->A; L2ptr = PANEL->L2;  L1ptr = PANEL->L1;

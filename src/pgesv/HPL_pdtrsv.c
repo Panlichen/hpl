@@ -130,6 +130,11 @@ void HPL_pdtrsv
    GridIsNot1xQ = ( nprow > 1 ); GridIsNotPx1 = ( npcol > 1 );
 /*
  * Move the rhs in the process column owning the last column of A.
+ *
+ * The right-hand side b is stored as the extra column of [A|b].  The
+ * back solve starts from the process column owning the last diagonal
+ * block, so HPL first performs a row-wise point-to-point relocation of b
+ * to align the initial state with that owner column.
  */
    Mnumroc( Anp, n, nb, nb, myrow, 0, nprow );
    Mnumroc( Anq, n, nb, nb, mycol, 0, npcol );
@@ -188,6 +193,13 @@ void HPL_pdtrsv
    MnumrocI( n1p, tmp2, Mmax( 0, tmp1 ), nb, nb, myrow, 0, nprow );
 /*
  * Start the operations
+ *
+ * The main loop is a latency-oriented pipeline:
+ * - previous solution block Xdprev is propagated in col_comm;
+ * - partial updates XC are sent across row_comm to the next owner
+ *   column;
+ * - the owner of the current diagonal block performs a local DTRSV;
+ * - bookkeeping advances to the next diagonal block on the upper-left.
  */
    while( n > 0 )
    {
@@ -281,6 +293,11 @@ void HPL_pdtrsv
    }
 /*
  * Replicate last solution block
+ *
+ * This is one of the few solve-phase operations with collective
+ * semantics: once the last diagonal block has been solved, HPL_broadcast
+ * replicates it through the column communicator so that XR is complete
+ * in every process row.
  */
    if( mycol == colprev )
       (void) HPL_broadcast( (void *)(XR), kbprev, HPL_DOUBLE, rowprev,

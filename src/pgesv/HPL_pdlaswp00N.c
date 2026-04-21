@@ -198,6 +198,10 @@ void HPL_pdlaswp00N
    }
 /*
  * Probe for column panel - forward it when available 
+ *
+ * Swap/broadcast of U happens in the column communicator, while the next
+ * panel is independently moving in the row communicator.  Polling here
+ * lets both pipelines progress without a dedicated progress thread.
  */
    if( *IFLAG == HPL_KEEP_TESTING ) (void) HPL_bcast( PBCST, IFLAG );
 /*
@@ -233,6 +237,11 @@ void HPL_pdlaswp00N
  * This allows the processes in the non-power 2 part to receive U at the
  * first exchange,  and  then  broadcast internally this U so that those 
  * processes can grab their piece of A.
+ *
+ * Communication type: explicit point-to-point, mainly via HPL_sdrv.
+ * Logical purpose: fused row-swap plus distribution of the row panel U.
+ * A generic collective would over-communicate because ownership changes
+ * depend on the pivot pattern and on which rows remain local.
  */
    if( myrow == icurrow ) { llen[myrow] = 0; ipA = 0; }
    ipW    = ipA;
