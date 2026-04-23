@@ -105,6 +105,20 @@ void HPL_pdfact
  */ 
 /*
  * .. Local Variables ..
+ *
+ * vptr :
+ *   scratch allocation used to hold the temporary work array passed into
+ *   the recursive panel factorization kernel.
+ * vptr：
+ *   临时工作内存，作为递归面板分解内核的 WORK 参数传入。
+ *
+ * align :
+ *   alignment requirement copied from algo for the temporary workspace.
+ * align：从 algo 中复制出的对齐要求，用于临时工作区。
+ * jb :
+ *   width of the current panel; also the number of columns removed from
+ *   the trailing matrix after this factorization finishes.
+ * jb：当前 panel 的宽度；分解完成后也正是从尾随矩阵中“剥离”的列数。
  */
    void                       * vptr = NULL;
    int                        align, jb;
@@ -117,6 +131,8 @@ void HPL_pdfact
  * Only the process column owning the current panel performs the actual
  * panel factorization.  Other process columns learn the results through
  * the subsequent row-wise panel broadcast.
+ * 只有拥有当前 panel 的进程列会真正执行面板分解；其他进程列不会重复
+ * 做这一步，而是通过后续按行的 panel 广播获得结果。
  */
    if( ( PANEL->grid->mycol != PANEL->pcol ) || ( jb <= 0 ) ) return;
 #ifdef HPL_DETAILED_TIMING
@@ -129,12 +145,16 @@ void HPL_pdfact
    if( vptr == NULL )
    { HPL_pabort( __LINE__, "HPL_pdfact", "Memory allocation failed" ); }
 /*
- * Factor the panel - Update the panel pointers
+ * Factor the panel - Update the panel pointers.
+ * 分解 panel，并把 panel 描述符推进到下一个尾随区域。
  *
  * rffun is the recursive panel kernel selected in the driver.  Deep in
  * that call tree HPL repeatedly performs local pivot search, exchanges
  * pivot candidates / rows within one process column, and updates the
  * local panel block with BLAS.
+ * rffun 是驱动层根据配置选出的递归面板分解内核。在它的调用树内部，
+ * HPL 会反复执行局部主元搜索、同一进程列内的候选主元/行交换，以及
+ * 基于 BLAS 的局部 panel 更新。
  */
    PANEL->algo->rffun( PANEL, PANEL->mp, jb, 0, (double *)HPL_PTR( vptr,
                        ((size_t)(align) * sizeof(double) ) ) );

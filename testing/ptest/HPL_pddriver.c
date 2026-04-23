@@ -78,6 +78,22 @@ int main( ARGC, ARGV )
  */ 
 /*
  * .. Local Variables ..
+ *
+ * Parameter vectors populated by HPL_pdinfo from HPL.dat.
+ * 由 HPL_pdinfo 从 HPL.dat 读取并填充的参数数组。
+ *
+ * nval   : candidate global matrix sizes N.
+ * nval   ：候选的全局矩阵规模 N。
+ * nbval  : candidate block sizes NB used by the 2D block-cyclic layout.
+ * nbval  ：候选块大小 NB，用于二维块循环分布。
+ * pval/qval : candidate process-grid dimensions P and Q.
+ * pval/qval ：候选进程网格维度 P 和 Q。
+ * nbmval : candidate NBMIN recursion stopping thresholds.
+ * nbmval ：候选 NBMIN，控制递归何时切回非递归面板核。
+ * ndvval : candidate NDIV recursion split factors.
+ * ndvval ：候选 NDIV，控制递归时一个 panel 被切成多少份。
+ * ndhval : candidate look-ahead depths.
+ * ndhval ：候选 look-ahead 深度。
  */
    int                        nval  [HPL_MAX_PARAM],
                               nbval [HPL_MAX_PARAM],
@@ -92,9 +108,48 @@ int main( ARGC, ARGV )
 
    HPL_T_TOP                  topval[HPL_MAX_PARAM];
 
-   HPL_T_grid                 grid;
-   HPL_T_palg                 algo;
-   HPL_T_test                 test;
+   HPL_T_grid                 grid;   /* Active process-grid descriptor / 当前正在测试的进程网格描述符 */
+   HPL_T_palg                 algo;   /* Algorithm bundle passed down to HPL_pdtest / 传递给 HPL_pdtest 的算法参数集合 */
+   HPL_T_test                 test;   /* Output stream, thresholds, and pass/fail counters / 输出句柄、阈值以及测试计数器 */
+/*
+ * Scalar selectors and decoded configuration state.
+ * 标量循环变量与解码后的配置状态。
+ *
+ * L1notran / Unotran :
+ *   storage-format switches from HPL.dat; together they decide which
+ *   update kernel HPL_pdupdate{NN,NT,TN,TT} is selected.
+ * L1notran / Unotran：
+ *   来自 HPL.dat 的存储格式开关；两者共同决定最终选择哪个
+ *   HPL_pdupdate{NN,NT,TN,TT} 更新内核。
+ *
+ * align / equil :
+ *   memory-alignment and equilibration controls copied into algo.
+ * align / equil：
+ *   内存对齐与均衡化控制，后续直接写入 algo。
+ *
+ * in/inb/inbm/indh/indv/ipfa/ipq/irfa/itop :
+ *   loop indices over N, NB, NBMIN, DEPTH, NDIV, PFACT, P×Q, RFACT, and
+ *   broadcast topology respectively.
+ * in/inb/inbm/indh/indv/ipfa/ipq/irfa/itop：
+ *   分别对应 N、NB、NBMIN、DEPTH、NDIV、PFACT、P×Q、RFACT、
+ *   广播拓扑的枚举循环下标。
+ *
+ * myrow/mycol/nprow/npcol/rank/size :
+ *   MPI rank identity in the global communicator and in the active grid.
+ * myrow/mycol/nprow/npcol/rank/size：
+ *   当前进程在全局通信器以及活动进程网格中的身份信息。
+ *
+ * ns/nbs/nbms/ndhs/ndvs/npfs/npqs/nrfs/ntps :
+ *   actual list lengths returned by HPL_pdinfo.
+ * ns/nbs/nbms/ndhs/ndvs/npfs/npqs/nrfs/ntps：
+ *   HPL_pdinfo 返回的各配置列表长度。
+ *
+ * tswap / fswap :
+ *   swap algorithm selector and threshold, consumed later by the update
+ *   path when building row panel U.
+ * tswap / fswap：
+ *   行交换算法选择及阈值，后续在更新阶段构造行面板 U 时使用。
+ */
    int                        L1notran, Unotran, align, equil, in, inb,
                               inbm, indh, indv, ipfa, ipq, irfa, itop,
                               mycol, myrow, ns, nbs, nbms, ndhs, ndvs,
@@ -113,39 +168,13 @@ int main( ARGC, ARGV )
    MPI_Comm_rank( MPI_COMM_WORLD, &rank );
    MPI_Comm_size( MPI_COMM_WORLD, &size );
 /*
- * Read and check validity of test parameters from input file
+ * Read and check validity of test parameters from input file.
+ * 读取并校验输入文件中的测试参数。
  *
- * HPL Version 1.0, Linpack benchmark input file
- * Your message here
- * HPL.out      output file name (if any)
- * 6            device out (6=stdout,7=stderr,file)
- * 4            # of problems sizes (N)
- * 29 30 34 35  Ns
- * 4            # of NBs
- * 1 2 3 4      NBs
- * 0            PMAP process mapping (0=Row-,1=Column-major)
- * 3            # of process grids (P x Q)
- * 2 1 4        Ps
- * 2 4 1        Qs
- * 16.0         threshold
- * 3            # of panel fact
- * 0 1 2        PFACTs (0=left, 1=Crout, 2=Right)
- * 2            # of recursive stopping criterium
- * 2 4          NBMINs (>= 1)
- * 1            # of panels in recursion
- * 2            NDIVs
- * 3            # of recursive panel fact.
- * 0 1 2        RFACTs (0=left, 1=Crout, 2=Right)
- * 1            # of broadcast
- * 0            BCASTs (0=1rg,1=1rM,2=2rg,3=2rM,4=Lng,5=LnM)
- * 1            # of lookahead depth
- * 0            DEPTHs (>=0)
- * 2            SWAP (0=bin-exch,1=long,2=mix)
- * 4            swapping threshold
- * 0            L1 in (0=transposed,1=no-transposed) form
- * 0            U  in (0=transposed,1=no-transposed) form
- * 1            Equilibration (0=no,1=yes)
- * 8            memory alignment in double (> 0)
+ * The arrays above are filled with every candidate choice present in
+ * HPL.dat, then the nested loops below enumerate the Cartesian product.
+ * 上面的数组会被填充为 HPL.dat 中给出的全部候选项，随后下方的多重
+ * 循环会枚举这些参数的笛卡尔积。
  */
    HPL_pdinfo( &test, &ns, nval, &nbs, nbval, &pmapping, &npqs, pval, qval,
                &npfs, pfaval, &nbms, nbmval, &ndvs, ndvval, &nrfs, rfaval,
@@ -154,16 +183,21 @@ int main( ARGC, ARGV )
 /*
  * Loop over different process grids - Define process grid. Go to bottom
  * of process grid loop if this case does not use my process.
+ * 遍历不同的进程网格并创建网格；如果当前进程不属于该网格，则直接
+ * 跳到本轮进程网格循环尾部。
  *
  * This nested sweep is the experiment driver for HPL.  It enumerates
  * all algorithmic choices from HPL.dat, creates the requested process
  * grid, binds function pointers for factorization / recursive panel
  * factorization / update, and finally invokes HPL_pdtest().
+ * 这一组嵌套循环就是 HPL 的实验驱动器：它枚举 HPL.dat 中的全部算法
+ * 选项，创建所请求的进程网格，绑定分解 / 递归面板分解 / 更新函数指针，
+ * 最后调用 HPL_pdtest() 执行一次完整求解与校验。
  */
    for( ipq = 0; ipq < npqs; ipq++ )
    {
       (void) HPL_grid_init( MPI_COMM_WORLD, pmapping, pval[ipq], qval[ipq],
-                            &grid );
+                            &grid );  // src/grid/HPL_grid_init.c
       (void) HPL_grid_info( &grid, &nprow, &npcol, &myrow, &mycol );
 
       if( ( myrow < 0 ) || ( myrow >= nprow ) ||
@@ -186,13 +220,18 @@ int main( ARGC, ARGV )
              for( indv = 0; indv < ndvs; indv++ )
              {          /* Loop over various # of panels in recursion */
 /*
- * Set up the algorithm parameters
+ * Set up the algorithm parameters.
+ * 设置本轮测试的算法参数。
  *
  * The actual implementation is selected by function pointers:
  * - pffun / rffun choose the panel factorization kernels;
  * - upfun chooses the trailing update kernel and therefore the row-swap
  *   and U-panel communication path;
  * - btopo chooses the row-wise panel broadcast topology.
+ * 真正被执行的实现是通过函数指针决定的：
+ * - pffun / rffun 选择面板分解与递归面板分解内核；
+ * - upfun 选择尾随更新内核，因此也间接决定行交换与 U 面板通信路径；
+ * - btopo 选择按进程行执行的面板广播拓扑。
  */
               algo.btopo = topval[itop]; algo.depth = ndhval[indh];
               algo.nbmin = nbmval[inbm]; algo.nbdiv = ndvval[indv];

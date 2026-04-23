@@ -129,6 +129,31 @@ void HPL_pdpanllT
  */ 
 /*
  * .. Local Variables ..
+ *
+ * A :
+ *   base pointer to the local trailing matrix block that contains the
+ *   current panel.
+ * A：指向包含当前 panel 的本地尾随矩阵块。
+ * L1 / L1ptr :
+ *   replicated diagonal storage and the pointer to the active row of that
+ *   storage used by the local triangular solve.
+ * L1 / L1ptr：
+ *   复制的对角块存储，以及当前用于局部三角求解的活动行指针。
+ * Mm1/Nm1 :
+ *   remaining local row/column counts after excluding the current pivot
+ *   row/column.
+ * Mm1/Nm1：扣除当前主元行/列之后剩余的本地行数/列数。
+ * curr :
+ *   whether this process row owns the panel's current pivot row.
+ * curr：当前进程行是否拥有 panel 的当前主元行。
+ * ii/iip1/jj/kk :
+ *   local offsets used while marching one column at a time through the
+ *   left-looking panel kernel.
+ * ii/iip1/jj/kk：left-looking panel 核按列推进时使用的局部偏移量。
+ * lda / m / n0 :
+ *   leading dimension of A, current active local row count, and top-level
+ *   panel width.
+ * lda / m / n0：A 的主维、当前活动本地行数以及顶层 panel 宽度。
  */
    double                     * A, * L1, * L1ptr;
 #ifdef HPL_CALL_VSIPL
@@ -162,14 +187,16 @@ void HPL_pdpanllT
    Xv0 = vsip_mbind_d( PANEL->L1block, 0, 1, PANEL->jb, PANEL->jb, PANEL->jb );
 #endif
 /*
- * Find local absolute value max in first column and initialize WORK[0:3]
+ * Find local absolute value max in first column and initialize WORK[0:3].
+ * 在第一列里寻找局部绝对值最大元，并初始化 WORK[0:3]。
  */
    HPL_dlocmax( PANEL, m, ii, jj, WORK );
 
    while( Nm1 > 0 )
    {
 /*
- * Swap and broadcast the current row
+ * Swap and broadcast the current row.
+ * 交换并广播当前主元行。
  */
       HPL_pdmxswp(  PANEL, m, ii, jj, WORK );
       HPL_dlocswpT( PANEL,    ii, jj, WORK );
@@ -178,11 +205,14 @@ void HPL_pdpanllT
       HPL_dtrsv( HplColumnMajor, HplUpper, HplTrans,   HplUnit, kk,
                  Mptr( L1, ICOFF, ICOFF, n0 ), n0, L1ptr, n0 );
 /*
- * Scale  current column by its absolute value max entry  -  Update  and 
- * find local  absolute value max  in next column (Only one pass through 
+ * Scale  current column by its absolute value max entry  -  Update  and
+ * find local  absolute value max  in next column (Only one pass through
  * cache for each next column).  This sequence of operations could bene-
  * fit from a specialized  blocked implementation.
- */ 
+ * 用当前列的主元绝对值缩放该列，然后更新下一列并寻找下一列的局部绝对
+ * 值最大元。这样做保证每一列只穿过一次缓存，这段操作理论上也很适合被
+ * 专门的分块实现进一步优化。
+ */
       if( WORK[0] != HPL_rzero )
          HPL_dscal( Mm1, HPL_rone / WORK[0], Mptr( A, iip1, jj, lda ), 1 );
 #ifdef HPL_CALL_VSIPL
@@ -216,8 +246,9 @@ void HPL_pdpanllT
    }
 /*
  * Swap and broadcast last row - Scale last column by its absolute value
- * max entry
- */ 
+ * max entry.
+ * 交换并广播最后一行，然后按主元绝对值缩放最后一列。
+ */
    HPL_pdmxswp(  PANEL, m, ii, jj, WORK );
    HPL_dlocswpT( PANEL,    ii, jj, WORK );
    if( WORK[0] != HPL_rzero )

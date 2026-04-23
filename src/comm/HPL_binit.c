@@ -78,6 +78,14 @@ int HPL_binit
  */ 
 /*
  * .. Local Variables ..
+ *
+ * ierr :
+ *   return code from the concrete topology-specific initialization
+ *   routine.
+ * ierr：具体广播拓扑初始化例程返回的状态码。
+ * top :
+ *   runtime-selected broadcast topology stored in PANEL->algo->btopo.
+ * top：运行期选中的广播拓扑，来自 PANEL->algo->btopo。
  */
    int                        ierr;
    HPL_T_TOP                  top;
@@ -86,7 +94,8 @@ int HPL_binit
  */
    if( PANEL->grid->npcol <= 1 ) return( HPL_SUCCESS );
 /*
- * Retrieve the selected virtual broadcast topology
+ * Retrieve the selected virtual broadcast topology.
+ * 读取当前 panel 要使用的虚拟广播拓扑。
  */
    top = PANEL->algo->btopo;
 

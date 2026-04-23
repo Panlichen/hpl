@@ -120,6 +120,34 @@ void HPL_pdrpanllT
  */ 
 /*
  * .. Local Variables ..
+ *
+ * A / Aptr :
+ *   A points to the local trailing matrix owned by this process; Aptr is
+ *   the moving window for the current recursive subpanel.
+ * A / Aptr：
+ *   A 指向当前进程持有的本地尾随矩阵；Aptr 是递归子 panel 的滑动窗口。
+ *
+ * L1 / L1ptr :
+ *   replicated diagonal block storage; L1ptr points at the active
+ *   triangular block used by the replicated solve.
+ * L1 / L1ptr：
+ *   复制出来的对角块存储；L1ptr 指向当前用于冗余三角求解的活动块。
+ *
+ * curr :
+ *   whether the current process row owns the first row of the panel.
+ * curr：当前进程行是否拥有该 panel 的首行。
+ * ii/jj/ioff :
+ *   recursive offsets inside the local panel view.
+ * ii/jj/ioff：递归过程中在本地 panel 视图里的行/列偏移。
+ * jb/nb/nbdiv/nbmin :
+ *   recursive block width and recursion control parameters from ALGO.
+ * jb/nb/nbdiv/nbmin：递归分块宽度以及来自 ALGO 的递归控制参数。
+ * m/n :
+ *   local row/column sizes of the current recursive subproblem.
+ * m/n：当前递归子问题的本地行数/列数。
+ * n0 :
+ *   width of the top-level panel, i.e. leading dimension of L1 storage.
+ * n0：顶层 panel 的宽度，同时也是 L1 存储的主维。
  */
    double                     * A, * Aptr, * L1, * L1ptr;
 #ifdef HPL_CALL_VSIPL
@@ -159,12 +187,16 @@ void HPL_pdrpanllT
  * every process row during the (panel) swapping phase.  We  ensure this
  * way a minimum amount  of communication during the entire panel facto-
  * rization.
+ * 三角求解会在每一条进程行上冗余执行。由于 panel 分解在交换阶段已经把
+ * A 的前若干行累积/传播到了每条进程行上，这样做可以把整个 panel 分解
+ * 过程中的额外通信压到最低。
  */
    do
    {
       n -= jb; ioff = ICOFF + jj;
 /*
- * Replicated solve - Local update - Factor current panel
+ * Replicated solve - Local update - Factor current panel.
+ * 冗余三角求解 -> 本地更新 -> 递归分解当前子 panel。
  */
       HPL_dtrsm( HplColumnMajor, HplRight, HplUpper, HplNoTrans,
                  HplUnit, jb, jj, HPL_rone, L1ptr, n0, Mptr( L1ptr,

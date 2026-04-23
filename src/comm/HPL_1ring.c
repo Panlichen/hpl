@@ -68,6 +68,26 @@ int HPL_binit_1ring( PANEL )
 #ifdef HPL_USE_MPI_DATATYPE
 /*
  * .. Local Variables ..
+ *
+ * comm :
+ *   row communicator over which the current panel is propagated.
+ * comm：当前 panel 沿之传播的进程行通信器。
+ * ierr :
+ *   status of the last MPI primitive.
+ * ierr：最近一次 MPI 调用返回的状态。
+ * go :
+ *   output of MPI_Iprobe, tells whether the predecessor already forwarded
+ *   the panel.
+ * go：MPI_Iprobe 的输出，表示前驱是否已经把 panel 转发过来。
+ * next / prev :
+ *   successor and predecessor ranks inside the logical ring.
+ * next / prev：逻辑环上的后继与前驱 rank。
+ * msgid :
+ *   per-panel message tag taken from PANEL->msgid.
+ * msgid：当前 panel 使用的消息标签，取自 PANEL->msgid。
+ * rank / root / size :
+ *   my rank in row_comm, broadcast root column, and communicator size.
+ * rank / root / size：我在 row_comm 中的 rank、广播根列以及通信器大小。
  */
    int                        ierr;
 #endif
@@ -143,6 +163,9 @@ int HPL_bcast_1ring( PANEL, IFLAG )
  * then receive it, and  if I am not the last process of the ring, then
  * forward it to the next.  Otherwise, inform the caller that the panel
  * has still not been received.
+ * 环形广播阶段：如果我是根进程，就开始把 panel 发送出去；如果不是，
+ * 就轮询探测前驱是否已经发来消息。一旦收到，就在必要时继续转发给后继；
+ * 如果暂时还没收到，就返回 HPL_KEEP_TESTING，让外层继续轮询。
  */
    rank = PANEL->grid->mycol; comm  = PANEL->grid->row_comm;
    root = PANEL->pcol;        msgid = PANEL->msgid;

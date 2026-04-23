@@ -93,6 +93,42 @@ void HPL_pdgesv0
  */ 
 /*
  * .. Local Variables ..
+ *
+ * panel :
+ *   single-entry panel pipeline used by the depth-0 schedule. panel[0]
+ *   is repeatedly re-initialized to describe the current column panel.
+ * panel：
+ *   depth=0 调度下长度为 1 的 panel 流水线。panel[0] 会在每轮迭代中
+ *   被重新初始化，用来描述当前列面板。
+ *
+ * HPL_pdupdate :
+ *   concrete update kernel chosen in HPL_pddriver according to L1/U
+ *   storage format; for the selected HPL.dat path it is HPL_pdupdateTT.
+ * HPL_pdupdate：
+ *   在 HPL_pddriver 中根据 L1/U 的存储格式选定的具体更新内核；对本次
+ *   HPL.dat 选中的路径而言，它等于 HPL_pdupdateTT。
+ *
+ * N :
+ *   global matrix order copied from A->n for loop control.
+ * N：从 A->n 复制出的全局矩阵阶数，用于控制主循环。
+ * j :
+ *   current global column offset of the panel.
+ * j：当前 panel 的全局列起点。
+ * jb :
+ *   actual width of the current panel, equal to min(remaining, nb).
+ * jb：当前 panel 的真实宽度，等于 min(剩余列数, nb)。
+ * n :
+ *   remaining trailing-system size seen at offset j.
+ * n：从当前偏移 j 开始还剩下的尾随子问题规模。
+ * nb :
+ *   algorithmic block size copied from the matrix descriptor.
+ * nb：从矩阵描述符中读取出的算法块大小。
+ * tag :
+ *   rolling message id used by successive panel broadcasts.
+ * tag：连续 panel 广播所使用的滚动消息编号。
+ * test :
+ *   polling state returned by HPL_bcast; loops until HPL_SUCCESS.
+ * test：HPL_bcast 返回的轮询状态；直到变成 HPL_SUCCESS 才结束。
  */
    HPL_T_panel                * * panel = NULL;
    HPL_T_UPD_FUN              HPL_pdupdate;
@@ -112,7 +148,8 @@ void HPL_pdgesv0
  
    HPL_pdupdate = ALGO->upfun; nb = A->nb;
 /*
- * Allocate a panel list of length 1 - Allocate panel[0] resources
+ * Allocate a panel list of length 1 - Allocate panel[0] resources.
+ * 分配长度为 1 的 panel 列表，并为 panel[0] 分配资源。
  */
    panel = (HPL_T_panel **)malloc( sizeof( HPL_T_panel * ) );
    if( panel == NULL )
@@ -121,15 +158,22 @@ void HPL_pdgesv0
    HPL_pdpanel_new( GRID, ALGO, N, N+1, Mmin( N, nb ), A, 0, 0, tag,
                     &panel[0] );
 /*
- * Loop over the columns of A
+ * Loop over the columns of A.
+ * 沿矩阵列方向推进主循环。
  *
  * Each iteration handles one panel of width jb:
  * 1. rebuild the panel descriptor over the current offset j;
  * 2. factor the panel in its owning process column;
  * 3. broadcast the packed panel along the owning process row;
  * 4. update the trailing matrix everywhere.
+ * 每轮迭代处理一个宽度为 jb 的 panel：
+ * 1. 以当前列偏移 j 重建 panel 描述符；
+ * 2. 在拥有该 panel 的进程列中完成分解；
+ * 3. 沿拥有该 panel 的进程行广播打包后的 panel；
+ * 4. 在所有相关进程上更新尾随矩阵。
  *
  * With depth == 0 the four phases are intentionally serialized.
+ * 当 depth == 0 时，这四个阶段会被有意串行化，不做 look-ahead 重叠。
  */
    for( j = 0; j < N; j += nb )
    {
@@ -144,16 +188,21 @@ void HPL_pdgesv0
       }
 #endif
 /*
- * Release panel resources - re-initialize panel data structure
+ * Release panel resources - re-initialize panel data structure.
+ * 释放上一轮 panel 资源，并按当前偏移重新初始化 panel 描述符。
  */
       (void) HPL_pdpanel_free( panel[0] );
       HPL_pdpanel_init( GRID, ALGO, n, n+1, jb, A, j, j, tag, panel[0] );
 /*
- * Factor and broadcast current panel - update
+ * Factor and broadcast current panel - update.
+ * 执行当前 panel 的分解、广播与尾随更新。
  *
  * HPL_binit/HPL_bcast/HPL_bwait are not MPI_Bcast wrappers.  They drive
  * a virtual row-broadcast topology selected at runtime (1-ring, 2-ring,
  * long, long-modified, ...), implemented on top of point-to-point MPI.
+ * HPL_binit/HPL_bcast/HPL_bwait 并不是 MPI_Bcast 的简单封装，它们驱动
+ * 的是运行期可选的虚拟行广播拓扑（1-ring、2-ring、long 等），底层实现
+ * 仍然是点对点 MPI。
  */
       HPL_pdfact(               panel[0] );
       (void) HPL_binit(         panel[0] );
@@ -166,6 +215,9 @@ void HPL_pdgesv0
  * panel factorization, the row-wise broadcast payload, and the local
  * trailing blocks.  Depending on storage choices it dispatches to one of
  * HPL_pdupdate{NN,NT,TN,TT}.
+ * 更新内核会消费 panel 分解产生的主元信息、按行广播得到的 panel 载荷，
+ * 以及本地持有的尾随块。根据存储格式不同，它会落到
+ * HPL_pdupdate{NN,NT,TN,TT} 之一。
  */
       HPL_pdupdate( NULL, NULL, panel[0], -1 );
 /*

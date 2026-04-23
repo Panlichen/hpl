@@ -105,6 +105,52 @@ void HPL_pdtrsv
  */ 
 /*
  * .. Local Variables ..
+ *
+ * Rcomm / Ccomm :
+ *   row and column communicators used by the back-substitution pipeline.
+ * Rcomm / Ccomm：回代流水线使用的行/列通信器。
+ * A / Aptr / Aprev :
+ *   base pointer to the local distributed matrix, the current diagonal
+ *   block cursor, and the previous step's block cursor.
+ * A / Aptr / Aprev：本地分布式矩阵基址、当前对角块游标以及上一步的块游标。
+ * XR :
+ *   local storage for the final solution vector replicated by process row.
+ * XR：最终解向量在当前进程上的存储位置，会在进程行内复制。
+ * XC :
+ *   working right-hand-side / partial residual vector updated in place
+ *   during backward substitution.
+ * XC：回代过程中原地更新的工作右端项/部分残差向量。
+ * Xd / Xdprev :
+ *   current and previous solution blocks that are propagated through the
+ *   pipeline.
+ * Xd / Xdprev：当前与上一轮已经求出的解块，会在流水线中被传播。
+ * W :
+ *   temporary receive buffer for partial updates arriving from the
+ *   previous owner column.
+ * W：接收前一拥有列发来的部分更新时使用的临时缓冲区。
+ * Alcol/Alrow :
+ *   owner coordinates of the current diagonal block.
+ * Alcol/Alrow：当前对角块的拥有列/拥有行。
+ * Anp/Anq :
+ *   local row/column counts of the active trailing matrix on this rank.
+ * Anp/Anq：当前 rank 上活动尾随矩阵的本地行数/列数。
+ * Bcol :
+ *   process column that initially owns the extra rhs column b.
+ * Bcol：最初拥有额外右端项列 b 的进程列。
+ * Rmsgid/Cmsgid :
+ *   rolling message tags for row-wise and column-wise point-to-point
+ *   communications inside the solve.
+ * Rmsgid/Cmsgid：回代过程中按行/按列点对点通信使用的滚动消息标签。
+ * GridIsNotPx1 / GridIsNot1xQ :
+ *   boolean shortcuts used to skip unnecessary sends on degenerate grids.
+ * GridIsNotPx1 / GridIsNot1xQ：用于退化网格场景下跳过无效通信的布尔快捷标志。
+ * kb/kbprev :
+ *   width of the current / previous diagonal block.
+ * kb/kbprev：当前/上一轮对角块的宽度。
+ * n/n1/n1p/n1pprev :
+ *   remaining unsolved system size and look-ahead window sizes for the
+ *   latency-oriented pipeline.
+ * n/n1/n1p/n1pprev：尚未回代的系统规模，以及低时延流水线使用的窗口长度。
  */
    MPI_Comm                   Ccomm, Rcomm;
    double                     * A=NULL, * Aprev=NULL, * Aptr, * XC=NULL,
@@ -130,11 +176,14 @@ void HPL_pdtrsv
    GridIsNot1xQ = ( nprow > 1 ); GridIsNotPx1 = ( npcol > 1 );
 /*
  * Move the rhs in the process column owning the last column of A.
+ * 把右端项移动到拥有最后一个对角块的进程列。
  *
  * The right-hand side b is stored as the extra column of [A|b].  The
  * back solve starts from the process column owning the last diagonal
  * block, so HPL first performs a row-wise point-to-point relocation of b
  * to align the initial state with that owner column.
+ * 右端项 b 存在 [A|b] 的最后一列。回代必须从拥有最后一个对角块的进程列
+ * 开始，因此 HPL 会先沿进程行做一次点对点搬运，把 b 挪到正确的起始列。
  */
    Mnumroc( Anp, n, nb, nb, myrow, 0, nprow );
    Mnumroc( Anq, n, nb, nb, mycol, 0, npcol );
@@ -192,7 +241,8 @@ void HPL_pdtrsv
    tmp1    = n - ( kb = nb ); tmp1 -= ( tmp2 = Mmin( tmp1, n1 ) );
    MnumrocI( n1p, tmp2, Mmax( 0, tmp1 ), nb, nb, myrow, 0, nprow );
 /*
- * Start the operations
+ * Start the operations.
+ * 开始进入回代主循环。
  *
  * The main loop is a latency-oriented pipeline:
  * - previous solution block Xdprev is propagated in col_comm;
@@ -200,6 +250,11 @@ void HPL_pdtrsv
  *   column;
  * - the owner of the current diagonal block performs a local DTRSV;
  * - bookkeeping advances to the next diagonal block on the upper-left.
+ * 主循环是一个面向低时延的流水线：
+ * - 上一轮解块 Xdprev 沿 col_comm 向上传播；
+ * - 部分更新量 XC 沿 row_comm 发送给下一拥有列；
+ * - 当前对角块的拥有者执行本地 DTRSV；
+ * - 然后簿记状态推进到左上方下一个对角块。
  */
    while( n > 0 )
    {
@@ -292,12 +347,16 @@ void HPL_pdtrsv
                  MSGID_BEGIN_PTRSV+1 : Cmsgid+2 );
    }
 /*
- * Replicate last solution block
+ * Replicate last solution block.
+ * 复制最后一个解块。
  *
  * This is one of the few solve-phase operations with collective
  * semantics: once the last diagonal block has been solved, HPL_broadcast
  * replicates it through the column communicator so that XR is complete
  * in every process row.
+ * 这是回代阶段少数带有“集合语义”的操作之一：当最后一个对角块求解完成
+ * 后，HPL_broadcast 会沿列通信器复制该解块，从而让每一条进程行里的 XR
+ * 都变得完整。
  */
    if( mycol == colprev )
       (void) HPL_broadcast( (void *)(XR), kbprev, HPL_DOUBLE, rowprev,

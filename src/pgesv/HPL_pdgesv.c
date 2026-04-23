@@ -103,6 +103,9 @@ void HPL_pdgesv
  * schedule: factor current panel, broadcast it, update trailing matrix.
  * Otherwise HPL uses the look-ahead kernel to overlap factorization,
  * row-broadcast, and updates from older panels already in flight.
+ * depth == 0 表示采用最直接的 right-looking 调度：分解当前 panel，
+ * 广播该 panel，然后更新尾随矩阵。否则 HPL 会转到带 look-ahead 的内核，
+ * 让分解、行广播以及旧 panel 的更新重叠执行。
  */
    if( ( ALGO->depth == 0 ) || ( GRID->npcol == 1 ) )
    {
@@ -113,12 +116,16 @@ void HPL_pdgesv
       HPL_pdgesvK2( GRID, ALGO, A );
    }
 /*
- * Solve upper triangular system
+ * Solve upper triangular system.
+ * 求解上三角系统。
  *
  * The LU phase leaves the distributed upper-triangular factor in place.
  * HPL_pdtrsv then performs a latency-oriented back solve where solution
  * blocks move through row / column communicators with custom point-to-
  * point schedules and lightweight broadcasts.
+ * LU 阶段会把分布式上三角因子保留在原地，随后 HPL_pdtrsv 执行一个
+ * 面向低时延的回代过程：解向量块会沿行/列通信器按自定义点对点计划流动，
+ * 并配合轻量级广播完成传播。
  */
    if( A->info == 0 ) HPL_pdtrsv( GRID, A );
 /*

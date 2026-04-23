@@ -137,6 +137,41 @@ void HPL_pdpanel_init
  */ 
 /*
  * .. Local Variables ..
+ *
+ * dalign :
+ *   requested byte alignment for the panel work buffer.
+ * dalign：panel 工作缓冲区所需的字节对齐粒度。
+ *
+ * icurcol / icurrow :
+ *   process-column / process-row owners of the first entry of the current
+ *   trailing matrix, hence also of the current panel origin.
+ * icurcol / icurrow：
+ *   当前尾随矩阵起点（也就是当前 panel 起点）的拥有列/拥有行。
+ *
+ * ii / jj :
+ *   local row / column offsets of the trailing matrix origin in A->A.
+ * ii / jj：尾随矩阵起点在本地 A->A 中的行/列偏移。
+ *
+ * itmp1 / lwork :
+ *   temporary length helpers used to compute allocation size.
+ * itmp1 / lwork：计算总分配长度时使用的临时长度变量。
+ *
+ * ml2 :
+ *   local number of rows stored in the rectangular L2 block.
+ * ml2：矩形 L2 块在本地实际存储的行数。
+ *
+ * mp / nq :
+ *   local row / column counts of the trailing matrix beginning at (IA,JA).
+ * mp / nq：从 (IA,JA) 开始的尾随矩阵在本地拥有的行数/列数。
+ *
+ * nu :
+ *   amount of workspace needed for the row panel U in later update steps.
+ * nu：后续更新阶段行面板 U 所需的工作区规模。
+ *
+ * myrow/mycol/nprow/npcol/nb :
+ *   shortcuts copied from the process grid and matrix descriptor.
+ * myrow/mycol/nprow/npcol/nb：
+ *   从进程网格和矩阵描述符中复制出来的快捷变量。
  */
    size_t                     dalign;
    int                        icurcol, icurrow, ii, itmp1, jj, lwork,
@@ -160,12 +195,14 @@ void HPL_pdpanel_init
    PANEL->A       = Mptr( (double *)(A->A), ii, jj, A->ld );
 /*
  * Workspace pointers are initialized to NULL.
+ * 先把所有工作指针初始化为空，后续根据网格形状和存储策略再逐步安放。
  */
    PANEL->WORK    = NULL; PANEL->L2      = NULL; PANEL->L1      = NULL;
    PANEL->DPIV    = NULL; PANEL->DINFO   = NULL; PANEL->U       = NULL;
    PANEL->IWORK   = NULL;
 /*
- * Local lengths, indexes process coordinates
+ * Local lengths, indexes process coordinates.
+ * 写入 panel 的局部尺寸、索引以及拥有者坐标。
  */
    PANEL->nb      = nb;               /* distribution blocking factor */
    PANEL->jb      = JB;                                /* panel width */
@@ -183,7 +220,8 @@ void HPL_pdpanel_init
    PANEL->msgid   = TAG;     /* message id to be used for panel bcast */
 /*
  * Initialize  ldl2 and len to temporary dummy values and Update tag for
- * next panel
+ * next panel.
+ * 先把 ldl2 和 len 初始化为占位值，稍后在完成空间布局后再写入真实值。
  */
    PANEL->ldl2    = 0;               /* local leading dim of array L2 */
    PANEL->len     = 0;           /* length of the buffer to broadcast */
@@ -191,15 +229,20 @@ void HPL_pdpanel_init
  * Figure out the exact amount of workspace  needed by the factorization
  * and the update - Allocate that space - Finish the panel data structu-
  * re initialization.
+ * 计算分解与更新阶段需要的精确工作区大小，完成一次性分配，并据此把
+ * panel 数据结构中的各个子缓冲区安放好。
  *
  * L1:    JB x JB in all processes
  * DPIV:  JB      in all processes
  * DINFO: 1       in all processes
  *
  * We make sure that those three arrays are contiguous in memory for the
- * later panel broadcast.  We  also  choose  to put this amount of space 
+ * later panel broadcast.  We  also  choose  to put this amount of space
  * right  after  L2 (when it exist) so that one can receive a contiguous
  * buffer.
+ * 我们刻意让这些数组在内存中连续排布，以便后续 panel 广播可以把它们
+ * 看成一个逻辑载荷；如果存在 L2，也把这段空间紧贴在 L2 后面，方便一
+ * 次接收。
  *
  * This layout is central to communication efficiency:
  * - L2 carries the rectangular subdiagonal block needed by updates;
@@ -225,7 +268,9 @@ void HPL_pdpanel_init
       }
 /*
  * Initialize the pointers of the panel structure  -  Always re-use A in
- * the only process column
+ * the only process column.
+ * 当进程网格退化成 P x 1 时，不存在跨列广播需求，因此直接复用 A 中的
+ * 存储来表示 panel。
  */
       PANEL->L2    = PANEL->A + ( myrow == icurrow ? JB : 0 );
       PANEL->ldl2  = A->ld;
@@ -258,6 +303,8 @@ void HPL_pdpanel_init
 /*
  * Initialize the pointers of the panel structure - Re-use A in the cur-
  * rent process column when HPL_COPY_L is not defined.
+ * 初始化 panel 各子缓冲区指针；如果没有强制 HPL_COPY_L，则当前拥有列
+ * 会尽量直接复用 A 中的原始数据，减少一次本地拷贝。
  *
  * Reusing A avoids an extra local copy on the panel-owning process
  * column.  Non-owning process columns still require explicit receive

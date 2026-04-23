@@ -99,6 +99,45 @@ void HPL_pdupdateTT
  */ 
 /*
  * .. Local Variables ..
+ *
+ * Aptr :
+ *   moving pointer to the current trailing block columns being updated.
+ * Aptr：指向当前正在更新的尾随块列的滑动指针。
+ * L1ptr / L2ptr :
+ *   pointers to the replicated diagonal block and the rectangular
+ *   subdiagonal block carried by PANEL.
+ * L1ptr / L2ptr：指向 PANEL 中复制的对角块和矩形次对角块。
+ * Uptr :
+ *   pointer to the row panel U buffer used by the TT update path.
+ * Uptr：TT 更新路径里保存行面板 U 的缓冲区指针。
+ * dpiv / ipiv :
+ *   replicated pivot array in double form and the integer workspace used
+ *   after converting those pivots to local row offsets.
+ * dpiv / ipiv：双精度形式复制出来的主元数组，以及把主元转成本地行偏移后
+ *   使用的整型工作区。
+ * curr :
+ *   whether the current process row owns the current panel row block.
+ * curr：当前进程行是否拥有当前 panel 的行块。
+ * i/iroff :
+ *   loop counter and row-offset baseline used when materializing pivots.
+ * i/iroff：循环计数器，以及将主元转换为局部偏移时使用的基准行号。
+ * jb/nb :
+ *   panel width and algorithm block size.
+ * jb/nb：panel 宽度与算法块大小。
+ * lda/ldl2 :
+ *   leading dimensions of A and L2.
+ * lda/ldl2：A 与 L2 的主维。
+ * mp/n/nq0/nn :
+ *   local row count below the panel, total columns to update, number of
+ *   columns already updated, and the chunk size processed this round.
+ * mp/n/nq0/nn：panel 下方本地行数、待更新总列数、已更新列数、当前轮分块
+ *   更新的列数。
+ * test :
+ *   polling state returned by HPL_bcast while overlap is in progress.
+ * test：look-ahead/重叠过程中由 HPL_bcast 返回的轮询状态。
+ * tswap / fswap :
+ *   cached swap policy and threshold so the branch is resolved once.
+ * tswap / fswap：缓存下来的交换策略与阈值，避免每次都重复解析配置。
  */
    double                    * Aptr, * L1ptr, * L2ptr, * Uptr, * dpiv;
    int                       * ipiv;
@@ -120,6 +159,7 @@ void HPL_pdupdateTT
    if( NN >= 0 ) n = Mmin( NN, n );
 /*
  * There is nothing to update, enforce the panel broadcast.
+ * 如果没有尾随列需要更新，就只负责把尚未完成的 panel 广播推进到完成。
  */
    if( ( n <= 0 ) || ( jb <= 0 ) )
    {
@@ -134,7 +174,8 @@ void HPL_pdupdateTT
       return;
    }
 /*
- * Enable/disable the column panel probing mechanism
+ * Enable/disable the column panel probing mechanism.
+ * 触发对下一块 panel 广播进度的探测/推进机制。
  */
    (void) HPL_bcast( PBCST, &test );
 /*
@@ -260,6 +301,7 @@ void HPL_pdupdateTT
    {
 /*
  * Selection of the swapping algorithm - swap:broadcast U.
+ * 选择行交换算法，并据此执行“交换 + 广播 U”路径。
  */
       if( fswap == HPL_NO_SWP )
       { fswap = PANEL->algo->fswap; tswap = PANEL->algo->fsthr; }
@@ -270,7 +312,8 @@ void HPL_pdupdateTT
       else
       { HPL_pdlaswp00T( PBCST, &test, PANEL, n ); }
 /*
- * Compute redundantly row block of U and update trailing submatrix
+ * Compute redundantly row block of U and update trailing submatrix.
+ * 在各进程行上冗余计算 U 的行块，并用它更新尾随子矩阵。
  */
       nq0 = 0; curr = ( PANEL->grid->myrow == PANEL->prow ? 1 : 0 );
       Aptr = PANEL->A; L2ptr = PANEL->L2;  L1ptr = PANEL->L1;
@@ -295,7 +338,8 @@ void HPL_pdupdateTT
       Lv1 = vsip_msubview_d( Lv0, 0, 0, mp, jb );
 #endif
 /*
- * Broadcast has not occured yet, spliting the computational part
+ * Broadcast has not occured yet, spliting the computational part.
+ * panel 广播尚未完成时，把计算拆成按 nb 列的小块，边计算边轮询广播。
  */
       while ( test == HPL_KEEP_TESTING )
       {
@@ -355,7 +399,8 @@ void HPL_pdupdateTT
          (void) HPL_bcast( PBCST, &test ); 
       }
 /*
- * The panel has been forwarded at that point, finish the update
+ * The panel has been forwarded at that point, finish the update.
+ * 此时 panel 已经完成转发，可以把剩余尾随更新一次性做完。
  */
       if( ( nn = n - nq0 ) > 0 )
       {
@@ -432,6 +477,8 @@ void HPL_pdupdateTT
 /*
  * return the outcome of the probe  (should always be  HPL_SUCCESS,  the
  * panel broadcast is enforced in that routine).
+ * 返回轮询/探测的最终结果；理论上这里应该已经被推进到 HPL_SUCCESS，
+ * 因为本例程内部会强制把 panel 广播完成。
  */
    if( PBCST != NULL ) *IFLAG = test;
 #ifdef HPL_DETAILED_TIMING
