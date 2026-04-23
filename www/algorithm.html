@@ -78,7 +78,7 @@ size nb that was used for the data distribution.</TD>
 </TR>
 </TABLE>
 <P>
-数据按照块循环方案分布到 P×Q 的二维进程网格上，以确保"良好"的负载平衡以及算法的可扩展性。n×(n+1) 系数矩阵首先被逻辑划分为 nb×nb 的块，这些块循环地"分配"到 P×Q 进程网格上。这种划分在矩阵的两个维度上同时进行。</P>
+数据按照块循环方案分布到 P×Q 的二维进程网格上，以确保"良好"的负载平衡以及算法的可扩展性。n×(n+1) 系数矩阵首先被逻辑划分为 nb×nb 个块，这些块循环地"分配"到 P×Q 进程网格上。这种划分在矩阵的两个维度上同时进行。</P>
 <P>
 LU 分解的主循环选择了右视变体。这意味着在循环的每次迭代中，一个包含 nb 列的面板被分解，然后更新尾部子矩阵。注意，此计算因此使用与数据分布相同的块大小 nb 进行逻辑划分。</P>
 <HR NOSHADE>
@@ -224,7 +224,7 @@ the best performance gain.<BR><BR>
 
 The update of the trailing submatrix by the last panel in the  look-ahead
 pipe is made of two phases. First, the pivots must be applied to form the
-current row panel U. U should then be solved by the upper triangle of the
+current <mark>row panel U</mark>. U should then be solved by the upper triangle of the
 column panel. U finally needs to be broadcast to each process row so that
 the  local  rank-nb  update  can take place.  We choose  to  combine  the
 swapping and broadcast of  U  at the cost of  replicating the solve.  Two

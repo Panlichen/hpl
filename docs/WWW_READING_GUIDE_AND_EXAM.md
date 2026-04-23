@@ -1,5 +1,73 @@
 # WWW 文档阅读指南与考卷
 
+## 0. 基础知识复习
+
+1. 高斯消元法本质上是**LU 分解**的实现：  
+   $$
+   PA = LU
+   $$
+   其中 \(L\) 为单位下三角（消元因子 \(m_{ik}\) 的相反数存放于下三角），\(U\) 为上三角，\(P\) 为置换矩阵（记录行交换）。求解 \(Ax=b\) 变为：
+
+   1. 解 \(Ly = Pb\) （前代）
+   2. 解 \(Ux = y\) （回代）
+
+   > $P$是记录寻找主元的时候进行的行交换
+
+将消元过程直接记录在矩阵中，可以得到一种无需额外存储乘数的紧凑表达方式。设原始矩阵 \(A\) 经过消元后变为 \(U\)，同时将乘数 \(l_{ik}\) 存储在 \(A\) 的下三角部分（即 \(a_{ik}^{(k)}\) 的位置），最终得到：
+$$
+A = 
+\begin{bmatrix}
+u_{11} & u_{12} & \cdots & u_{1n} \\
+l_{21} & u_{22} & \cdots & u_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+l_{n1} & l_{n2} & \cdots & u_{nn}
+\end{bmatrix}
+$$
+其中 \(U\) 的元素 \(u_{ij}\) 是最终上三角矩阵的元素，\(L\) 的元素 \(l_{ij}\)（\(i > j\)）是消元过程中记录的乘数，且 \(l_{ii}=1\)。这种==紧凑存储方式==正是LU分解的常用实现。
+
+> [!NOTE]
+>
+> LU分解的下三角部分其实存的就是当前行与主元行的数的比值，不额外加负号。至于是否称这个数为消元因子的相反数，看具体怎么定义消元因子，不是很重要
+
+## 0. 明确：panel的定义
+
+应该是主要指宽度不超过块大小`nb`的一个“长条”，通常指多个列，row panel就指多个行
+
+
+
+准确地说，在这个 HPL 项目里，**“panel”默认指当前迭代要处理的那一块“列面板”**：
+
+**它是当前 trailing submatrix ==最左侧==的一个宽度为 `jb`（通常不超过块大小 `nb`）的==列块==，覆盖当前==剩余的全部行==；这一块先在其所属的进程列上做面板分解，然后作为后续广播、交换、更新的核心数据对象被封装和传递。**
+
+最直接的文档佐证在 [algorithm.html](/home/admin/hpl/www/algorithm.html#L69)：
+- “at each iteration of the loop a panel of `nb` columns is factorized”
+- 这说明 panel 是**每轮主循环处理的列块**，宽度就是 `nb`。
+- 紧接着 [algorithm.html](/home/admin/hpl/www/algorithm.html#L83) 又说每次 panel factorization “occurs in one column of processes”，说明它的**计算归属是一个进程列**。
+- 在 [algorithm.html](/home/admin/hpl/www/algorithm.html#L105) 还明确写了 “this panel of columns is broadcast to the other process columns”，说明它不是普通局部块，而是**要被广播的列面板**。
+
+源码里的定义更精确。`HPL_pdfact` 的注释直接写明：`HPL_pdfact recursively factorizes a 1-dimensional panel of columns`，也就是“递归分解一个一维的列面板” [HPL_pdfact.c](/home/admin/hpl/src/pfact/HPL_pdfact.c#L67)。而在主循环里，`HPL_pdgesv0` 也把一次迭代拆成四步：重建 panel 描述符、分解 panel、广播 panel、更新 trailing matrix [HPL_pdgesv0.c](/home/admin/hpl/src/pgesv/HPL_pdgesv0.c#L124)。这说明 panel 是**算法流程中的一级工作单元**，不是单纯一个缓冲区名字。
+
+再往下看数据结构，`HPL_T_panel` 把 panel 明确建模成“当前面板 + 通信/更新所需状态”的描述符 [hpl_panel.h](/home/admin/hpl/include/hpl_panel.h#L60)：
+- `A` 指向当前 trailing part of A
+- `jb` 是 panel width
+- `m/n/ia/ja` 给出当前 trailing 子问题的全局尺寸和起点
+- `L2/L1/DPIV/DINFO/U` 则保存面板分解及后续更新/通信需要的数据
+- `buffers/counts/dtypes/request/status/msgid/len` 则说明 panel 还是**广播载荷的组织单位**
+
+`HPL_pdpanel_init` 也把这个定义说得很直白：`M` 是 panel 的全局行数，`JB` 是 panel 的列数，`IA/JA` 标识 panel 和 trailing submatrix 的全局起点 [HPL_pdpanel_init.c](/home/admin/hpl/src/panel/HPL_pdpanel_init.c#L105)。并且它把 `L2 + L1 + DPIV + DINFO` 组织成一个逻辑载荷，专门服务后续 panel broadcast [HPL_pdpanel_init.c](/home/admin/hpl/src/panel/HPL_pdpanel_init.c#L191)。`HPL_packL` 进一步说明自己是在“forms the MPI data type for the panel to be broadcast” [HPL_packL.c](/home/admin/hpl/src/comm/HPL_packL.c#L73)。
+
+所以，如果要给出一个适合答辩/考试的定义，我建议你这样说：
+
+**Panel 是 HPL 在一次 LU 主循环迭代中选出的当前列块；它是当前尾随子矩阵最左侧、宽度为 `jb` 的列面板，先在所属进程列上完成主元搜索与面板分解，再被打包成 `HPL_T_panel` 所描述的状态对象，用于行向广播、行交换、生成 `U` 行面板以及尾随子矩阵更新。**
+
+最后补一个容易混淆但很重要的点：  
+在更新阶段，文档还会说到 **row panel `U`**，例如 [algorithm.html](/home/admin/hpl/www/algorithm.html#L203) 的 “current row panel U”。这说明 HPL 里有“列面板”和“行面板 U”两个相关概念；但**单独说 panel 时，默认是列面板**，`U` 是由该列面板分解结果派生出来、供更新使用的行面板。
+
+如果你愿意，我可以下一步把这个定义再整理成：
+1. “论文/汇报版表述”  
+2. “面试/考试标准答案版”  
+3. “结合通信过程的扩展版定义”
+
 ## 1. 阅读目标
 
 阅读 `www/` 下的 HPL 文档时，不建议把它当成普通 API 手册来顺序翻页。
