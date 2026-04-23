@@ -1,0 +1,80 @@
+<!-- Converted from HPL_pdmatgen HPL 2.3 Library Functions December 2, 2018 -->
+
+<H1>Name / 名称</H1>
+<B>HPL_pdmatgen</B> Parallel random matrix generator.
+
+<H1>Synopsis / 概要</H1>
+<CODE>#include "hpl.h"</CODE><BR><BR>
+<CODE>void</CODE>
+<CODE>HPL_pdmatgen(</CODE>
+<CODE>const HPL_T_grid *</CODE>
+<CODE>GRID</CODE>,
+<CODE>const int</CODE>
+<CODE>M</CODE>,
+<CODE>const int</CODE>
+<CODE>N</CODE>,
+<CODE>const int</CODE>
+<CODE>NB</CODE>,
+<CODE>double *</CODE>
+<CODE>A</CODE>,
+<CODE>const int</CODE>
+<CODE>LDA</CODE>,
+<CODE>const int</CODE>
+<CODE>ISEED</CODE>
+<CODE>);</CODE>
+
+<H1>Description / 描述</H1>
+<B>HPL_pdmatgen</B>
+generates (or regenerates) a parallel random matrix A.
+ 
+The  pseudo-random  generator uses the linear congruential algorithm:
+X(n+1) = (a * X(n) + c) mod m  as  described  in the  Art of Computer
+Programming, Knuth 1973, Vol. 2.
+
+<H1>Arguments / 参数</H1>
+<PRE>
+GRID    (local input / 本地输入)                 const HPL_T_grid *
+        On entry,  GRID  points  to the data structure containing the
+        process grid information.<BR>进入时，GRID 指向包含进程网格信息的数据结构。
+</PRE>
+<PRE>
+M       (global input / 全局输入)                const int
+        On entry,  M  specifies  the number  of rows of the matrix A.
+        M must be at least zero.
+</PRE>
+<PRE>
+N       (global input / 全局输入)                const int
+        On entry,  N specifies the number of columns of the matrix A.
+        N must be at least zero.
+</PRE>
+<PRE>
+NB      (global input / 全局输入)                const int
+        On entry,  NB specifies the blocking factor used to partition
+        and distribute the matrix A. NB must be larger than one.
+</PRE>
+<PRE>
+A       (local output / 本地输出)                double *
+        On entry,  A  points  to an array of dimension (LDA,LocQ(N)).
+        On exit, this array contains the coefficients of the randomly
+        generated matrix.
+</PRE>
+<PRE>
+LDA     (local input / 本地输入)                 const int
+        On entry, LDA specifies the leading dimension of the array A.
+        LDA must be at least max(1,LocP(M)).
+</PRE>
+<PRE>
+ISEED   (global input / 全局输入)                const int
+        On entry, ISEED  specifies  the  seed  number to generate the
+        matrix A. ISEED must be at least zero.
+</PRE>
+
+<H1>See Also / 另见</H1>
+<A HREF="HPL_ladd.md">HPL_ladd</A>,
+<A HREF="HPL_lmul.md">HPL_lmul</A>,
+<A HREF="HPL_setran.md">HPL_setran</A>,
+<A HREF="HPL_xjumpm.md">HPL_xjumpm</A>,
+<A HREF="HPL_jumpit.md">HPL_jumpit</A>,
+<A HREF="HPL_rand.md">HPL_rand</A>.
+
+<HR NOSHADE><P><EM>See the original English page for complete documentation. / 完整文档请参见原始英文页面。</EM></P>

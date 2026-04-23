@@ -1,0 +1,48 @@
+<!-- Converted from HPL Documentation / HPL 文档 -->
+
+<H2>HPL Documentation / HPL 文档</H2>
+The  HPL software distribution comes  with a set of text files explaining how to install,  run and tune the software. These files reside in the top level  directory  and their names are in upper case.  To  a large extent, this page reproduces them. In addition,  man- and HTML-pages are provided for every routine in the package. To access the man pages,  one  must add hpl/man  to its  MANPATH  environment variable.  The  HTML  pages  can be  accessed on this site,  or by pointing your browser to your local hpl/www directory. Finally,  the source code has been heavily documented. Despite all the other documentation efforts, the  source  code remains  the  most trustworthy  and truthful piece of information about what goes on in HPL.<BR><BR>
+HPL 软件发行版附带一组文本文件，解释如何安装、运行和调优软件。这些文件位于顶层目录，其名称为大写。在很大程度上，本页面复制了它们。此外，为软件包中的每个例程提供了 man 页面和 HTML 页面。要访问 man 页面，必须将 hpl/man 添加到 MANPATH 环境变量中。HTML 页面可以在此站点上访问，或者通过将浏览器指向本地的 hpl/www 目录来访问。最后，源代码已经被大量文档化。尽管有所有其他的文档工作，源代码仍然是关于 HPL 中发生了什么的最可靠和最真实的信息。<BR><BR>
+<H3>HPL Functions HTML Pages / HPL 函数 HTML 页面</H3>
+<STRONG>Computational Kernels Wrappers / 计算内核包装器</STRONG> When calling the Fortran 77 BLAS interface, these C functions allow to confine the C  to  Fortran 77 interface  issues  to  a small  subset of routines. / 调用 Fortran 77 BLAS 接口时，这些 C 函数允许将 C 到 Fortran 77 接口问题限制在一小部分例程中。<BR><BR>
+<P><EM>See the original English page for the full function list. / 完整函数列表请参见原始英文页面。</EM></P>
+<HR NOSHADE>
+<STRONG>Local Auxiliaries / 本地辅助函数</STRONG> Basic functionality, local swap functions. / 基本功能，本地交换函数。<BR><BR>
+<HR NOSHADE>
+<STRONG>Parallel Auxiliaries / 并行辅助函数</STRONG> Index computations, parallel basic functionality. / 索引计算，并行基本功能。<BR><BR>
+<HR NOSHADE>
+<STRONG>Grid Management / 网格管理</STRONG> Most of these routines have a direct MPI equivalent.  On new systems,  when the entire MPI functionality is not yet readily available, these functions are particularly convenient since they rely on a mininal  subset of the MPI standard. / 这些例程大多数都有直接的 MPI 等价物。在新系统上，当整个 MPI 功能尚不随时可用时，这些函数特别方便，因为它们依赖于 MPI 标准的最小子集。<BR><BR>
+<HR NOSHADE>
+<STRONG>Panel Management / 面板管理</STRONG><BR><BR>
+<HR NOSHADE>
+<STRONG>Panel Factorization / 面板分解</STRONG> Recursive (matrix-multiply based) and (matrix-vector based) panel factorization. / 递归（基于矩阵乘法）和（基于矩阵-向量）的面板分解。<BR><BR>
+<HR NOSHADE>
+<STRONG>Panel Broadcast / 面板广播</STRONG><BR><BR>
+<HR NOSHADE>
+<STRONG>Update / 更新</STRONG><BR><BR>
+<HR NOSHADE>
+<STRONG>Main Factorization / Look-ahead / 主分解 / 前瞻</STRONG><BR><BR>
+<HR NOSHADE>
+<STRONG>Backward Substitution / 回代</STRONG><BR><BR>
+<HR NOSHADE>
+<STRONG>Matrix generation / 矩阵生成</STRONG> A C version of the ScaLAPACK random matrix generator with less functionality though. / ScaLAPACK 随机矩阵生成器的 C 版本，但功能较少。<BR><BR>
+<HR NOSHADE>
+<STRONG>Timers / 计时器</STRONG> Sequential and parallel timing utilities. / 串行和并行计时工具。<BR><BR>
+<HR NOSHADE>
+<STRONG>Main Testing / Timing Driver / 主测试 / 计时驱动程序</STRONG><BR><BR>
+<HR NOSHADE>
+<CENTER>
+<A HREF = "index.md">            [Home / 首页]</A>
+<A HREF = "copyright.md">        [Copyright and Licensing Terms / 版权和许可条款]</A>
+<A HREF = "algorithm.md">        [Algorithm / 算法]</A>
+<A HREF = "scalability.md">      [Scalability / 可扩展性]</A>
+<A HREF = "results.md">          [Performance Results / 性能结果]</A>
+<A HREF = "documentation.md">    [Documentation / 文档]</A>
+<A HREF = "software.md">         [Software / 软件]</A>
+<A HREF = "faqs.md">             [FAQs / 常见问题]</A>
+<A HREF = "tuning.md">           [Tuning / 调优]</A>
+<A HREF = "errata.md">           [Errata-Bugs / 勘误-错误]</A>
+<A HREF = "references.md">       [References / 参考文献]</A>
+<A HREF = "links.md">            [Related Links / 相关链接]</A><BR>
+</CENTER>
+<HR NOSHADE>

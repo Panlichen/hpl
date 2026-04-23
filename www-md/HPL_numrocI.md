@@ -1,0 +1,79 @@
+<!-- Converted from HPL_numrocI HPL 2.3 Library Functions December 2, 2018 -->
+
+<H1>Name / 名称</H1>
+<B>HPL_numrocI</B> Compute the local number of row/columns.
+
+<H1>Synopsis / 概要</H1>
+<CODE>#include "hpl.h"</CODE><BR><BR>
+<CODE>int</CODE>
+<CODE>HPL_numrocI(</CODE>
+<CODE>const int</CODE>
+<CODE>N</CODE>,
+<CODE>const int</CODE>
+<CODE>I</CODE>,
+<CODE>const int</CODE>
+<CODE>INB</CODE>,
+<CODE>const int</CODE>
+<CODE>NB</CODE>,
+<CODE>const int</CODE>
+<CODE>PROC</CODE>,
+<CODE>const int</CODE>
+<CODE>SRCPROC</CODE>,
+<CODE>const int</CODE>
+<CODE>NPROCS</CODE>
+<CODE>);</CODE>
+
+<H1>Description / 描述</H1>
+<B>HPL_numrocI</B>
+returns  the  local number of matrix rows/columns process
+PROC  will  get  if  we give out  N rows/columns starting from global
+index I.
+
+<H1>Arguments / 参数</H1>
+<PRE>
+N       (input)                       const int
+        On entry, N  specifies the number of rows/columns being dealt
+        out. N must be at least zero.
+</PRE>
+<PRE>
+I       (input)                       const int
+        On entry, I  specifies the global index of the matrix  entry
+        I must be at least zero.
+</PRE>
+<PRE>
+INB     (input)                       const int
+        On entry,  INB  specifies  the size of the first block of th
+        global matrix. INB must be at least one.
+</PRE>
+<PRE>
+NB      (input)                       const int
+        On entry,  NB specifies the blocking factor used to partition
+        and distribute the matrix A. NB must be larger than one.
+</PRE>
+<PRE>
+PROC    (input)                       const int
+        On entry, PROC specifies  the coordinate of the process whos
+        local portion is determined.  PROC must be at least zero  an
+        strictly less than NPROCS.
+</PRE>
+<PRE>
+SRCPROC (input)                       const int
+        On entry,  SRCPROC  specifies  the coordinate of the  proces
+        that possesses the first row or column of the matrix. SRCPRO
+        must be at least zero and strictly less than NPROCS.
+</PRE>
+<PRE>
+NPROCS  (input)                       const int
+        On entry,  NPROCS  specifies the total number of process row
+        or columns over which the matrix is distributed.  NPROCS mus
+        be at least one.
+</PRE>
+
+<H1>See Also / 另见</H1>
+<A HREF="HPL_indxg2l.md">HPL_indxg2l</A>,
+<A HREF="HPL_indxg2lp.md">HPL_indxg2lp</A>,
+<A HREF="HPL_indxg2p.md">HPL_indxg2p</A>,
+<A HREF="HPL_indxl2g.md">HPL_indxl2g</A>,
+<A HREF="HPL_numroc.md">HPL_numroc</A>.
+
+<HR NOSHADE><P><EM>See the original English page for complete documentation. / 完整文档请参见原始英文页面。</EM></P>

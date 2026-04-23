@@ -1,0 +1,39 @@
+<!-- Converted from HPL Copyright and Licensing Terms / HPL 版权和许可条款 -->
+
+<H2>HPL Copyright Notice and Licensing Terms / HPL 版权声明和许可条款</H2>
+Redistribution  and  use in  source and binary forms, with or without modification, are  permitted provided  that the following  conditions are met:<BR><BR>
+在满足以下条件的前提下，允许以源代码和二进制形式重新分发和使用，无论是否经过修改：<BR><BR>
+<OL>
+<LI>Redistributions  of  source code  must retain the above copyright notice, this list of conditions and the following disclaimer. / 源代码的重新分发必须保留上述版权声明、此条件列表和以下免责声明。
+<LI>Redistributions in binary form must reproduce the above copyright notice, this list of conditions,  and the following disclaimer in the documentation and/or other materials provided with the distribution. / 二进制形式的重新分发必须在随分发提供的文档和/或其他材料中复制上述版权声明、此条件列表和以下免责声明。
+<LI>All  advertising  materials mentioning  features  or  use of this software must display  the  following  acknowledgement:  This product includes   software   developed   at  the  University  of  Tennessee, Knoxville, Innovative Computing Laboratory. / 所有提及本软件特性或使用的广告材料必须显示以下致谢：本产品包含在田纳西大学诺克斯维尔分校创新计算实验室开发的软件。
+<LI>The name of the  University, the name of the  Laboratory,  or the names  of  its  contributors  may  not  be used to endorse or promote products  derived   from   this  software  without  specific  written permission. / 未经特定书面许可，大学、实验室的名称或其贡献者的名称不得用于认可或推广源自本软件的产品。
+</OL>
+<H3>Disclaimer / 免责声明</H3>
+THIS  SOFTWARE  IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+`AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES,  INCLUDING,  BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE UNIVERSITY
+OR  CONTRIBUTORS  BE  LIABLE FOR ANY  DIRECT,  INDIRECT,  INCIDENTAL,
+SPECIAL,  EXEMPLARY,  OR  CONSEQUENTIAL DAMAGES  (INCLUDING,  BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION)  HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT,  STRICT LIABILITY,  OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.<BR><BR>
+本软件由版权持有者和贡献者「按原样「提供。任何明示或暗示的保证，包括但不限于适销性和特定用途适用性的暗示保证，均被拒绝。在任何情况下，大学或贡献者都不对任何直接、间接、附带、特殊、惩罚性或后果性损害（包括但不限于替代商品或服务的采购、使用、数据或利润的损失或业务中断）负责，无论此类损害是如何引起的，也无论基于何种责任理论，无论是合同责任、严格责任还是侵权（包括疏忽或其他），即使已被告知可能发生此类损害，本软件的使用也不承担任何责任。<HR NOSHADE>
+<CENTER>
+<A HREF = "index.md">            [Home / 首页]</A>
+<A HREF = "copyright.md">        [Copyright and Licensing Terms / 版权和许可条款]</A>
+<A HREF = "algorithm.md">        [Algorithm / 算法]</A>
+<A HREF = "scalability.md">      [Scalability / 可扩展性]</A>
+<A HREF = "results.md">          [Performance Results / 性能结果]</A>
+<A HREF = "documentation.md">    [Documentation / 文档]</A>
+<A HREF = "software.md">         [Software / 软件]</A>
+<A HREF = "faqs.md">             [FAQs / 常见问题]</A>
+<A HREF = "tuning.md">           [Tuning / 调优]</A>
+<A HREF = "errata.md">           [Errata-Bugs / 勘误-错误]</A>
+<A HREF = "references.md">       [References / 参考文献]</A>
+<A HREF = "links.md">            [Related Links / 相关链接]</A><BR>
+</CENTER>
+<HR NOSHADE>

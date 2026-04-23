@@ -1,0 +1,72 @@
+<!-- Converted from HPL_dlocswpT HPL 2.3 Library Functions December 2, 2018 -->
+
+<H1>Name / 名称</H1>
+<B>HPL_dlocswpT</B> locally swaps rows within panel.
+
+<H1>Synopsis / 概要</H1>
+<CODE>#include "hpl.h"</CODE><BR><BR>
+<CODE>void</CODE>
+<CODE>HPL_dlocswpT(</CODE>
+<CODE>HPL_T_panel *</CODE>
+<CODE>PANEL</CODE>,
+<CODE>const int</CODE>
+<CODE>II</CODE>,
+<CODE>const int</CODE>
+<CODE>JJ</CODE>,
+<CODE>double *</CODE>
+<CODE>WORK</CODE>
+<CODE>);</CODE>
+
+<H1>Description / 描述</H1>
+<B>HPL_dlocswpT</B>
+performs  the local swapping operations  within a panel.
+The lower triangular  N0-by-N0  upper block of the panel is stored in
+transpose form.
+
+<H1>Arguments / 参数</H1>
+<PRE>
+PANEL   (local input/output / 本地输入/输出)          HPL_T_panel *
+        On entry,  PANEL  points to the data structure containing the
+        panel information.<BR>进入时，PANEL 指向包含面板信息的数据结构。
+</PRE>
+<PRE>
+II      (local input / 本地输入)                 const int
+        On entry, II  specifies the row offset where the column to be
+        operated on starts with respect to the panel.
+</PRE>
+<PRE>
+JJ      (local input / 本地输入)                 const int
+        On entry, JJ  specifies the column offset where the column to
+        be operated on starts with respect to the panel.
+</PRE>
+<PRE>
+WORK    (local workspace / 本地工作空间)             double *
+        On entry, WORK  is a workarray of size at least 2 * (4+2*N0).
+        WORK[0] contains  the  local  maximum  absolute value scalar,
+        WORK[1] contains  the corresponding local row index,  WORK[2]
+        contains the corresponding global row index, and  WORK[3]  is
+        the coordinate of process owning this max.  The N0 length max
+        row is stored in WORK[4:4+N0-1];  Note  that this is also the
+        JJth row  (or column) of L1. The remaining part of this array
+        is used as workspace.
+</PRE>
+
+<H1>See Also / 另见</H1>
+<A HREF="HPL_dlocmax.md">HPL_dlocmax</A>,
+<A HREF="HPL_dlocswpN.md">HPL_dlocswpN</A>,
+<A HREF="HPL_pdmxswp.md">HPL_pdmxswp</A>,
+<A HREF="HPL_pdpancrN.md">HPL_pdpancrN</A>,
+<A HREF="HPL_pdpancrT.md">HPL_pdpancrT</A>,
+<A HREF="HPL_pdpanllN.md">HPL_pdpanllN</A>,
+<A HREF="HPL_pdpanllT.md">HPL_pdpanllT</A>,
+<A HREF="HPL_pdpanrlN.md">HPL_pdpanrlN</A>,
+<A HREF="HPL_pdpanrlT.md">HPL_pdpanrlT</A>,
+<A HREF="HPL_pdrpancrN.md">HPL_pdrpancrN</A>,
+<A HREF="HPL_pdrpancrT.md">HPL_pdrpancrT</A>,
+<A HREF="HPL_pdrpanllN.md">HPL_pdrpanllN</A>,
+<A HREF="HPL_pdrpanllT.md">HPL_pdrpanllT</A>,
+<A HREF="HPL_pdrpanrlN.md">HPL_pdrpanrlN</A>,
+<A HREF="HPL_pdrpanrlT.md">HPL_pdrpanrlT</A>,
+<A HREF="HPL_pdfact.md">HPL_pdfact</A>.
+
+<HR NOSHADE><P><EM>See the original English page for complete documentation. / 完整文档请参见原始英文页面。</EM></P>

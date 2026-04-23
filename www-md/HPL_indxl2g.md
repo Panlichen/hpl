@@ -1,0 +1,71 @@
+<!-- Converted from HPL_indxl2g HPL 2.3 Library Functions December 2, 2018 -->
+
+<H1>Name / 名称</H1>
+<B>HPL_indxl2g</B> Map a index-process pair into a global index.
+
+<H1>Synopsis / 概要</H1>
+<CODE>#include "hpl.h"</CODE><BR><BR>
+<CODE>int</CODE>
+<CODE>HPL_indxl2g(</CODE>
+<CODE>const int</CODE>
+<CODE>IL</CODE>,
+<CODE>const int</CODE>
+<CODE>INB</CODE>,
+<CODE>const int</CODE>
+<CODE>NB</CODE>,
+<CODE>const int</CODE>
+<CODE>PROC</CODE>,
+<CODE>const int</CODE>
+<CODE>SRCPROC</CODE>,
+<CODE>const int</CODE>
+<CODE>NPROCS</CODE>
+<CODE>);</CODE>
+
+<H1>Description / 描述</H1>
+<B>HPL_indxl2g</B>
+computes the global index of a matrix  entry  pointed to
+by the local index IL of the process indicated by PROC.
+
+<H1>Arguments / 参数</H1>
+<PRE>
+IL      (input)                       const int
+        On entry, IL specifies the local  index of the matrix  entry.
+        IL must be at least zero.
+</PRE>
+<PRE>
+INB     (input)                       const int
+        On entry,  INB  specifies  the size of the first block of the
+        global matrix. INB must be at least one.
+</PRE>
+<PRE>
+NB      (input)                       const int
+        On entry,  NB specifies the blocking factor used to partition
+        and distribute the matrix A. NB must be larger than one.
+</PRE>
+<PRE>
+PROC    (input)                       const int
+        On entry, PROC  specifies the coordinate of the process whose
+        local array row or column is to be determined. PROC  must  be
+        at least zero and strictly less than NPROCS.
+</PRE>
+<PRE>
+SRCPROC (input)                       const int
+        On entry,  SRCPROC  specifies  the coordinate of the  process
+        that possesses the first row or column of the matrix. SRCPROC
+        must be at least zero and strictly less than NPROCS.
+</PRE>
+<PRE>
+NPROCS  (input)                       const int
+        On entry,  NPROCS  specifies the total number of process rows
+        or columns over which the matrix is distributed.  NPROCS must
+        be at least one.
+</PRE>
+
+<H1>See Also / 另见</H1>
+<A HREF="HPL_indxg2l.md">HPL_indxg2l</A>,
+<A HREF="HPL_indxg2lp.md">HPL_indxg2lp</A>,
+<A HREF="HPL_indxg2p.md">HPL_indxg2p</A>,
+<A HREF="HPL_numroc.md">HPL_numroc</A>,
+<A HREF="HPL_numrocI.md">HPL_numrocI</A>.
+
+<HR NOSHADE><P><EM>See the original English page for complete documentation. / 完整文档请参见原始英文页面。</EM></P>

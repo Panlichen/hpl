@@ -1,0 +1,221 @@
+<!-- Converted from HPL Results / HPL 结果 -->
+
+<TABLE HSPACE=0 VSPACE=0 WIDTH=100% BORDER=0 CELLSPACING=1 CELLPADDING=0>
+<TR><TD ALIGN=LEFT VALIGN=LEFT>
+<IMG SRC    = "aprunner.gif" BORDER=0 HEIGHT=160 WIDTH=220>
+</TD>
+<TD ALIGN=LEFT VALIGN=LEFT>
+<H2>HPL Performance Results / HPL 性能结果</H2>
+<STRONG>The performance achieved by this software package  on a few machine configurations is shown below.  These results are only provided for illustrative  purposes.  By the time you read this,  those  systems have changed,  they may not even exist anymore  and  one can surely not exactly reproduce  the state  in which these machines were when those measurements have been obtained.  To obtain  accurate figures on your system, it is absolutely necessary to <A HREF = "software.md">download the software</A> and run it there.</STRONG><BR><BR>
+<STRONG>下面显示了此软件包在几种机器配置上达到的性能。这些结果仅供说明目的。当您阅读本文时，这些系统已经发生了变化，它们可能甚至不再存在，您肯定无法精确再现获得这些测量时这些机器的状态。要在您的系统上获得准确的数据，绝对有必要<A HREF = "software.md">下载软件</A>并在那里运行。</STRONG>
+</TD></TR></TABLE>
+<HR NOSHADE>
+<TABLE HSPACE=0 VSPACE=0 WIDTH=100% BORDER=0 CELLSPACING=1 CELLPADDING=0><TR>
+<TD><UL>
+<LI><A HREF = "results.md#AMD_K7000">Athlon 4-nodes cluster / Athlon 4节点集群</A>
+</UL></TD><TD><UL>
+<LI><A HREF = "results.md#I550p3000">Intel PIII 8-duals cluster / Intel PIII 8双核集群</A>
+</UL></TD><TD><UL>
+<LI><A HREF = "results.md#compaq000">Compaq 64 nodes AlphaServer SC / Compaq 64节点 AlphaServer SC</A>
+</UL></TD>
+</TR></TABLE>
+<HR NOSHADE>
+
+<H3><A NAME="AMD_K7000">4 AMD Athlon K7 500 Mhz (256 Mb) - (2x) 100 Mbs
+Switched - 2 NICs per node (channel bonding)</A></H3>
+
+<CENTER>
+<TABLE BORDER>
+<TR><TD>OS         </TD><TD>Linux 6.2 RedHat (Kernel 2.2.14)       </TD></TR>
+<TR><TD>C compiler </TD><TD>gcc (egcs-2.91.66 egcs-1.1.2 release)  </TD></TR>
+<TR><TD>C flags    </TD><TD>-fomit-frame-pointer -O3 -funroll-loops</TD></TR>
+<TR><TD>MPI        </TD><TD>MPIch 1.2.1                            </TD></TR>
+<TR><TD>BLAS       </TD><TD>ATLAS (Version 3.0 beta)               </TD></TR>
+<TR><TD>Comments   </TD><TD>09 / 00                                </TD></TR>
+</TABLE><P>
+
+<TABLE BORDER>
+<TR>
+<TH ALIGN=CENTER> GRID</TH>
+<TH ALIGN=CENTER> 2000</TH>
+<TH ALIGN=CENTER> 5000</TH>
+<TH ALIGN=CENTER> 8000</TH>
+<TH ALIGN=CENTER>10000</TH>
+</TR>
+<TR>
+<TH ALIGN=CENTER>1 x 4</TH>
+<TD ALIGN=CENTER> 1.28</TD>
+<TD ALIGN=CENTER> 1.73</TD>
+<TD ALIGN=CENTER> 1.89</TD>
+<TD ALIGN=CENTER> 1.95</TD>
+</TR>
+<TR>
+<TH ALIGN=CENTER>2 x 2</TH>
+<TD ALIGN=CENTER> 1.17</TD>
+<TD ALIGN=CENTER> 1.68</TD>
+<TD ALIGN=CENTER> 1.88</TD>
+<TD ALIGN=CENTER> 1.93</TD>
+</TR>
+<TR>
+<TH ALIGN=CENTER>4 x 1</TH>
+<TD ALIGN=CENTER> 0.81</TD>
+<TD ALIGN=CENTER> 1.43</TD>
+<TD ALIGN=CENTER> 1.70</TD>
+<TD ALIGN=CENTER> 1.80</TD>
+</TR>
+Performance (Gflops) w.r.t Problem size on 4 nodes. / 4节点上相对于问题规模的性能 (Gflops)。
+</TABLE><P>
+</CENTER>
+
+<HR NOSHADE>
+<H3><A NAME="I550p3000">8 Duals Intel PIII 550 Mhz (512 Mb) - Myrinet</A></H3>
+
+<CENTER>
+<TABLE BORDER>
+<TR><TD>OS         </TD><TD>Linux 6.1 RedHat (Kernel 2.2.15)       </TD></TR>
+<TR><TD>C compiler </TD><TD>gcc (egcs-2.91.66 egcs-1.1.2 release)  </TD></TR>
+<TR><TD>C flags    </TD><TD>-fomit-frame-pointer -O3 -funroll-loops</TD></TR>
+<TR><TD>MPI        </TD><TD>MPI GM (Version 1.2.3)                 </TD></TR>
+<TR><TD>BLAS       </TD><TD>ATLAS (Version 3.0 beta)               </TD></TR>
+<TR><TD>Comments   </TD>
+<TD><A HREF="http://icl.cs.utk.edu">UTK / ICL</A> - Torc cluster - 09 / 00</TD>
+</TR>
+</TABLE><P>
+
+<TABLE BORDER>
+<TR>
+<TH ALIGN=CENTER> GRID</TH>
+<TH ALIGN=CENTER> 2000</TH>
+<TH ALIGN=CENTER> 5000</TH>
+<TH ALIGN=CENTER> 8000</TH>
+<TH ALIGN=CENTER>10000</TH>
+<TH ALIGN=CENTER>15000</TH>
+<TH ALIGN=CENTER>20000</TH>
+</TR>
+<TR>
+<TH ALIGN=CENTER>2 x 4</TH>
+<TD ALIGN=CENTER> 1.76</TD>
+<TD ALIGN=CENTER> 2.32</TD>
+<TD ALIGN=CENTER> 2.51</TD>
+<TD ALIGN=CENTER> 2.58</TD>
+<TD ALIGN=CENTER> 2.72</TD>
+<TD ALIGN=CENTER> 2.73</TD>
+</TR>
+<TR>
+<TH ALIGN=CENTER>4 x 4</TH>
+<TD ALIGN=CENTER> 2.27</TD>
+<TD ALIGN=CENTER> 3.94</TD>
+<TD ALIGN=CENTER> 4.46</TD>
+<TD ALIGN=CENTER> 4.68</TD>
+<TD ALIGN=CENTER> 5.00</TD>
+<TD ALIGN=CENTER> 5.16</TD>
+</TR>
+Performance (Gflops) w.r.t Problem size on 8- and 16-processors grids. / 8和16处理器网格上相对于问题规模的性能 (Gflops)。
+</TABLE><P>
+</CENTER>
+
+<HR NOSHADE>
+<H3><A NAME="compaq000">Compaq 64 nodes (4 ev67 667 Mhz processors per node)
+AlphaServer SC</A></H3>
+
+<CENTER>
+<TABLE BORDER>
+<TR><TD>OS         </TD><TD>Tru64 Version 5               </TD></TR>
+<TR><TD>C compiler </TD><TD>cc Version 6.1                </TD></TR>
+<TR><TD>C flags    </TD><TD>-arch host -tune host -std -O5</TD></TR>
+<TR><TD>MPI        </TD><TD>-lmpi -lelan                  </TD></TR>
+<TR><TD>BLAS       </TD><TD>CXML                          </TD></TR>
+<TR><TD>Comments   </TD>
+<TD><A HREF = "http://www.nccs.gov/">ORNL / NCCS</A>
+ - falcon - 09 / 00</TD></TR>
+</TABLE><P>
+</CENTER>
+
+In the table below, each row corresponds to a given number of cpus (or
+processors) and nodes.  The first row for example is denoted by 1 / 1,
+i.e.,  1 cpu / 1 node.  Rmax is given in Gflops, and the value of Nmax
+in fact corresponds to  351 Mb per cpu for all machine configurations.<BR><BR>
+在下表中，每行对应于给定的 CPU（或处理器）数量和节点数量。例如，第一行表示为 1 / 1，即 1 个 CPU / 1 个节点。Rmax 以 Gflops 为单位给出，Nmax 的值实际上对应于所有机器配置中每个 CPU 351 MB。<BR><BR>
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TH ALIGN=CENTER>    CPUS / NODES     </TH>
+<TH ALIGN=CENTER>       GRID          </TH>
+<TH ALIGN=CENTER>      N 1/2          </TH>
+<TH ALIGN=CENTER>       Nmax          </TH>
+<TH ALIGN=CENTER>    Rmax (Gflops)    </TH>
+<TH ALIGN=CENTER> Parallel Efficiency </TH>
+</TR>
+<TR>
+<TH ALIGN=CENTER>   1 / 1    </TH>
+<TH ALIGN=CENTER>   1 x 1    </TH>
+<TD ALIGN=CENTER>     150    </TD>
+<TD ALIGN=CENTER>    6625    </TD>
+<TD ALIGN=CENTER>   1.136    </TD>
+<TD ALIGN=CENTER>   1.000    </TD>
+</TR>
+<TR>
+<TH ALIGN=CENTER>   4 / 1    </TH>
+<TH ALIGN=CENTER>   2 x 2    </TH>
+<TD ALIGN=CENTER>     800    </TD>
+<TD ALIGN=CENTER>   13250    </TD>
+<TD ALIGN=CENTER>   4.360    </TD>
+<TD ALIGN=CENTER>   0.960    </TD>
+</TR>
+<TR>
+<TH ALIGN=CENTER>  16 / 4    </TH>
+<TH ALIGN=CENTER>   4 x 4    </TH>
+<TD ALIGN=CENTER>    2300    </TD>
+<TD ALIGN=CENTER>   26500    </TD>
+<TD ALIGN=CENTER>   17.00    </TD>
+<TD ALIGN=CENTER>   0.935    </TD>
+</TR>
+<TR>
+<TH ALIGN=CENTER>  64 / 16   </TH>
+<TH ALIGN=CENTER>   8 x 8    </TH>
+<TD ALIGN=CENTER>    5700    </TD>
+<TD ALIGN=CENTER>   53000    </TD>
+<TD ALIGN=CENTER>   67.50    </TD>
+<TD ALIGN=CENTER>   0.928    </TD>
+</TR>
+<TR>
+<TH ALIGN=CENTER> 256 / 64   </TH>
+<TH ALIGN=CENTER>  16 x 16   </TH>
+<TD ALIGN=CENTER>   14000    </TD>
+<TD ALIGN=CENTER>  106000    </TD>
+<TD ALIGN=CENTER>   263.6    </TD>
+<TD ALIGN=CENTER>   0.906    </TD>
+</TR>
+</TABLE><P>
+</CENTER> 
+For Rmax shown in the table, the  parallel efficiency  per  cpu has been
+computed using the performance achieved by  HPL on 1 cpu.  That is fair,
+since the CXML matrix multiply routine was achieving at best 1.24 Gflops
+for large matrix operands on one cpu, it would have been difficult for a
+sequential  Linpack  benchmark  implementation to achieve much more than
+1.136 Gflops on this same cpu. For constant load (as in the table 351 Mb
+per cpu for Nmax),  HPL  scales almost linearly as it should.
+<BR><BR>
+对于表中显示的 Rmax，每个 CPU 的并行效率是使用 HPL 在 1 个 CPU 上达到的性能计算的。这是公平的，因为 CXML 矩阵乘法例程在一个 CPU 上对大型矩阵操作数最多只能达到 1.24 Gflops，顺序 Linpack 基准测试实现在同一 CPU 上很难达到超过 1.136 Gflops。对于恒定负载（如表中 Nmax 对应每个 CPU 351 MB），HPL 几乎线性扩展，正如它应该的那样。
+<BR><BR>
+The authors acknowledge the use  of the Oak Ridge National Laboratory
+Compaq computer, funded by the Department of Energy's Office
+of Science and Energy Efficiency programs.<BR><BR>
+作者感谢使用橡树岭国家实验室的 Compaq 计算机，该计算机由能源部科学和能效项目资助。<BR><BR>
+<HR NOSHADE>
+<CENTER>
+<A HREF = "index.md">            [Home / 首页]</A>
+<A HREF = "copyright.md">        [Copyright and Licensing Terms / 版权和许可条款]</A>
+<A HREF = "algorithm.md">        [Algorithm / 算法]</A>
+<A HREF = "scalability.md">      [Scalability / 可扩展性]</A>
+<A HREF = "results.md">          [Performance Results / 性能结果]</A>
+<A HREF = "documentation.md">    [Documentation / 文档]</A>
+<A HREF = "software.md">         [Software / 软件]</A>
+<A HREF = "faqs.md">             [FAQs / 常见问题]</A>
+<A HREF = "tuning.md">           [Tuning / 调优]</A>
+<A HREF = "errata.md">           [Errata-Bugs / 勘误-错误]</A>
+<A HREF = "references.md">       [References / 参考文献]</A>
+<A HREF = "links.md">            [Related Links / 相关链接]</A><BR>
+</CENTER>
+<HR NOSHADE>

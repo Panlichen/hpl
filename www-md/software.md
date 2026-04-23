@@ -1,0 +1,53 @@
+<!-- Converted from HPL Software / HPL 软件 -->
+
+<H2>HPL Software / HPL 软件</H2>
+<H3>Download and Installation / 下载和安装</H3>
+<OL>
+<LI>Download    the  <A HREF="hpl-2.3.tar.gz">tar-gzipped  file</A>, issue  then "gunzip hpl-2.3.tar.gz; tar -xvf hpl-2.3.tar"  and  this should create an  hpl-2.3  directory  containing  the  distribution. We call this directory the top level directory.<BR>下载<A HREF="hpl-2.3.tar.gz">tar-gzipped 文件</A>，然后执行 "gunzip hpl-2.3.tar.gz; tar -xvf hpl-2.3.tar"，这将创建一个包含发行版的 hpl-2.3 目录。我们称此目录为顶层目录。
+<LI>Create a  file  Make.&#60arch&#62  in  the  top-level directory. For  this purpose,  you  may  want  to  re-use  one contained in the  setup  directory.  This Make.&#60arch&#62 file  essentially contains the compilers, libraries, and their paths to be used on your system.<BR>在顶层目录中创建文件 Make.&#60arch&#62。为此，您可能想要重用 setup 目录中包含的文件。此 Make.&#60arch&#62 文件基本上包含要在您的系统上使用的编译器、库及其路径。
+<LI>Type  "make arch=&#60arch&#62". This should create an executable in the bin/&#60arch&#62 directory called xhpl.  For example,  on our Linux  PII  cluster,  I create  a file called Make.Linux_PII in  the top-level  directory.  Then,  I  type  "make  arch=Linux_PII".  This creates  the executable file bin/Linux_PII/xhpl.<BR>输入 "make arch=&#60arch&#62"。这应该在 bin/&#60arch&#62 目录中创建一个名为 xhpl 的可执行文件。例如，在我们的 Linux PII 集群上，我在顶层目录中创建了一个名为 Make.Linux_PII 的文件。然后，我输入 "make arch=Linux_PII"。这将创建可执行文件 bin/Linux_PII/xhpl。
+<LI>Quick check:  run  a few  tests  (assuming  you have 4 nodes for interactive use)  by  issuing  the  following  commands from the top level  directory:  "cd bin/&#60arch&#62 ;  mpirun -np 4 xhpl".  This should produce quite a bit of meaningful output on the screen.<BR>快速检查：通过从顶层目录发出以下命令来运行一些测试（假设您有 4 个节点可用于交互使用）："cd bin/&#60arch&#62 ; mpirun -np 4 xhpl"。这应该在屏幕上产生相当多有意义的输出。
+<LI>Most  of  the  performance parameters can be tuned, by modifying the input file bin/&#60arch&#62/HPL.dat. See the <A HREF = "tuning.md">tuning page</A>  or  the  TUNING file in the top-level directory.<BR>大多数性能参数可以通过修改输入文件 bin/&#60arch&#62/HPL.dat 来调整。参见<A HREF = "tuning.md">调优页面</A>或顶层目录中的 TUNING 文件。
+</OL>
+<HR NOSHADE>
+<H3>Compile Time Options / 编译时选项</H3>
+At  the  end  of  the "model" Make.&#60arch&#62,  the  user is given the  opportunity  to override  some default  compile options of this software. The list of these options and their meaning is:<BR><BR>
+在「模型」 Make.&#60arch&#62 的末尾，用户有机会覆盖此软件的一些默认编译选项。这些选项及其含义的列表如下：<BR><BR>
+<CENTER>
+<TABLE WIDTH=80% BORDER>
+<TR><TD ALIGN=LEFT><STRONG>-DHPL_COPY_L</STRONG></TD>
+<TD ALIGN=LEFT>force the copy of the panel L before bcast / 强制在广播前复制面板 L</TD></TR>
+<TR><TD ALIGN=LEFT><STRONG>-DHPL_CALL_CBLAS</STRONG></TD>
+<TD ALIGN=LEFT>call the BLAS C interface / 调用 BLAS C 接口</TD></TR>
+<TR><TD ALIGN=LEFT><STRONG>-DHPL_CALL_VSIPL</STRONG></TD>
+<TD ALIGN=LEFT>call the vsip library / 调用 vsip 库</TD></TR>
+<TR><TD ALIGN=LEFT><STRONG>-DHPL_DETAILED_TIMING</STRONG></TD>
+<TD ALIGN=LEFT>enable detailed timers / 启用详细计时器</TD></TR>
+</TABLE><P>
+</CENTER>
+The user must choose between either the  BLAS  Fortran 77 interface, or the BLAS C interface, or the  VSIPL  library depending  on  which computational kernels are available on his system. Only one of these options should be selected.  If  you  choose  the  BLAS  Fortran  77 interface,  it is necessary  to fill out  the machine-specific  C to Fortran 77 interface section of the  Make.&#60arch&#62  file.  To do this,  please  refer  to the Make.&#60arch&#62 examples contained in the setup directory.<BR><BR>
+用户必须根据其系统上可用的计算内核在 BLAS Fortran 77 接口、BLAS C 接口或 VSIPL 库之间进行选择。只应选择这些选项中的一个。如果您选择 BLAS Fortran 77 接口，需要填写 Make.&#60arch&#62 文件中特定于机器的 C 到 Fortran 77 接口部分。为此，请参考 setup 目录中包含的 Make.&#60arch&#62 示例。<BR><BR>
+By default HPL will: / 默认情况下 HPL 将：<BR>
+<UL>
+<LI>not copy L before broadcast, / 广播前不复制 L，
+<LI>call the BLAS Fortran 77 interface, / 调用 BLAS Fortran 77 接口，
+<LI>not display detailed timing information. / 不显示详细的计时信息。
+</UL>
+As an example,  suppose one wants this software to copy the panel of columns  into  a contiguous buffer  before broadcasting.  It  should be  more efficient  to let  the software create the appropriate  MPI user-defined data type  since this may avoid the data copy.  So,  it is a strange idea,  but one insists.  To achieve this  one would add -DHPL_COPY_L  to  the definition of  HPL_OPTS at the end of the file Make.&#60arch&#62.  Issue   then  a  "make clean arch=&#60arch&#62 ;  make build arch=&#60arch&#62"  and  the executable  will be re-build with that feature in.<BR><BR>
+例如，假设用户希望此软件在广播之前将列面板复制到连续缓冲区中。让软件创建适当的 MPI 用户定义数据类型应该更高效，因为这可以避免数据复制。所以，这是一个奇怪的想法，但用户坚持。要实现这一点，可以在 Make.&#60arch&#62 文件末尾的 HPL_OPTS 定义中添加 -DHPL_COPY_L。然后执行 "make clean arch=&#60arch&#62 ; make build arch=&#60arch&#62"，可执行文件将重新构建并包含该功能。<BR><BR>
+<HR NOSHADE>
+<CENTER>
+<A HREF = "index.md">            [Home / 首页]</A>
+<A HREF = "copyright.md">        [Copyright and Licensing Terms / 版权和许可条款]</A>
+<A HREF = "algorithm.md">        [Algorithm / 算法]</A>
+<A HREF = "scalability.md">      [Scalability / 可扩展性]</A>
+<A HREF = "results.md">          [Performance Results / 性能结果]</A>
+<A HREF = "documentation.md">    [Documentation / 文档]</A>
+<A HREF = "software.md">         [Software / 软件]</A>
+<A HREF = "faqs.md">             [FAQs / 常见问题]</A>
+<A HREF = "tuning.md">           [Tuning / 调优]</A>
+<A HREF = "errata.md">           [Errata-Bugs / 勘误-错误]</A>
+<A HREF = "references.md">       [References / 参考文献]</A>
+<A HREF = "links.md">            [Related Links / 相关链接]</A><BR>
+</CENTER>
+<HR NOSHADE>

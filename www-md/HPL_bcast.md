@@ -1,0 +1,39 @@
+<!-- Converted from HPL_bcast HPL 2.3 Library Functions December 2, 2018 -->
+
+<H1>Name / 名称</H1>
+<B>HPL_bcast</B> Perform the row broadcast.
+
+<H1>Synopsis / 概要</H1>
+<CODE>#include "hpl.h"</CODE><BR><BR>
+<CODE>int</CODE>
+<CODE>HPL_bcast(</CODE>
+<CODE>HPL_T_panel *</CODE>
+<CODE>PANEL</CODE>,
+<CODE>int *</CODE>
+<CODE>IFLAG</CODE>
+<CODE>);</CODE>
+
+<H1>Description / 描述</H1>
+<B>HPL_bcast</B>
+broadcasts  the  current  panel.  Successful  completion is
+indicated by IFLAG set to HPL_SUCCESS on return. IFLAG will be set to
+HPL_FAILURE on failure and to HPL_KEEP_TESTING when the operation was
+not completed, in which case this function should be called again.
+
+<H1>Arguments / 参数</H1>
+<PRE>
+PANEL   (input/output)                HPL_T_panel *
+        On entry,  PANEL  points to the  current panel data structure
+        being broadcast.
+</PRE>
+<PRE>
+IFLAG   (output)                      int *
+        On exit,  IFLAG  indicates  whether  or not the broadcast has
+        occured.
+</PRE>
+
+<H1>See Also / 另见</H1>
+<A HREF="HPL_binit.md">HPL_binit</A>,
+<A HREF="HPL_bwait.md">HPL_bwait</A>.
+
+<HR NOSHADE><P><EM>See the original English page for complete documentation. / 完整文档请参见原始英文页面。</EM></P>

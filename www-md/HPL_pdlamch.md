@@ -1,0 +1,60 @@
+<!-- Converted from HPL_pdlamch HPL 2.3 Library Functions December 2, 2018 -->
+
+<H1>Name / 名称</H1>
+<B>HPL_pdlamch</B> determines machine-specific arithmetic constants.
+
+<H1>Synopsis / 概要</H1>
+<CODE>#include "hpl.h"</CODE><BR><BR>
+<CODE>double</CODE>
+<CODE>HPL_pdlamch(</CODE>
+<CODE>MPI_Comm</CODE>
+<CODE>COMM</CODE>,
+<CODE>const HPL_T_MACH</CODE>
+<CODE>CMACH</CODE>
+<CODE>);</CODE>
+
+<H1>Description / 描述</H1>
+<B>HPL_pdlamch</B>
+determines  machine-specific  arithmetic  constants  such  as
+the relative machine precision (eps),  the safe minimum(sfmin) such that
+1/sfmin does not overflow, the base of the machine (base), the precision
+(prec),  the  number  of  (base)  digits in the  mantissa  (t),  whether
+rounding occurs in addition (rnd = 1.0 and 0.0 otherwise),  the  minimum
+exponent before  (gradual)  underflow (emin),  the  underflow  threshold
+(rmin)- base**(emin-1), the largest exponent before overflow (emax), the
+overflow threshold (rmax)  - (base**emax)*(1-eps).
+
+<H1>Arguments / 参数</H1>
+<PRE>
+COMM    (global/local input)          MPI_Comm
+        The MPI communicator identifying the process collection.
+</PRE>
+<PRE>
+CMACH   (global input / 全局输入)                const HPL_T_MACH
+        Specifies the value to be returned by HPL_pdlamch            
+           = HPL_MACH_EPS,   HPL_pdlamch := eps (default)            
+           = HPL_MACH_SFMIN, HPL_pdlamch := sfmin                    
+           = HPL_MACH_BASE,  HPL_pdlamch := base                     
+           = HPL_MACH_PREC,  HPL_pdlamch := eps*base                 
+           = HPL_MACH_MLEN,  HPL_pdlamch := t                        
+           = HPL_MACH_RND,   HPL_pdlamch := rnd                      
+           = HPL_MACH_EMIN,  HPL_pdlamch := emin                     
+           = HPL_MACH_RMIN,  HPL_pdlamch := rmin                     
+           = HPL_MACH_EMAX,  HPL_pdlamch := emax                     
+           = HPL_MACH_RMAX,  HPL_pdlamch := rmax                     
+         
+        where                                                        
+         
+           eps   = relative machine precision,                       
+           sfmin = safe minimum,                                     
+           base  = base of the machine,                              
+           prec  = eps*base,                                         
+           t     = number of digits in the mantissa,                 
+           rnd   = 1.0 if rounding occurs in addition,               
+           emin  = minimum exponent before underflow,                
+           rmin  = underflow threshold,                              
+           emax  = largest exponent before overflow,                 
+           rmax  = overflow threshold.
+</PRE>
+
+<HR NOSHADE><P><EM>See the original English page for complete documentation. / 完整文档请参见原始英文页面。</EM></P>

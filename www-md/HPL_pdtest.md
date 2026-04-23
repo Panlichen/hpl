@@ -1,0 +1,74 @@
+<!-- Converted from HPL_pdtest HPL 2.3 Library Functions December 2, 2018 -->
+
+<H1>Name / 名称</H1>
+<B>HPL_pdtest</B> Perform one test.
+
+<H1>Synopsis / 概要</H1>
+<CODE>#include "hpl.h"</CODE><BR><BR>
+<CODE>void</CODE>
+<CODE>HPL_pdtest(</CODE>
+<CODE>HPL_T_test *</CODE>
+<CODE>TEST</CODE>,
+<CODE>HPL_T_grid *</CODE>
+<CODE>GRID</CODE>,
+<CODE>HPL_T_palg *</CODE>
+<CODE>ALGO</CODE>,
+<CODE>const int</CODE>
+<CODE>N</CODE>,
+<CODE>const int</CODE>
+<CODE>NB</CODE>
+<CODE>);</CODE>
+
+<H1>Description / 描述</H1>
+<B>HPL_pdtest</B>
+performs  one  test  given a set of parameters such as the
+process grid, the  problem size, the distribution blocking factor ...
+This function generates  the data, calls  and times the linear system
+solver,  checks  the  accuracy  of the  obtained vector solution  and
+writes this information to the file pointed to by TEST->outfp.
+
+<H1>Arguments / 参数</H1>
+<PRE>
+TEST    (global input / 全局输入)                HPL_T_test *
+        On entry,  TEST  points  to a testing data structure:  outfp
+        specifies the output file where the results will be printed.
+        It is only defined and used by the process  0  of the  grid.
+        thrsh  specifies  the  threshhold value  for the test ratio.
+        Concretely, a test is declared "PASSED"  if and only if  the
+        following inequality is satisfied:
+        ||Ax-b||_oo / ( epsil *
+                        ( || x ||_oo * || A ||_oo + || b ||_oo ) *
+                         N )  < thrsh.
+        epsil  is the  relative machine precision of the distributed
+        computer. Finally the test counters, kfail, kpass, kskip and
+        ktest are updated as follows:  if the test passes,  kpass is
+        incremented by one;  if the test fails, kfail is incremented
+        by one; if the test is skipped, kskip is incremented by one.
+        ktest is left unchanged.
+</PRE>
+<PRE>
+GRID    (local input / 本地输入)                 HPL_T_grid *
+        On entry,  GRID  points  to the data structure containing the
+        process grid information.<BR>进入时，GRID 指向包含进程网格信息的数据结构。
+</PRE>
+<PRE>
+ALGO    (global input / 全局输入)                HPL_T_palg *
+        On entry,  ALGO  points to  the data structure containing the
+        algorithmic parameters to be used for this test.
+</PRE>
+<PRE>
+N       (global input / 全局输入)                const int
+        On entry,  N specifies the order of the coefficient matrix A.
+        N must be at least zero.
+</PRE>
+<PRE>
+NB      (global input / 全局输入)                const int
+        On entry,  NB specifies the blocking factor used to partition
+        and distribute the matrix A. NB must be larger than one.
+</PRE>
+
+<H1>See Also / 另见</H1>
+<A HREF="HPL_pddriver.md">HPL_pddriver</A>,
+<A HREF="HPL_pdinfo.md">HPL_pdinfo</A>.
+
+<HR NOSHADE><P><EM>See the original English page for complete documentation. / 完整文档请参见原始英文页面。</EM></P>

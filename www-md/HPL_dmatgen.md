@@ -1,0 +1,66 @@
+<!-- Converted from HPL_dmatgen HPL 2.3 Library Functions December 2, 2018 -->
+
+<H1>Name / 名称</H1>
+<B>HPL_dmatgen</B> random matrix generator.
+
+<H1>Synopsis / 概要</H1>
+<CODE>#include "hpl.h"</CODE><BR><BR>
+<CODE>void</CODE>
+<CODE>HPL_dmatgen(</CODE>
+<CODE>const int</CODE>
+<CODE>M</CODE>,
+<CODE>const int</CODE>
+<CODE>N</CODE>,
+<CODE>double *</CODE>
+<CODE>A</CODE>,
+<CODE>const int</CODE>
+<CODE>LDA</CODE>,
+<CODE>const int</CODE>
+<CODE>ISEED</CODE>
+<CODE>);</CODE>
+
+<H1>Description / 描述</H1>
+<B>HPL_dmatgen</B>
+generates (or regenerates) a random matrix A.
+ 
+The  pseudo-random  generator uses the linear congruential algorithm:
+X(n+1) = (a * X(n) + c) mod m  as  described  in the  Art of Computer
+Programming, Knuth 1973, Vol. 2.
+
+<H1>Arguments / 参数</H1>
+<PRE>
+M       (input)                       const int
+        On entry,  M  specifies  the number  of rows of the matrix A.
+        M must be at least zero.
+</PRE>
+<PRE>
+N       (input)                       const int
+        On entry,  N specifies the number of columns of the matrix A.
+        N must be at least zero.
+</PRE>
+<PRE>
+A       (output)                      double *
+        On entry, A points to an array of dimension (LDA,N). On exit,
+        this  array  contains   the   coefficients  of  the  randomly
+        generated matrix.
+</PRE>
+<PRE>
+LDA     (input)                       const int
+        On entry, LDA specifies the leading dimension of the array A.
+        LDA must be at least max(1,M).
+</PRE>
+<PRE>
+ISEED   (input)                       const int
+        On entry, ISEED  specifies  the  seed  number to generate the
+        matrix A. ISEED must be at least zero.
+</PRE>
+
+<H1>See Also / 另见</H1>
+<A HREF="HPL_ladd.md">HPL_ladd</A>,
+<A HREF="HPL_lmul.md">HPL_lmul</A>,
+<A HREF="HPL_setran.md">HPL_setran</A>,
+<A HREF="HPL_xjumpm.md">HPL_xjumpm</A>,
+<A HREF="HPL_jumpit.md">HPL_jumpit</A>,
+<A HREF="HPL_rand.md">HPL_rand</A>.
+
+<HR NOSHADE><P><EM>See the original English page for complete documentation. / 完整文档请参见原始英文页面。</EM></P>

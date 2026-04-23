@@ -1,0 +1,63 @@
+<!-- Converted from HPL_indxg2p HPL 2.3 Library Functions December 2, 2018 -->
+
+<H1>Name / 名称</H1>
+<B>HPL_indxg2p</B> Map a global index into a process coordinate.
+
+<H1>Synopsis / 概要</H1>
+<CODE>#include "hpl.h"</CODE><BR><BR>
+<CODE>int</CODE>
+<CODE>HPL_indxg2p(</CODE>
+<CODE>const int</CODE>
+<CODE>IG</CODE>,
+<CODE>const int</CODE>
+<CODE>INB</CODE>,
+<CODE>const int</CODE>
+<CODE>NB</CODE>,
+<CODE>const int</CODE>
+<CODE>SRCPROC</CODE>,
+<CODE>const int</CODE>
+<CODE>NPROCS</CODE>
+<CODE>);</CODE>
+
+<H1>Description / 描述</H1>
+<B>HPL_indxg2p</B>
+computes the process coordinate  which posseses the entry
+of a matrix specified by a global index IG.
+
+<H1>Arguments / 参数</H1>
+<PRE>
+IG      (input)                       const int
+        On entry, IG specifies the global index of the matrix  entry.
+        IG must be at least zero.
+</PRE>
+<PRE>
+INB     (input)                       const int
+        On entry,  INB  specifies  the size of the first block of the
+        global matrix. INB must be at least one.
+</PRE>
+<PRE>
+NB      (input)                       const int
+        On entry,  NB specifies the blocking factor used to partition
+        and distribute the matrix A. NB must be larger than one.
+</PRE>
+<PRE>
+SRCPROC (input)                       const int
+        On entry,  SRCPROC  specifies  the coordinate of the  process
+        that possesses the first row or column of the matrix. SRCPROC
+        must be at least zero and strictly less than NPROCS.
+</PRE>
+<PRE>
+NPROCS  (input)                       const int
+        On entry,  NPROCS  specifies the total number of process rows
+        or columns over which the matrix is distributed.  NPROCS must
+        be at least one.
+</PRE>
+
+<H1>See Also / 另见</H1>
+<A HREF="HPL_indxg2l.md">HPL_indxg2l</A>,
+<A HREF="HPL_indxg2p.md">HPL_indxg2p</A>,
+<A HREF="HPL_indxl2g.md">HPL_indxl2g</A>,
+<A HREF="HPL_numroc.md">HPL_numroc</A>,
+<A HREF="HPL_numrocI.md">HPL_numrocI</A>.
+
+<HR NOSHADE><P><EM>See the original English page for complete documentation. / 完整文档请参见原始英文页面。</EM></P>

@@ -1,0 +1,45 @@
+<!-- Converted from HPL_setran HPL 2.3 Library Functions December 2, 2018 -->
+
+<H1>Name / 名称</H1>
+<B>HPL_setran</B> Manage the random number generator.
+
+<H1>Synopsis / 概要</H1>
+<CODE>#include "hpl.h"</CODE><BR><BR>
+<CODE>void</CODE>
+<CODE>HPL_setran(</CODE>
+<CODE>const int</CODE>
+<CODE>OPTION</CODE>,
+<CODE>int *</CODE>
+<CODE>IRAN</CODE>
+<CODE>);</CODE>
+
+<H1>Description / 描述</H1>
+<B>HPL_setran</B>
+initializes  the random generator with the encoding of the
+first number X(0) in the sequence,  and the constants a and c used to
+compute the next element in the sequence: X(n+1) = a*X(n) + c.  X(0),
+a and c are stored in the static variables  irand, ias and ics.  When
+OPTION is 0 (resp. 1 and 2),  irand  (resp. ia and ic)  is set to the
+values of the input array IRAN.  When OPTION is 3, IRAN is set to the
+current value of irand, and irand is then incremented.
+
+<H1>Arguments / 参数</H1>
+<PRE>
+OPTION  (local input / 本地输入)                 const int
+        On entry, OPTION  is an integer that specifies the operations
+        to be performed on the random generator as specified above.
+</PRE>
+<PRE>
+IRAN    (local input/output / 本地输入/输出)          int *
+        On entry,  IRAN is an array of dimension 2, that contains the
+        16-lower and 15-higher bits of a random number.
+</PRE>
+
+<H1>See Also / 另见</H1>
+<A HREF="HPL_ladd.md">HPL_ladd</A>,
+<A HREF="HPL_lmul.md">HPL_lmul</A>,
+<A HREF="HPL_xjumpm.md">HPL_xjumpm</A>,
+<A HREF="HPL_jumpit.md">HPL_jumpit</A>,
+<A HREF="HPL_rand.md">HPL_rand</A>.
+
+<HR NOSHADE><P><EM>See the original English page for complete documentation. / 完整文档请参见原始英文页面。</EM></P>

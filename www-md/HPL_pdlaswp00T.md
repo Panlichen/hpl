@@ -1,0 +1,75 @@
+<!-- Converted from HPL_pdlaswp00T HPL 2.3 Library Functions December 2, 2018 -->
+
+<H1>Name / 名称</H1>
+<B>HPL_pdlaswp00T</B> Broadcast a column panel L and swap the row panel U.
+
+<H1>Synopsis / 概要</H1>
+<CODE>#include "hpl.h"</CODE><BR><BR>
+<CODE>void</CODE>
+<CODE>HPL_pdlaswp00T(</CODE>
+<CODE>HPL_T_panel *</CODE>
+<CODE>PBCST</CODE>,
+<CODE>int *</CODE>
+<CODE>IFLAG</CODE>,
+<CODE>HPL_T_panel *</CODE>
+<CODE>PANEL</CODE>,
+<CODE>const int</CODE>
+<CODE>NN</CODE>
+<CODE>);</CODE>
+
+<H1>Description / 描述</H1>
+<B>HPL_pdlaswp00T</B>
+applies the  NB  row interchanges to  NN columns of the
+trailing submatrix and broadcast a column panel.
+ 
+Bi-directional  exchange  is used to perform the  swap :: broadcast of
+the row  panel U at once, resulting in a lower number of messages than
+usual as well as a lower communication volume. With P process rows and
+assuming  bi-directional links,  the running time of this function can
+be approximated by:
+ 
+   log_2(P) * (lat + NB*LocQ(N) / bdwth)
+ 
+where  NB  is the number of rows of the row panel U,  N is the global
+number of columns being updated,  lat and bdwth  are the latency  and
+bandwidth  of  the  network  for  double  precision real words.  Mono
+directional links will double this communication cost.
+
+<H1>Arguments / 参数</H1>
+<PRE>
+PBCST   (local input/output / 本地输入/输出)          HPL_T_panel *
+        On entry,  PBCST  points to the data structure containing the
+        panel (to be broadcast) information.
+</PRE>
+<PRE>
+IFLAG   (local input/output / 本地输入/输出)          int *
+        On entry, IFLAG  indicates  whether or not  the broadcast has
+        already been completed.  If not,  probing will occur, and the
+        outcome will be contained in IFLAG on exit.
+</PRE>
+<PRE>
+PANEL   (local input/output / 本地输入/输出)          HPL_T_panel *
+        On entry,  PANEL  points to the data structure containing the
+        panel (to be broadcast and swapped) information.
+</PRE>
+<PRE>
+NN      (local input / 本地输入)                 const int
+        On entry, NN specifies  the  local  number  of columns of the
+        trailing  submatrix  to  be swapped and broadcast starting at
+        the current position. NN must be at least zero.
+</PRE>
+
+<H1>See Also / 另见</H1>
+<A HREF="HPL_pdgesv.md">HPL_pdgesv</A>,
+<A HREF="HPL_pdgesvK2.md">HPL_pdgesvK2</A>,
+<A HREF="HPL_pdupdateNT.md">HPL_pdupdateNT</A>,
+<A HREF="HPL_pdupdateTT.md">HPL_pdupdateTT</A>,
+<A HREF="HPL_pipid.md">HPL_pipid</A>,
+<A HREF="HPL_plindx0.md">HPL_plindx0</A>,
+<A HREF="HPL_dlaswp01T.md">HPL_dlaswp01T</A>,
+<A HREF="HPL_dlaswp02N.md">HPL_dlaswp02N</A>,
+<A HREF="HPL_dlaswp03T.md">HPL_dlaswp03T</A>,
+<A HREF="HPL_dlaswp04T.md">HPL_dlaswp04T</A>,
+<A HREF="HPL_dlaswp05T.md">HPL_dlaswp05T</A>.
+
+<HR NOSHADE><P><EM>See the original English page for complete documentation. / 完整文档请参见原始英文页面。</EM></P>

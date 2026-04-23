@@ -1,0 +1,124 @@
+<!-- Converted from HPL_dlaswp04N HPL 2.3 Library Functions December 2, 2018 -->
+
+<H1>Name / 名称</H1>
+<B>HPL_dlaswp04N</B> copy rows of U in A and replace them with columns of W.
+
+<H1>Synopsis / 概要</H1>
+<CODE>#include "hpl.h"</CODE><BR><BR>
+<CODE>void</CODE>
+<CODE>HPL_dlaswp04N(</CODE>
+<CODE>const int</CODE>
+<CODE>M0</CODE>,
+<CODE>const int</CODE>
+<CODE>M1</CODE>,
+<CODE>const int</CODE>
+<CODE>N</CODE>,
+<CODE>double *</CODE>
+<CODE>U</CODE>,
+<CODE>const int</CODE>
+<CODE>LDU</CODE>,
+<CODE>double *</CODE>
+<CODE>A</CODE>,
+<CODE>const int</CODE>
+<CODE>LDA</CODE>,
+<CODE>const double *</CODE>
+<CODE>W0</CODE>,
+<CODE>const double *</CODE>
+<CODE>W</CODE>,
+<CODE>const int</CODE>
+<CODE>LDW</CODE>,
+<CODE>const int *</CODE>
+<CODE>LINDXA</CODE>,
+<CODE>const int *</CODE>
+<CODE>LINDXAU</CODE>
+<CODE>);</CODE>
+
+<H1>Description / 描述</H1>
+<B>HPL_dlaswp04N</B>
+copies M0 rows of U into A and replaces those rows of U
+with columns of W. In addition M1 - M0 columns of  W  are copied into
+rows of U.
+
+<H1>Arguments / 参数</H1>
+<PRE>
+M0      (local input / 本地输入)                 const int
+        On entry, M0 specifies the number of rows of U that should be
+        copied into  A  and replaced by columns of  W.  M0 must be at
+        least zero.
+</PRE>
+<PRE>
+M1      (local input / 本地输入)                 const int
+        On entry, M1 specifies the number of columns of W that should
+        be copied into rows of U. M1 must be at least zero.
+</PRE>
+<PRE>
+N       (local input / 本地输入)                 const int
+        On entry, N specifies the length of the rows of U that should
+        be copied into A. N must be at least zero.
+</PRE>
+<PRE>
+U       (local input/output / 本地输入/输出)          double *
+        On entry,  U  points to  an array of dimension (LDU,N).  This
+        array contains the rows that are to be copied into A.
+</PRE>
+<PRE>
+LDU     (local input / 本地输入)                 const int
+        On entry, LDU specifies the leading dimension of the array U.
+        LDU must be at least MAX(1,M1).
+</PRE>
+<PRE>
+A       (local output / 本地输出)                double *
+        On entry, A points to an array of dimension (LDA,N). On exit,
+        the  rows of this array specified by  LINDXA  are replaced by
+        rows of U indicated by LINDXAU.
+</PRE>
+<PRE>
+LDA     (local input / 本地输入)                 const int
+        On entry, LDA specifies the leading dimension of the array A.
+        LDA must be at least MAX(1,M0).
+</PRE>
+<PRE>
+W0      (local input / 本地输入)                 const double *
+        On entry,  W0  is an array of size (M-1)*LDW+1, that contains
+        the destination offset  in U where the columns of W should be
+        copied.
+</PRE>
+<PRE>
+W       (local input / 本地输入)                 const double *
+        On entry, W  is an array of size (LDW,M0+M1),  that  contains
+        data to be copied into U.  For i in [M0..M0+M1),  the entries
+        W(:,i) are copied into the row W0(i*LDW) of U.
+</PRE>
+<PRE>
+LDW     (local input / 本地输入)                 const int
+        On entry, LDW specifies the leading dimension of the array W.
+        LDW must be at least MAX(1,N+1).
+</PRE>
+<PRE>
+LINDXA  (local input / 本地输入)                 const int *
+        On entry, LINDXA  is an array of dimension  M0 containing the
+        local row indexes A into which rows of U are copied.
+</PRE>
+<PRE>
+LINDXAU (local input / 本地输入)                 const int *
+        On entry, LINDXAU  is an array of dimension M0 that  contains
+        the local  row indexes of  U that should be copied into A and
+        replaced by the columns of W.
+</PRE>
+
+<H1>See Also / 另见</H1>
+<A HREF="HPL_dlaswp00N.md">HPL_dlaswp00N</A>,
+<A HREF="HPL_dlaswp10N.md">HPL_dlaswp10N</A>,
+<A HREF="HPL_dlaswp01N.md">HPL_dlaswp01N</A>,
+<A HREF="HPL_dlaswp01T.md">HPL_dlaswp01T</A>,
+<A HREF="HPL_dlaswp02N.md">HPL_dlaswp02N</A>,
+<A HREF="HPL_dlaswp03N.md">HPL_dlaswp03N</A>,
+<A HREF="HPL_dlaswp03T.md">HPL_dlaswp03T</A>,
+<A HREF="HPL_dlaswp04N.md">HPL_dlaswp04N</A>,
+<A HREF="HPL_dlaswp04T.md">HPL_dlaswp04T</A>,
+<A HREF="HPL_dlaswp05N.md">HPL_dlaswp05N</A>,
+<A HREF="HPL_dlaswp05T.md">HPL_dlaswp05T</A>,
+<A HREF="HPL_dlaswp06N.md">HPL_dlaswp06N</A>,
+<A HREF="HPL_dlaswp06T.md">HPL_dlaswp06T</A>.
+
+<HR NOSHADE><P><EM>See the original English page for complete documentation. / 完整文档请参见原始英文页面。</EM></P>
