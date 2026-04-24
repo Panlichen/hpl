@@ -11,7 +11,7 @@
 | 配置项 | 首选值 | 对执行路径的影响 |
 | --- | --- | --- |
 | `N` | `29` | 全局问题规模，求解 `29 x 29` 线性系统 |
-| `NB` | `1` | 每个 panel 宽度为 1，主循环逐列推进 |
+| `NB` | `1` | 每个 panel 宽度为 1，==主循环逐列推进==，但实际上有1 2 3 4四个NB的取值 |
 | `P x Q` | `2 x 2` | 二维进程网格，既有进程行通信也有进程列通信 |
 | `PFACT` | `0` | 非递归 panel 分解选择 left-looking |
 | `NBMIN` | `2` | 递归 panel 分解到宽度小于等于 2 时停止 |
@@ -25,6 +25,113 @@
 | `U in` | `0` | U 使用 transposed 存储 |
 | `Equilibration` | `1` | 开启平衡处理 |
 | `alignment` | `8` | 动态缓冲区按 8 个 double 对齐 |
+
+> [!CAUTION]
+>
+> 注意：这里的 `PFACT/RFACT = left-looking` 和后文的 `HPL_pdgesv0 = right-looking LU` 不在同一层级。
+>
+> - `HPL_pdgesv0` 的 `right-looking` 描述的是全局 LU 主循环：分解当前 panel 后，立刻把它用于右下方尾随矩阵更新。
+> - `PFACT/RFACT` 的 `left-looking` 描述的是 panel 内部的一维面板分解算法：当前 panel 内部列的更新/分解采用 left-looking 变体。
+>
+> 因此，当前路径应读作：整体 LU 调度是 right-looking；每个 panel 内部的分解核是 left-looking。
+
+### left-looking与right-looking的具体说明
+
+> 你说得对，文档原来的表述容易造成“到底 left 还是 right”的疑问。我已经在 [docs/HPL_CURRENT_CONFIG_PDGESV_SOLVE_PATH_CN.md](/home/admin/hpl/docs/HPL_CURRENT_CONFIG_PDGESV_SOLVE_PATH_CN.md:29) 补了一段澄清。
+>
+> 结论是：
+>
+> ```text
+> 整体 LU 主循环：right-looking
+> panel 内部分解核：left-looking
+> ```
+>
+> 这两个术语说的是不同层级，所以不矛盾。
+>
+> **right-looking 是什么**
+>
+> 在 `HPL_pdgesv0` 这个全局 LU 主循环层面，right-looking 的意思是：
+>
+> ```text
+> 分解当前 panel
+> -> 广播当前 panel
+> -> 立即用当前 panel 更新右下方 trailing matrix
+> -> 进入下一个 panel
+> ```
+>
+> 代码依据在 [src/pgesv/HPL_pdgesv0.c](/home/admin/hpl/src/pgesv/HPL_pdgesv0.c:72)：
+>
+> ```c
+> The main algorithm is the "right looking" variant without look-ahead.
+> ```
+>
+> 更具体的执行顺序在 [src/pgesv/HPL_pdgesv0.c](/home/admin/hpl/src/pgesv/HPL_pdgesv0.c:220)：
+>
+> ```text
+> 1. rebuild the panel descriptor
+> 2. factor the panel
+> 3. broadcast the packed panel
+> 4. update the trailing matrix
+> ```
+>
+> 也就是这个循环里：
+>
+> ```c
+> HPL_pdfact(panel[0]);
+> HPL_binit(panel[0]);
+> HPL_bcast(panel[0], &test);
+> HPL_bwait(panel[0]);
+> HPL_pdupdate(NULL, NULL, panel[0], -1);
+> ```
+>
+> 最后这个 `HPL_pdupdate` 就是“向右看”，用当前 panel 去更新右侧/右下方尚未分解的尾随矩阵。
+>
+> **left-looking 是什么**
+>
+> `PFACT/RFACT = left-looking` 不是说整个 LU 主循环是 left-looking，而是说“panel 内部的一维面板分解核”是 left-looking。
+>
+> 代码依据在 [testing/ptest/HPL_pddriver.c](/home/admin/hpl/testing/ptest/HPL_pddriver.c:257)：
+>
+> ```c
+> if( rpfa == HPL_LEFT_LOOKING ) algo.pffun = HPL_pdpanllT;
+> ```
+>
+> 以及递归核：
+>
+> ```c
+> if( rpfa == HPL_LEFT_LOOKING ) algo.rffun = HPL_pdrpanllT;
+> ```
+>
+> 对应函数自己的说明也写得很直接：
+>
+> [src/pfact/HPL_pdrpanllT.c](/home/admin/hpl/src/pfact/HPL_pdrpanllT.c:75)：
+>
+> ```c
+> recursively factorizes a panel ... using the recursive Left-looking variant
+> ```
+>
+> [src/pfact/HPL_pdpanllT.c](/home/admin/hpl/src/pfact/HPL_pdpanllT.c:75)：
+>
+> ```c
+> factorizes a panel ... using the Left-looking variant
+> ```
+>
+> 所以判断链是：
+>
+> ```text
+> HPL.dat:
+>   PFACT=0, RFACT=0
+> 
+> HPL_pddriver.c:
+>   0 -> HPL_LEFT_LOOKING
+>   pffun -> HPL_pdpanllT
+>   rffun -> HPL_pdrpanllT
+> 
+> HPL_pdgesv0.c:
+>   全局主循环仍然是 right-looking
+> ```
+>
+> 一句话：**HPL 当前配置是“right-looking 的全局 LU 调度 + left-looking 的 panel 分解核”。**
 
 由这些配置得到的关键函数指针是：
 
@@ -93,7 +200,7 @@ HPL_pdgesv
 
 ## 3. HPL_pdgesv0 的角色
 
-`src/pgesv/HPL_pdgesv0.c` 实现的是不带 look-ahead 的 right-looking LU 主循环。
+`src/pgesv/HPL_pdgesv0.c` 实现的是不带 look-ahead 的 right-looking LU 主循环。这里的 right-looking 指全局主循环层面：每轮完成当前 panel 分解和广播后，立即更新右下方尾随矩阵；它不否定当前 panel 内部使用 left-looking 分解核。
 
 它的特点是四个阶段严格串行：
 
