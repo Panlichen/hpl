@@ -243,6 +243,8 @@ void HPL_pdtest
 
    mat.n  = N; mat.nb = NB; mat.info = 0;
    /*
+    * 每个进程本地有mp个行，nq个列，列优先存储，每mp个元素连续存储
+    * 
     * HPL_numroc 计算块循环分布后“本进程在某一维度上实际拥有多少
     * 个全局元素”。这里行、列两次调用是同一套规则在两个维度上的应用：
     *
@@ -301,13 +303,13 @@ void HPL_pdtest
  * 以避免后续分布式求解在部分进程缺失数据的情况下继续执行。
  */
    /*
-    * 一次性分配 A、b、x 所需的连续空间：
+    * 这里要方三坨东西，一次性分配 A、b、x 所需的连续空间：
     *   - ALGO->align 个 double 用作 HPL_PTR 对齐时的冗余空间；
     *   - mat.ld * mat.nq 存放本地 [A | b]；
     *   - 额外 mat.nq 个 double 存放本地解向量片段 mat.X。
     *
     * 因为 mat.nq = nq + 1，所以 (mat.ld+1) * mat.nq 等价于
-    * mat.ld * mat.nq + mat.nq。后面的 mat.X 会被放在 A 的最后一列之后。
+    * mat.ld * mat.nq + mat.nq。后面的 mat.X 会被放在 A 的最后一列的空间之后。
     */
    vptr = (void*)malloc( ( (size_t)(ALGO->align) + 
                            (size_t)(mat.ld+1) * (size_t)(mat.nq) ) *
@@ -344,6 +346,11 @@ void HPL_pdtest
    mat.A  = (double *)HPL_PTR( vptr,
                                ((size_t)(ALGO->align) * sizeof(double) ) );
    mat.X  = Mptr( mat.A, 0, mat.nq, mat.ld );
+   /*
+    * Mptr Expands to:
+    * ( (mat.A) + (size_t)(0) + (size_t)(mat.nq)*(size_t)(mat.ld) )
+    */
+
    /*
     * HPL_pdmatgen 不先在单进程上生成完整矩阵再分发，而是每个进程依据
     * GRID、N、N+1、NB 与固定种子 HPL_ISEED，直接跳到伪随机序列中自己
