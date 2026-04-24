@@ -234,9 +234,27 @@ void HPL_pdtest
 /* ..
  * .. Executable Statements ..
  */
+   /*
+    * 读取当前二维进程网格信息。HPL 把 MPI 进程组织成 nprow x npcol
+    * 的逻辑网格，myrow/mycol 是本进程在这个网格中的二维坐标。
+    * 后续矩阵按行维度映射到进程行、按列维度映射到进程列。
+    */
    (void) HPL_grid_info( GRID, &nprow, &npcol, &myrow, &mycol );
 
    mat.n  = N; mat.nb = NB; mat.info = 0;
+   /*
+    * HPL_numroc 计算块循环分布后“本进程在某一维度上实际拥有多少
+    * 个全局元素”。这里行、列两次调用是同一套规则在两个维度上的应用：
+    *
+    *   行维度: N 行从进程行 0 开始，以 NB 为块大小循环分给 nprow 个
+    *           进程行；myrow 对应的本地行数写入 mat.mp。
+    *   列维度: N 列从进程列 0 开始，以 NB 为块大小循环分给 npcol 个
+    *           进程列；mycol 对应的本地列数先写入临时变量 nq。
+    *
+    * mat.nq 比 nq 多 1，是因为本地 A 缓冲区要为右端项 b 额外预留一列。
+    * 这列不是每个进程都拥有同一个全局 b 列，而是作为本地 [A | b] 存储
+    * 的附加列，方便求解和残差校验阶段复用相同的列主序布局。
+    */
    mat.mp = HPL_numroc( N, NB, NB, myrow, 0, nprow );
    nq     = HPL_numroc( N, NB, NB, mycol, 0, npcol );
    mat.nq = nq + 1;
@@ -256,9 +274,19 @@ void HPL_pdtest
  * 存储体冲突问题。
  */
    /* local leading dimension */
+   /*
+    * mat.ld 是本地二维数组的 leading dimension，也就是相邻两列在内存中
+    * 的跨度。它至少要容纳 mat.mp 个本地行；这里先向下取到 align 的整数
+    * 倍边界，再在 do-while 中递增到下一个合适的 align 倍数。
+    */
    mat.ld = ( ( Mmax( 1, mat.mp ) - 1 ) / ALGO->align ) * ALGO->align;
    do
    {
+      /*
+       * ip2 被构造成不超过 ii 的最大 2 的幂；如果 mat.ld 恰好等于该值，
+       * 说明 mat.ld 是 2 的幂，就继续增加。避免 2 的幂跨度可降低某些
+       * 缓存/内存 bank 周期性冲突的概率。
+       */
       ii = ( mat.ld += ALGO->align ); ip2 = 1;
       while( ii > 1 ) { ii >>= 1; ip2 <<= 1; }
    }
@@ -272,6 +300,15 @@ void HPL_pdtest
  * 所有进程的分配状态；只要任意一个 rank 失败，整个测试就必须跳过，
  * 以避免后续分布式求解在部分进程缺失数据的情况下继续执行。
  */
+   /*
+    * 一次性分配 A、b、x 所需的连续空间：
+    *   - ALGO->align 个 double 用作 HPL_PTR 对齐时的冗余空间；
+    *   - mat.ld * mat.nq 存放本地 [A | b]；
+    *   - 额外 mat.nq 个 double 存放本地解向量片段 mat.X。
+    *
+    * 因为 mat.nq = nq + 1，所以 (mat.ld+1) * mat.nq 等价于
+    * mat.ld * mat.nq + mat.nq。后面的 mat.X 会被放在 A 的最后一列之后。
+    */
    vptr = (void*)malloc( ( (size_t)(ALGO->align) + 
                            (size_t)(mat.ld+1) * (size_t)(mat.nq) ) *
                          sizeof(double) );
@@ -297,9 +334,22 @@ void HPL_pdtest
  * HPL_pdmatgen 会按照与正式求解相同的块循环分布方式填充本地子块，这样
  * 后续 HPL_pdgesv 能直接在分布式矩阵上工作，无需再做额外重排。
  */
+   /*
+    * mat.A 指向按 ALGO->align 字节边界对齐后的本地矩阵起始地址。
+    * HPL 本地矩阵采用列主序，Mptr(A, i, j, ld) 表示本地第 i 行、第 j 列。
+    *
+    * mat.X 放在 mat.A 的第 mat.nq 列位置，也就是本地 [A | b] 缓冲区之后；
+    * 这样同一次 malloc 得到的空间同时承载矩阵、右端项和解向量。
+    */
    mat.A  = (double *)HPL_PTR( vptr,
                                ((size_t)(ALGO->align) * sizeof(double) ) );
    mat.X  = Mptr( mat.A, 0, mat.nq, mat.ld );
+   /*
+    * HPL_pdmatgen 不先在单进程上生成完整矩阵再分发，而是每个进程依据
+    * GRID、N、N+1、NB 与固定种子 HPL_ISEED，直接跳到伪随机序列中自己
+    * 负责的全局块位置并填充本地元素。这样所有进程独立生成的数据合起来
+    * 等价于同一个全局 N x (N+1) 随机矩阵，且生成阶段基本不需要通信。
+    */
    HPL_pdmatgen( GRID, N, N+1, NB, mat.A, mat.ld, HPL_ISEED );
 #ifdef HPL_CALL_VSIPL
    mat.block = vsip_blockbind_d( (vsip_scalar_d *)(mat.A),
