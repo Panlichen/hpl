@@ -99,12 +99,87 @@ if( N <= PANEL->algo->nbmin ) { PANEL->algo->pffun(...); return; }
 ### 主要步骤
 
 1. `MPI_Init`
+
 2. `MPI_Comm_rank / MPI_Comm_size`
+
 3. `HPL_pdinfo(...)`
+
 4. 多重循环枚举 `HPL.dat` 中的参数组合
+
 5. 对每个 `P x Q` 调用 `HPL_grid_init`
+
+   详细分析：
+
+   > 是的。**如果启动的总进程数大于 `NPROW * NPCOL`，多出来的进程不会参与这个网格上的 HPL 计算。**
+   >
+   > 直接看 [HPL_grid_init.c](/home/admin/hpl/src/grid/HPL_grid_init.c#L202) 到 [HPL_grid_init.c](/home/admin/hpl/src/grid/HPL_grid_init.c#L278) 的逻辑：
+   >
+   > - 先算 `nprocs = NPROW * NPCOL`
+   > - 然后用
+   >
+   > ```c
+   > MPI_Comm_split( COMM, ( rank < nprocs ? 0 : MPI_UNDEFINED ),
+   >                 rank, &(GRID->all_comm) );
+   > ```
+   >
+   > 这句把进程分成两类：
+   >
+   > - `rank < nprocs` 的进程进入 `GRID->all_comm`
+   > - `rank >= nprocs` 的进程拿到 `MPI_COMM_NULL`
+   >
+   > 紧接着 [HPL_grid_init.c](/home/admin/hpl/src/grid/HPL_grid_init.c#L278) 有：
+   >
+   > ```c
+   > if( GRID->all_comm == MPI_COMM_NULL ) return( ierr );
+   > ```
+   >
+   > 也就是说，多余进程在这里就直接退出网格初始化了，不会再创建：
+   >
+   > - `row_comm`
+   > - `col_comm`
+   >
+   > 也就不会参与后续真正的 HPL 网格计算。
+   >
+   > 再往上看驱动 [HPL_pddriver.c](/home/admin/hpl/testing/ptest/HPL_pddriver.c#L165) 到 [HPL_pddriver.c](/home/admin/hpl/testing/ptest/HPL_pddriver.c#L170)，它还会检查：
+   >
+   > - `myrow`
+   > - `mycol`
+   >
+   > 如果进程不在合法网格范围内，就直接跳到当前这轮网格测试的末尾，不会进入 `HPL_pdtest()`。
+   >
+   > 所以结论可以说得更准确一点：
+   >
+   > **多余进程不会参与该组 `NPROW x NPCOL` 网格上的 HPL 求解与测试，但它们仍然是 MPI 作业的一部分，只是被排除在 HPL 的活动网格通信器之外。**
+   >
+   > 结合你现在这份 `HPL.dat`，比如：
+   >
+   > - 第一组网格是 `P=2, Q=2`
+   > - 只会实际使用 `4` 个进程
+   >
+   > 如果你用 `8` 个 MPI 进程启动，那么后面的 `4` 个进程不会参与这组 `2 x 2` 网格计算。
+   >
+   > 如果你愿意，我可以继续帮你把这个问题再展开成：
+   > 1. “多余进程在每一层代码里是怎么被排除的”
+   > 2. “为什么 HPL 要允许 `mpirun -np` 大于 `P*Q`”
+   > 3. “这对多组 `P,Q` 测试组合有什么影响”
+
+   > ```cpp
+   > if( ORDER == HPL_ROW_MAJOR )
+   > {
+   >   GRID->order = HPL_ROW_MAJOR;
+   >   myrow = rank / NPCOL; mycol = rank - myrow * NPCOL;
+   > }
+   > ```
+
+   > * 利用`MPI_Comm_split(comm, color, key, newcomm)`，HPL 的通信是分层组织的：
+   >  * - all_comm 用于测试级别的集合操作和计时聚合；
+   >  * - row_comm 用于按进程行执行的 panel 广播与按行归约；
+   >  * - col_comm 用于主元搜索、行交换、U 的 spread/roll，以及回代流水线。
+
 6. 根据 `L1notran / Unotran / PFACT / RFACT / BCAST / DEPTH / SWAP` 组装 `algo`
+
 7. 调用 `HPL_pdtest(&test, &grid, &algo, N, NB)`
+
 8. 结束后打印总测试统计并 `MPI_Finalize`
 
 ### 本次配置下真正选中的第一条组合
@@ -126,6 +201,136 @@ SWAP=mix, threshold=64, L1=transposed, U=transposed
 ## 4.2 `testing/ptest/HPL_pdtest.c:HPL_pdtest`
 
 这是“单次测试”的执行函数。
+
+解释评估残差的函数：
+
+> [HPL_pdtest.c](/home/admin/hpl/testing/ptest/HPL_pdtest.c#L95) 这里的公式是 HPL 用来判断“这次并行求解结果是否数值可信”的**标准化残差判据**：
+>
+> \[
+> \frac{\|Ax-b\|_\infty}
+> {\varepsilon \cdot \left(\|x\|_\infty \cdot \|A\|_\infty + \|b\|_\infty\right)\cdot N}
+> < \text{thrsh}
+> \]
+>
+> 它的意思可以分成 5 部分来看。
+>
+> **1. 分子 `||Ax-b||_oo` 是什么**
+>
+> 这是残差向量的无穷范数，也就是：
+>
+> - 先用求出来的解 `x` 回代，算出 `Ax`
+> - 再和原右端项 `b` 做差，得到残差 `r = Ax - b` 或 `b - Ax`
+> - 最后取 `r` 的无穷范数，也就是“==**绝对值**最大的一项==”
+>
+>   - > **示例**：  
+>     > 向量 \(\mathbf{x} = (3, -5, 2)\)，  
+>     > \(|3|=3,\; |-5|=5,\; |2|=2\)，  
+>     > 所以 \(\|\mathbf{x}\|_{\infty} = \max(3,5,2) = 5\)。
+>
+>
+> 如果这个值很小，说明求出来的 `x` 代回原方程后基本成立。
+>
+> 这部分在代码里对应 [HPL_pdtest.c](/home/admin/hpl/testing/ptest/HPL_pdtest.c#L529) 到 [HPL_pdtest.c](/home/admin/hpl/testing/ptest/HPL_pdtest.c#L546)，以及最终范数计算 [HPL_pdtest.c](/home/admin/hpl/testing/ptest/HPL_pdtest.c#L553)。
+>
+> **2. 为什么不能只看 `||Ax-b||_oo`**
+>
+> 因为残差的“绝对值大小”本身没有统一意义：
+>
+> - 矩阵 `A` 很大时，残差自然也可能大
+> - 解 `x` 很大时，`Ax` 的量级也大
+> - 右端项 `b` 很大时，残差也要放到同一量级里比较
+>
+> 所以==必须做归一化==，不然不同规模、不同数据范围的问题没法公平比较。
+>
+> **3. 分母里的 `||x||_oo * ||A||_oo + ||b||_oo` 是什么**
+>
+> 这是对“方程中本来就有多大数值量级”的一个估计：
+>
+> - `||A||_oo * ||x||_oo` 近似代表 `Ax` 这一项可能达到的量级
+> - `||b||_oo` 代表右端项本身的量级
+>
+> 两者相加，就是在说：
+>
+> “当前这个线性系统里，==参与平衡的量本来就有多大==；残差应该和这个背景量级相比，而不是单独看绝对值。”
+>
+> 代码里这几个量分别在 [HPL_pdtest.c](/home/admin/hpl/testing/ptest/HPL_pdtest.c#L482) 到 [HPL_pdtest.c](/home/admin/hpl/testing/ptest/HPL_pdtest.c#L491) 和 [HPL_pdtest.c](/home/admin/hpl/testing/ptest/HPL_pdtest.c#L513) 到 [HPL_pdtest.c](/home/admin/hpl/testing/ptest/HPL_pdtest.c#L528) 算出。
+>
+> **4. 为什么还要乘 `epsil`**
+>
+> `epsil` 是机器精度，也就是浮点数舍入误差的基本尺度。
+>
+> - > testing/ptest/HPL_pdinfo.c#L286
+>   >
+>   > ```cpp
+>   > TEST->epsil = 2.0e-16; 
+>   > ```
+>   >
+>   > testing/ptest/HPL_pdinfo.c#L632
+>   >
+>   > ```cpp
+>   > /*
+>   >  * Compute and broadcast machine epsilon
+>   >  */
+>   >    TEST->epsil = HPL_pdlamch( MPI_COMM_WORLD, HPL_MACH_EPS );
+>   > ```
+>   >
+>   > src/pauxil/HPL_pdlamch.c
+>   >
+>   > - 见另一篇[专门文档](./BASIS.md)
+>
+> HPL 不是要求残差必须严格为 0，因为：
+>
+> - LU 分解本身有舍入误差
+> - 分布式并行中的更新、交换、归约也会累积浮点误差
+> - 双精度计算理论上就只能保证误差在若干个 `epsil` 的量级附近
+>
+> 所以乘上 `epsil` 的含义是：
+>
+> “允许的误差，==应该和机器浮点精度在同一个数量级上增长==。”
+>
+> 如果一个解的误差只是若干倍机器精度，那通常就说明这是一个数值上合理的结果。
+>
+> **5. 为什么最后还要乘 `N`**
+>
+> `N` 是矩阵阶数。问题越大，运算步数越多，舍入误差累积的机会也越多。
+>
+> 所以再乘一个 `N`，就是把“问题规模越大，允许误差随之适度增长”也考虑进去。
+>
+> 这其实是在构造一个**规模归一化的误差上界**。
+>
+> **最终这个比值表示什么**
+>
+> 这个值本质上可以理解为：
+>
+> “实际残差，相对于理论上由浮点舍入、数据规模、问题维度共同决定的合理误差尺度，到底有多大。”
+>
+> - 如果这个比值小于阈值 `thrsh`，就认为结果正常
+> - 如果远大于 `thrsh`，就说明这个解的误差超出了正常浮点舍入范围，可能有数值不稳定、实现错误或运行异常
+>
+> 代码里真正计算这个量的是 [HPL_pdtest.c](/home/admin/hpl/testing/ptest/HPL_pdtest.c#L560)，变量名叫 `resid1`：
+>
+> ```c
+> resid1 = resid0 / ( TEST->epsil * ( AnormI * XnormI + BnormI ) * (double)(N) );
+> ```
+>
+> 这里：
+>
+> - `resid0 = ||b - Ax||_oo`
+> - `AnormI = ||A||_oo`
+> - `XnormI = ||x||_oo`
+> - `BnormI = ||b||_oo`
+>
+> **一句话总结**
+>
+> 这个公式不是单纯看“残差大不大”，而是在看：
+>
+> **残差是否仍然处于“考虑了机器精度、数据量级和问题规模之后的合理范围内”。**
+>
+> 如果你愿意，我可以下一步继续把这个公式展开成一版更适合你现在项目文档的内容，包括：
+>
+> 1. 数学推导版  
+> 2. 面试/考试标准答案版  
+> 3. 结合 `HPL_pdtest.c` 执行流程的逐行解释版
 
 ### 它负责什么
 

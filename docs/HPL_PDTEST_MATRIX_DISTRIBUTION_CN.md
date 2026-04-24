@@ -2,6 +2,8 @@
 
 本文专门解释 `testing/ptest/HPL_pdtest.c` 中矩阵创建、内存分配、块循环分布和随机填充的过程，重点覆盖 `HPL_pdtest.c` 第 237-308 行附近的代码，以及其中用到的 `HPL_numroc`、`HPL_pdmatgen` 等接口。
 
+核心结论是：HPL_pdtest 先用 HPL_numroc 按二维块循环规则算出每个进程应该拥有多少本地行/列，只分配本地片段；随后 HPL_pdmatgen 让每个进程根据相同种子和分布规则，直接生成自己负责的 [A | b] 本地数据，组合起来等价于同一个全局随机矩阵。
+
 ## 1. 总体背景
 
 HPL 求解的是线性系统：
@@ -43,7 +45,7 @@ N x (N+1)
 | `myrow` | 当前进程在进程网格中的行坐标 |
 | `mycol` | 当前进程在进程网格中的列坐标 |
 
-二维进程网格是 HPL 数据分布的基础。矩阵的全局行按块循环映射到进程行，矩阵的全局列按块循环映射到进程列。因此，一个进程 `(myrow, mycol)` 拥有的是某些全局行块和某些全局列块交叉形成的本地子矩阵。
+二维进程网格是 HPL 数据分布的基础。矩阵的全局行按块循环映射到进程行，矩阵的全局列按块循环映射到进程列。因此，一个进程 `(myrow, mycol)` 拥有的是==某些全局行块和某些全局列块交叉形成的本地子矩阵==。
 
 ## 3. HPL_T_pmat 中的关键字段
 
@@ -80,7 +82,7 @@ nq     = HPL_numroc( N, NB, NB, mycol, 0, npcol );
 mat.nq = nq + 1;
 ```
 
-`HPL_numroc` 的作用是：在块循环分布规则下，计算某个进程坐标在某一个维度上能拿到多少个全局元素。
+`HPL_numroc` 的作用是：在块循环分布规则下，==计算某个进程坐标在某一个维度上能拿到多少个全局元素==。
 
 接口原型：
 
@@ -101,7 +103,7 @@ int HPL_numroc(
 | --- | --- |
 | `N` | 这一维度上的全局元素个数，可以是行数，也可以是列数 |
 | `INB` | 第一个块的大小 |
-| `NB` | 后续规则块的大小 |
+| `NB` | 后续==规则块==的大小 |
 | `PROC` | 要查询的进程坐标 |
 | `SRCPROC` | 第一个块所在的源进程坐标 |
 | `NPROCS` | 这一维度上参与分布的进程数量 |
@@ -116,10 +118,8 @@ mat.mp = HPL_numroc( N, NB, NB, myrow, 0, nprow );
 
 这表示：
 
-```text
-把 N 个全局行，以 NB 行为一块，从进程行 0 开始，循环分给 nprow 个进程行。
-当前进程所在的 myrow 这一行，一共能获得多少个全局行？
-```
+- 把 N 个全局数据行，以 NB 行为一块，从进程行 0 开始，==循环分给== nprow 个进程行。
+  当前进程所在的 myrow 这一进程行，一共能获得多少个全局数据行？
 
 返回值写入 `mat.mp`。因此 `mat.mp` 是当前进程的本地行数。
 
@@ -131,10 +131,8 @@ nq = HPL_numroc( N, NB, NB, mycol, 0, npcol );
 
 这表示：
 
-```text
-把 N 个全局 A 列，以 NB 列为一块，从进程列 0 开始，循环分给 npcol 个进程列。
-当前进程所在的 mycol 这一列，一共能获得多少个全局 A 列？
-```
+- 把 N 个全局数据列，以 NB 列为一块，从进程列 0 开始，循环分给 npcol 个进程列。
+  当前进程所在的 mycol 这一进程列，一共能获得多少个全局数据列？
 
 返回值写入临时变量 `nq`。注意这里传入的是 `N`，不是 `N+1`，因为 `nq` 表示当前进程拥有的系数矩阵 `A` 的本地列数。
 
@@ -144,7 +142,7 @@ nq = HPL_numroc( N, NB, NB, mycol, 0, npcol );
 mat.nq = nq + 1;
 ```
 
-`mat.nq` 比 `nq` 多 1，是为了在本地矩阵缓冲区中额外容纳右端项 `b`。在当前实现中，每个进程列都多预留一列本地存储，便于后续求解和校验逻辑用统一的 `[A | b]` 布局处理。
+`mat.nq` 比 `nq` 多 1，是为了在本地矩阵缓冲区中额外容纳右端项 `b`。在当前实现中，==每个进程列都多预留一列本地存储==，便于后续求解和校验逻辑用统一的 `[A | b]` 布局处理。
 
 ### 4.3 HPL_numroc 与 HPL_numrocI
 
@@ -182,6 +180,171 @@ while( mat.ld == ip2 );
 
 `mat.ld` 是本地矩阵的 leading dimension。HPL 本地矩阵按列主序存储，所以 `mat.ld` 是相邻两列起始地址之间的元素跨度。
 
+> [!IMPORTANT]
+>
+> ### 列主序的断言
+>
+> 这个断言可以从代码里直接证明，而且不是靠风格猜测。核心证据是：HPL 的本地矩阵元素地址计算公式是 `A + i + j * lda`，这就是列主序。
+>
+> **1. 最直接证据：`Mptr` 宏**
+>
+> 在 [include/hpl_misc.h](/home/admin/hpl/include/hpl_misc.h:100)：
+>
+> ```c
+> #define    Mptr( a_, i_, j_, lda_ ) \
+>    ( (a_) + (size_t)(i_) + (size_t)(j_)*(size_t)(lda_) )
+> ```
+>
+> 这表示本地矩阵元素 `(i, j)` 的地址是：
+>
+> ```text
+> A(i,j) = A_base + i + j * lda
+> ```
+>
+> 也就是：
+>
+> ```text
+> 同一列内，行号 i 连续递增，地址连续递增；
+> 换到下一列时，地址跳过 lda 个 double。
+> ```
+>
+> 这正是 ==Fortran/BLAS 风格的列主序==。  
+>
+> - > 行主序是先连续存完一整行；列主序是先连续存完一整列。BLAS/LAPACK 起源于 Fortran，所以默认采用 Fortran 的列主序约定。
+>
+> 如果是 C 风格行主序，典型公式会是：
+>
+> ```text
+> A(i,j) = A_base + i * ld + j
+> ```
+>
+> 而这里明显不是。
+>
+> **2. `LDA` 的注释也按列主序定义**
+>
+> 在并行矩阵生成器 [testing/pmatgen/HPL_pdmatgen.c](/home/admin/hpl/testing/pmatgen/HPL_pdmatgen.c:104)：
+>
+> ```c
+> A points to an array of dimension (LDA,LocQ(N)).
+> LDA must be at least max(1,LocP(M)).
+> ```
+>
+> 这里说本地数组维度是：
+>
+> ```text
+> (LDA, LocQ(N))
+> ```
+>
+> 并且 `LDA >= 本地行数 LocP(M)`。
+>
+> 这也是列主序术语：第一维是行方向容量，第二维是列数。也就是说本地矩阵逻辑上是：
+>
+> ```text
+> A[LDA][local_columns]
+> ```
+>
+> 每一列占 `LDA` 个元素。
+>
+> 串行生成器也一样，在 [testing/matgen/HPL_dmatgen.c](/home/admin/hpl/testing/matgen/HPL_dmatgen.c:92)：
+>
+> ```c
+> A points to an array of dimension (LDA,N)
+> LDA must be at least max(1,M)
+> ```
+>
+> 这同样说明 `LDA` 是行方向 leading dimension。
+>
+> **3. 生成矩阵时是“按列连续写”**
+>
+> 串行矩阵生成器 [testing/matgen/HPL_dmatgen.c](/home/admin/hpl/testing/matgen/HPL_dmatgen.c:129)：
+>
+> ```c
+> for( j = 0; j < N; A += incA, j++ )
+>    for( i = 0; i < M; A++, i++ ) *A = HPL_rand();
+> ```
+>
+> 外层循环是列 `j`，内层循环是行 `i`。内层 `A++` 连续写入 `M` 个元素，也就是连续写同一列的不同行。
+>
+> 并行生成器也是同样模式，在 [testing/pmatgen/HPL_pdmatgen.c](/home/admin/hpl/testing/pmatgen/HPL_pdmatgen.c:176)：
+>
+> ```c
+> for( jk = 0; jk < jb; jk++ )
+> {
+>    ...
+>    for( ik = 0; ik < ib; A++, ik++ ) *A = HPL_rand();
+>    ...
+>    A += LDA - mp;
+> }
+> ```
+>
+> 这里 `jk` 是当前本地列块内的列偏移，`ik` 是行偏移。最内层 `A++` 连续写行元素；写完一列后用：
+>
+> ```c
+> A += LDA - mp;
+> ```
+>
+> 跳到下一列开头。这也是列主序行为。
+>
+> **4. 范数计算也按列扫描**
+>
+> 在 [src/pauxil/HPL_pdlange.c](/home/admin/hpl/src/pauxil/HPL_pdlange.c:149)：
+>
+> ```c
+> for( jj = 0; jj < nq; jj++ )
+> {
+>    for( ii = 0; ii < mp; ii++ )
+>    { v0 = Mmax( v0, Mabs( *A ) ); A++; }
+>    A += LDA - mp;
+> }
+> ```
+>
+> 这里 `jj` 遍历本地列，`ii` 遍历本地行。每一列内部 `A++` 连续访问，列结束后补跳 `LDA - mp` 到下一列。这和矩阵生成器完全一致。
+>
+> 计算 1-范数时也一样，在 [src/pauxil/HPL_pdlange.c](/home/admin/hpl/src/pauxil/HPL_pdlange.c:170)：
+>
+> ```c
+> for( jj = 0; jj < nq; jj++ )
+> {
+>    s = HPL_rzero;
+>    for( ii = 0; ii < mp; ii++ ) { s += Mabs( *A ); A++; }
+>    work[jj] = s; A += LDA - mp;
+> }
+> ```
+>
+> 它逐列累加列和，也说明本地列是连续段。
+>
+> **5. BLAS 包装也使用列主序公式**
+>
+> 在 [src/blas/HPL_dgemm.c](/home/admin/hpl/src/blas/HPL_dgemm.c:82)：
+>
+> ```c
+> for( j = 0, jbj = 0, jcj  = 0; j < N; j++, jbj += LDB, jcj += LDC )
+> {
+>    HPL_dscal( M, BETA, C+jcj, 1 );
+>    for( l = 0, jal = 0, iblj = jbj; l < K; l++, jal += LDA, iblj += 1 )
+>    {
+>       ...
+>       for( i = 0, iail = jal, icij = jcj; i < M; i++, iail += 1, icij += 1 )
+> ```
+>
+> 看 `C`：第 `j` 列的起点是 `C + j * LDC`，列内第 `i` 行是 `C + j * LDC + i`。这又是：
+>
+> ```text
+> C(i,j) = C + i + j * LDC
+> ```
+>
+> 同样是列主序。
+>
+> **结论**
+>
+> “本地矩阵按列主序存储”的最硬依据是 [Mptr](/home/admin/hpl/include/hpl_misc.h:100) 的地址公式：
+>
+> ```c
+> A + i + j * lda
+> ```
+>
+> 其他代码，包括 `HPL_pdmatgen`、`HPL_dmatgen`、`HPL_pdlange`、`HPL_dgemm`，都用“列内连续、列间跨 `LDA`”的方式读写矩阵。因此这个断言不是推测，而是 HPL 本地矩阵访问模型在全代码库中的一致约定。
+
 它必须满足：
 
 ```text
@@ -195,7 +358,7 @@ mat.ld >= max(1, mat.mp)
 1. `mat.ld` 是 `ALGO->align` 的整数倍。
 2. `mat.ld` 不是 2 的幂。
 
-其中 `ALGO->align` 来自 `HPL.dat` 的 alignment 配置，单位是 double precision words。避免 `mat.ld` 是 2 的幂，是为了降低某些机器上缓存或内存 bank 周期性冲突的概率。
+其中 `ALGO->align` 来自 `HPL.dat` 的 alignment 配置，单位是 double precision words。避免 `mat.ld` 是 2 的幂，是为了==降低某些机器上缓存或内存 bank 周期性冲突的概率==。
 
 变量作用：
 
@@ -231,6 +394,8 @@ ALGO->align + (mat.ld + 1) * mat.nq
 | `ALGO->align` | 给 `HPL_PTR` 做地址对齐时预留的冗余空间 |
 | `mat.ld * mat.nq` | 存放本地 `[A | b]` |
 | `mat.nq` | 存放本地解向量片段 `mat.X` |
+
+- 没有一点毛病：$AX=b$，所以$X$的长度等于列数，$b$的长度等于行数
 
 随后用 `HPL_all_reduce` 检查所有进程是否都分配成功：
 
@@ -404,7 +569,7 @@ jump7 = myrow * NB;
 HPL_xjumpm(...)
 ```
 
-`HPL_xjumpm` 会计算“跳过若干个随机数之后”的等效乘子和加数。这样后续循环中就可以用 `HPL_jumpit` 快速跳到下一个本进程应生成的位置。
+`HPL_xjumpm` 会计算==“跳过若干个随机数之后”的等效乘子和加数==。这样后续循环中就可以用 `HPL_jumpit` 快速跳到下一个本进程应生成的位置。
 
 最终填充循环是：
 
